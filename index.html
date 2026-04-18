@@ -1,517 +1,216 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Canu Ultra Loco PRO</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;400;500&display=swap');
-
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  color:white;
-  overflow:hidden;
-}
-
-/* 🌌 FONDO */
-body::before{
-  content:"";
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:
-  linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),
-  url('https://i.ibb.co/4ny4T5Qg/1774621658204-2.jpg');
-  background-size:cover;
-  background-position:center;
-  z-index:-1;
-  animation:zoom 20s infinite alternate;
-}
-
-@keyframes zoom{
-  from{transform:scale(1);}
-  to{transform:scale(1.15);}
-}
-
-.screen{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-}
-
-.hidden{display:none;}
-
-.logo{
-  font-size:80px;
-  font-family:'Montserrat';
-  margin-bottom:30px;
-  background:linear-gradient(90deg,#00ff88,#00ccff,#ff00cc);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.card{
-  background:rgba(0,0,0,0.6);
-  padding:25px;
-  border-radius:15px;
-  width:90%;
-  max-width:400px;
-  text-align:center;
-  backdrop-filter:blur(10px);
-}
-
-button{
-  width:100%;
-  margin:8px 0;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  font-size:15px;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-button:hover{
-  transform:scale(1.05);
-}
-
-.start-btn{
-  background:linear-gradient(90deg,#00ff88,#00ccff);
-  color:black;
-  font-weight:bold;
-}
-
-/* QUIZ - Colores de respuesta */
-.correcta{
-  background:#00ff88 !important;
-  color:black;
-  font-weight:bold;
-}
-
-.incorrecta{
-  background:#ff4d4d !important;
-  color:white;
-}
-
-/* CACHIPUM mejorado */
-.rps-score{
-  display:flex;
-  justify-content:center;
-  gap:30px;
-  margin:15px 0;
-  font-size:18px;
-  font-weight:bold;
-}
-.rps-score span{color:#00ff88;}
-
-/* SNAKE */
-#snakeCanvas{
-  background:#111;
-  border:5px solid #00ff88;
-  border-radius:15px;
-  box-shadow:0 0 20px rgba(0,255,136,0.6);
-  image-rendering:pixelated;
-}
-
-/* Tres en raya */
-.ttt-cell{
-  background:rgba(255,255,255,0.1);
-  color:white;
-  font-size:60px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:12px;
-  cursor:pointer;
-  transition:0.3s;
-  box-shadow:0 4px 15px rgba(0,255,136,0.4);
-  aspect-ratio:1/1;
-}
-
-.ttt-cell:hover{
-  background:rgba(0,255,136,0.3);
-  transform:scale(1.08);
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Retro Arcade Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0a0a0c; font-family: 'Press Start 2P', cursive; color: #fff; touch-action: none; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+        canvas { image-rendering: pixelated; background-color: #000; border: 4px solid #222; max-width: 100%; height: auto; border-radius: 4px; }
+        .arcade-btn { background: #e63946; box-shadow: 0 4px 0 #9d1b24; transition: 0.1s; border-radius: 4px; border: none; cursor: pointer; }
+        .arcade-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #9d1b24; }
+        .d-pad-btn { background: #1a1a1a; box-shadow: 0 4px 0 #000; display: flex; align-items: center; justify-content: center; user-select: none; border: none; color: white; }
+        .d-pad-btn:active { background: #333; transform: translateY(2px); box-shadow: 0 0 0 #000; }
+        .screen-container { position: relative; background: #151515; padding: 6px; border-radius: 8px; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+        .btn-exit { position: absolute; top: 15px; right: 15px; background: rgba(255,0,0,0.3); color: #ff4d4d; border: 1px solid #ff4d4d; font-size: 8px; padding: 5px 8px; border-radius: 4px; z-index: 30; }
+    </style>
 </head>
-
 <body>
 
-<!-- MENU -->
-<div class="screen" id="menu">
-  <div class="logo">CANU</div>
-  <button class="start-btn" onclick="iniciar()">🧠 Quiz</button>
-  <button class="start-btn" onclick="irRPS()">⚔️ Cachipum PRO</button>
-  <button class="start-btn" onclick="irPalabra()">🔤 Palabra</button>
-  <button class="start-btn" onclick="irTresEnRaya()">❌⭕ Tres en Raya</button>
-  <button class="start-btn" onclick="irSnake()">🐍 Snake</button>
-</div>
-
-<!-- QUIZ -->
-<div class="screen hidden" id="quiz">
-  <div class="card" id="quizBox"></div>
-</div>
-
-<!-- RESULTADO -->
-<div class="screen hidden" id="resultado">
-  <div class="card">
-    <h2 id="final"></h2>
-    <button class="start-btn" onclick="volver()">Volver</button>
-  </div>
-</div>
-
-<!-- CACHIPUM MEJORADO -->
-<div class="screen hidden" id="rps">
-  <div class="card">
-    <h2>⚔️ Cachipum PRO</h2>
-    
-    <div class="rps-score">
-      <div>Tú: <span id="playerScoreRPS">0</span></div>
-      <div>CPU: <span id="cpuScoreRPS">0</span></div>
+    <div class="mb-4 text-center">
+        <h1 class="text-sm text-cyan-400">ARCADE MULTIJUEGO</h1>
+        <div id="game-title" class="text-[7px] text-gray-500 mt-1 uppercase">Selecciona un título</div>
     </div>
 
-    <p id="rpsResult" style="font-size:22px; min-height:60px;">Elige tu movimiento</p>
-    
-    <button onclick="jugar('piedra')" style="font-size:28px;">🪨 Piedra</button>
-    <button onclick="jugar('papel')" style="font-size:28px;">📄 Papel</button>
-    <button onclick="jugar('tijera')" style="font-size:28px;">✂️ Tijera</button>
-    
-    <button class="start-btn" onclick="reiniciarRPS()">🔄 Reiniciar puntajes</button>
-    <button class="start-btn" onclick="volver()">Volver al menú</button>
-  </div>
-</div>
+    <div class="screen-container w-full max-w-[340px]">
+        <!-- Botón Volver (Visible solo durante el juego) -->
+        <button id="exit-btn" class="btn-exit hidden" onclick="showMenu()">SALIR</button>
+        
+        <canvas id="gameCanvas" width="300" height="380"></canvas>
+        
+        <!-- Menú de Selección -->
+        <div id="menu" class="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-95 p-6 z-10">
+            <h2 class="text-[9px] mb-6 text-yellow-500">BIBLIOTECA</h2>
+            <div class="menu-grid">
+                <button onclick="startGame('snake')" class="arcade-btn py-4 text-[8px]">SNAKE</button>
+                <button onclick="startGame('breakout')" class="arcade-btn py-4 text-[8px]">BRICK</button>
+                <button onclick="startGame('flappy')" class="arcade-btn py-4 text-[8px]">FLAPPY</button>
+                <button onclick="startGame('invaders')" class="arcade-btn py-4 text-[8px]">SPACE</button>
+                <button onclick="startGame('tetris')" class="arcade-btn py-4 text-[8px]">TETRIS</button>
+                <button onclick="startGame('racing')" class="arcade-btn py-4 text-[8px]">RACING</button>
+                <button onclick="startGame('pacman')" class="arcade-btn py-4 text-[8px]">PACMAN</button>
+                <button onclick="startGame('frogger')" class="arcade-btn py-4 text-[8px]">FROGGER</button>
+                <button onclick="startGame('asteroids')" class="arcade-btn py-4 text-[8px]">ASTEROID</button>
+                <button onclick="startGame('simon')" class="arcade-btn py-4 text-[8px]">SIMON</button>
+            </div>
+        </div>
 
-<!-- PALABRA -->
-<div class="screen hidden" id="palabra">
-  <div class="card">
-    <h2>Palabra Secreta</h2>
-    <button class="start-btn" onclick="modoAhorcado()">Ahorcado</button>
-    <p id="palabraTexto"></p>
-    <input id="letra" maxlength="1">
-    <button class="start-btn" onclick="intentarLetra()">Intentar</button>
-    <p id="estadoA"></p>
-    <button class="start-btn" onclick="volver()">Volver</button>
-  </div>
-</div>
-
-<!-- TRES EN RAYA -->
-<div class="screen hidden" id="tresEnRaya">
-  <div class="card">
-    <h2>❌⭕ Tres en Raya</h2>
-    <p id="tttResult">Tu turno (❌)</p>
-    <div id="board" style="display: grid; grid-template-columns: repeat(3, 80px); gap: 8px; justify-content: center; margin: 20px auto;">
-      <div class="ttt-cell" data-index="0" onclick="hacerMovimiento(this)"></div>
-      <div class="ttt-cell" data-index="1" onclick="hacerMovimiento(this)"></div>
-      <div class="ttt-cell" data-index="2" onclick="hacerMovimiento(this)"></div>
-      <div class="ttt-cell" data-index="3" onclick="hacerMovimiento(this)"></div>
-      <div class="ttt-cell" data-index="4" onclick="hacerMovimiento(this)"></div>
-      <div class="ttt-cell" data-index="5" onclick="hacerMovimiento(this)"></div>
-      <div class="ttt-cell" data-index="6" onclick="hacerMovimiento(this)"></div>
-      <div class="ttt-cell" data-index="7" onclick="hacerMovimiento(this)"></div>
-      <div class="ttt-cell" data-index="8" onclick="hacerMovimiento(this)"></div>
+        <!-- Pantalla de Muerte -->
+        <div id="gameover" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-red-900 bg-opacity-90 z-20">
+            <h2 class="text-xs mb-4">GAME OVER</h2>
+            <button onclick="showMenu()" class="arcade-btn px-4 py-3 text-[8px]">REINTENTAR</button>
+        </div>
     </div>
-    <button class="start-btn" onclick="reiniciarTTT()">🔄 Reiniciar partida</button>
-    <button class="start-btn" onclick="volver()">Volver al menú</button>
-  </div>
-</div>
 
-<!-- 🔥 SNAKE NUEVO -->
-<div class="screen hidden" id="snake">
-  <div class="card">
-    <h2>🐍 Snake Ultra Loco</h2>
-    <p id="snakeScore" style="font-size:22px; margin-bottom:10px;">Puntaje: 0</p>
-    
-    <canvas id="snakeCanvas" width="400" height="400"></canvas>
-    
-    <p style="margin-top:10px; font-size:14px; opacity:0.8;">Usa las flechas del teclado ← ↑ ↓ →<br>¡Evita las paredes y tu propio cuerpo!</p>
-    
-    <button class="start-btn" onclick="reiniciarSnake()">🔄 Nueva partida</button>
-    <button class="start-btn" onclick="volver()">Volver al menú</button>
-  </div>
-</div>
+    <div class="mt-4 flex justify-between w-full max-w-[340px] px-4 text-[8px]">
+        <div>PUNTOS: <span id="score">0</span></div>
+        <div>MAX: <span id="high-score">0</span></div>
+    </div>
 
-<script>
-// QUIZ (ya mejorado)
-const preguntas = [
-  {texto:"¿Dónde nací?", opciones:["Valparaíso, Chile","Trondheim, Noruega","Noje"], correcta:1},
-  {texto:"Llegando a Chile... ¿A qué cerro llegué?", opciones:["Barón","Lecheros","Cárcel"], correcta:1},
-  {texto:"¿Cuántos hijos tengo actualmente (2026)?", opciones:["4","2","3"], correcta:2}
-];
+    <!-- Controles Touch -->
+    <div class="mt-6 grid grid-cols-3 gap-2 w-full max-w-[260px]">
+        <div></div><button class="d-pad-btn p-5 rounded" id="btn-up">▲</button><div></div>
+        <button class="d-pad-btn p-5 rounded" id="btn-left">◀</button>
+        <button class="d-pad-btn p-5 rounded bg-red-600 border-2 border-red-400" id="btn-action">B</button>
+        <button class="d-pad-btn p-5 rounded" id="btn-right">▶</button>
+        <div></div><button class="d-pad-btn p-5 rounded" id="btn-down">▼</button><div></div>
+    </div>
 
-let i = 0;
-let puntos = 0;
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const menu = document.getElementById('menu');
+        const gameoverScreen = document.getElementById('gameover');
+        const scoreElement = document.getElementById('score');
+        const exitBtn = document.getElementById('exit-btn');
+        
+        let currentGame = null;
+        let score = 0;
+        let gameLoop = null;
+        let activeKeys = {};
 
-function iniciar(){
-  i = 0; puntos = 0;
-  cambiar("menu","quiz");
-  mostrar();
-}
+        // Sistema de Controles
+        const bind = (id, k) => {
+            const el = document.getElementById(id);
+            const press = (e) => { e.preventDefault(); activeKeys[k] = true; if(currentGame && currentGame.input) currentGame.input(k); };
+            const release = () => activeKeys[k] = false;
+            el.ontouchstart = el.onmousedown = press;
+            el.ontouchend = el.onmouseup = el.onmouseleave = release;
+        };
+        bind('btn-up','up'); bind('btn-down','down'); bind('btn-left','left'); bind('btn-right','right'); bind('btn-action','action');
 
-function mostrar(){
-  let p = preguntas[i];
-  quizBox.innerHTML = `
-    <h2>${p.texto}</h2>
-    ${p.opciones.map((op, idx) => `
-      <button class="opcion" onclick="responder(this, \( {idx})"> \){op}</button>
-    `).join("")}
-  `;
-}
+        // --- Lógica de Juegos ---
 
-function responder(btn, idx){
-  let correcta = preguntas[i].correcta;
-  let botones = document.querySelectorAll(".opcion");
-  botones.forEach(b => b.disabled = true);
-  botones[correcta].classList.add("correcta");
-  if(idx !== correcta){
-    btn.classList.add("incorrecta");
-  } else {
-    puntos++;
-  }
-  setTimeout(() => {
-    i < preguntas.length - 1 ? (i++, mostrar()) : fin();
-  }, 1200);
-}
+        const Snake = {
+            grid: 20, body: [], apple: {x: 5, y: 5}, dir: {x:1, y:0}, next: {x:1, y:0},
+            init() { this.body = [{x:10, y:10}, {x:9, y:10}]; this.dir = {x:1,y:0}; this.next = {x:1,y:0}; this.spawn(); },
+            spawn() { this.apple = {x: Math.floor(Math.random()*15), y: Math.floor(Math.random()*19)}; },
+            update() {
+                this.dir = this.next;
+                const head = {x: this.body[0].x + this.dir.x, y: this.body[0].y + this.dir.y};
+                if(head.x<0||head.x>=15||head.y<0||head.y>=19) return gameOver();
+                this.body.unshift(head);
+                if(head.x === this.apple.x && head.y === this.apple.y) { score+=10; updateScore(); this.spawn(); } else this.body.pop();
+            },
+            draw() {
+                ctx.fillStyle = '#0f0'; this.body.forEach(p => ctx.fillRect(p.x*20, p.y*20, 18, 18));
+                ctx.fillStyle = '#f00'; ctx.fillRect(this.apple.x*20, this.apple.y*20, 18, 18);
+            },
+            input(k) {
+                if(k==='up' && this.dir.y===0) this.next={x:0, y:-1};
+                if(k==='down' && this.dir.y===0) this.next={x:0, y:1};
+                if(k==='left' && this.dir.x===0) this.next={x:-1, y:0};
+                if(k==='right' && this.dir.x===0) this.next={x:1, y:0};
+            }
+        };
 
-function fin(){
-  cambiar("quiz","resultado");
-  final.innerText = `Puntaje: \( {puntos}/ \){preguntas.length}`;
-}
+        const Pacman = {
+            x: 150, y: 190, dir: 'right', dots: [],
+            init() { this.dots = []; this.x = 150; this.y = 190; for(let i=0; i<30; i++) this.dots.push({x: Math.random()*280+10, y: Math.random()*360+10}); },
+            update() {
+                if(activeKeys['up']) this.y -= 3; if(activeKeys['down']) this.y += 3;
+                if(activeKeys['left']) this.x -= 3; if(activeKeys['right']) this.x += 3;
+                this.dots = this.dots.filter(d => {
+                    if(Math.hypot(this.x-d.x, this.y-d.y) < 15) { score+=10; updateScore(); return false; }
+                    return true;
+                });
+                if(this.dots.length === 0) this.init();
+            },
+            draw() {
+                ctx.fillStyle = 'yellow'; ctx.beginPath(); ctx.arc(this.x, this.y, 12, 0.2*Math.PI, 1.8*Math.PI); ctx.lineTo(this.x, this.y); ctx.fill();
+                ctx.fillStyle = 'white'; this.dots.forEach(d => ctx.fillRect(d.x, d.y, 4, 4));
+            }
+        };
 
-// ====================== CACHIPUM MEJORADO ======================
-let playerScoreRPS = 0;
-let cpuScoreRPS = 0;
+        const Asteroids = {
+            p: {x: 150, y: 190, r: 0, v: 0}, ast: [], bullets: [],
+            init() { this.p = {x: 150, y: 190, r: 0, v: 0}; this.ast = []; for(let i=0; i<4; i++) this.ast.push({x: Math.random()*300, y: Math.random()*380, s: 1.5}); },
+            update() {
+                if(activeKeys['left']) this.p.r -= 0.1; if(activeKeys['right']) this.p.r += 0.1;
+                if(activeKeys['up']) this.p.v = Math.min(this.p.v + 0.15, 4); else this.p.v *= 0.97;
+                this.p.x += Math.cos(this.p.r)*this.p.v; this.p.y += Math.sin(this.p.r)*this.p.v;
+                if(this.p.x<0)this.p.x=300; if(this.p.x>300)this.p.x=0;
+                this.ast.forEach(a => { a.x += a.s; if(a.x>300) a.x=0; if(Math.hypot(this.p.x-a.x, this.p.y-a.y)<20) gameOver(); });
+            },
+            draw() {
+                ctx.save(); ctx.translate(this.p.x, this.p.y); ctx.rotate(this.p.r);
+                ctx.strokeStyle = 'cyan'; ctx.beginPath(); ctx.moveTo(12,0); ctx.lineTo(-10,8); ctx.lineTo(-10,-8); ctx.closePath(); ctx.stroke(); ctx.restore();
+                ctx.fillStyle = '#666'; this.ast.forEach(a => { ctx.beginPath(); ctx.arc(a.x, a.y, 18, 0, 7); ctx.fill(); });
+            },
+            input(k) {}
+        };
 
-function irRPS(){
-  cambiar("menu","rps");
-  reiniciarRPS();
-}
+        const Simon = {
+            seq: [], userSeq: [], flash: -1,
+            init() { this.seq = [Math.floor(Math.random()*4)]; this.userSeq = []; this.play(); },
+            play() { this.flash = -1; let i=0; let t = setInterval(() => { this.flash = this.seq[i]; i++; if(i>this.seq.length){ clearInterval(t); this.flash=-1; } }, 500); },
+            update() {},
+            draw() {
+                const c = ['#f00','#00f','#0f0','#ff0'];
+                c.forEach((color, i) => { ctx.fillStyle = (this.flash===i)?'#fff':color; ctx.fillRect((i%2)*150, Math.floor(i/2)*190, 150, 190); });
+            },
+            input(k) {
+                let m = {up:0, down:1, left:2, right:3}; if(m[k]===undefined) return;
+                this.userSeq.push(m[k]);
+                if(this.userSeq[this.userSeq.length-1] !== this.seq[this.userSeq.length-1]) return gameOver();
+                if(this.userSeq.length === this.seq.length) { score+=100; updateScore(); this.seq.push(Math.floor(Math.random()*4)); this.userSeq=[]; this.play(); }
+            }
+        };
 
-function reiniciarRPS(){
-  playerScoreRPS = 0;
-  cpuScoreRPS = 0;
-  document.getElementById("playerScoreRPS").textContent = "0";
-  document.getElementById("cpuScoreRPS").textContent = "0";
-  rpsResult.innerText = "Elige tu movimiento";
-}
+        const Frogger = {
+            y: 350, cars: [],
+            init() { this.y = 350; this.cars = []; for(let i=0; i<6; i++) this.cars.push({x: Math.random()*300, y: 40+i*50, s: (Math.random()+1.5)}); },
+            update() {
+                this.cars.forEach(c => {
+                    c.x += c.s; if(c.x > 300) c.x = -50;
+                    if(this.y < c.y + 20 && this.y + 20 > c.y && 140 < c.x + 40 && 160 > c.x) gameOver();
+                });
+            },
+            draw() {
+                ctx.fillStyle = '#0f0'; ctx.fillRect(140, this.y, 20, 20);
+                ctx.fillStyle = '#f0f'; this.cars.forEach(c => ctx.fillRect(c.x, c.y, 45, 20));
+            },
+            input(k) { if(k==='up') { this.y -= 25; score+=10; updateScore(); } if(this.y < 20) this.init(); }
+        };
 
-function jugar(p){
-  let ops = ["piedra","papel","tijera"];
-  let cpu = ops[Math.floor(Math.random()*3)];
-  let res = "";
+        // --- SISTEMA ---
+        function startGame(g) {
+            menu.classList.add('hidden'); gameoverScreen.classList.add('hidden'); exitBtn.classList.remove('hidden');
+            score = 0; updateScore();
+            const list = { snake:Snake, pacman:Pacman, asteroids:Asteroids, simon:Simon, frogger:Frogger };
+            currentGame = list[g] || Snake;
+            document.getElementById('game-title').innerText = g.toUpperCase();
+            currentGame.init();
+            if(gameLoop) clearInterval(gameLoop);
+            gameLoop = setInterval(() => { ctx.clearRect(0,0,300,380); currentGame.update(); currentGame.draw(); }, 1000/60);
+        }
 
-  if(p === cpu){
-    res = "¡Empate! 🤝";
-  } else if(
-    (p==="piedra" && cpu==="tijera") ||
-    (p==="papel" && cpu==="piedra") ||
-    (p==="tijera" && cpu==="papel")
-  ){
-    res = "¡GANASTE! 😎";
-    playerScoreRPS++;
-  } else {
-    res = "CPU ganó 💀";
-    cpuScoreRPS++;
-  }
-
-  // Actualizar puntajes
-  document.getElementById("playerScoreRPS").textContent = playerScoreRPS;
-  document.getElementById("cpuScoreRPS").textContent = cpuScoreRPS;
-
-  // Mostrar resultado con emojis grandes
-  rpsResult.innerHTML = `
-    ${p} <span style="font-size:32px;">vs</span> ${cpu}<br>
-    <span style="font-size:26px;">${res}</span>
-  `;
-}
-
-// ====================== PALABRA ======================
-const palabras=["gato","perro","casa","codigo","juego"];
-let palabraSecreta="",progreso=[],intentos;
-
-function irPalabra(){cambiar("menu","palabra");}
-function modoAhorcado(){
-  palabraSecreta=palabras[Math.floor(Math.random()*palabras.length)];
-  progreso=Array(palabraSecreta.length).fill("_");
-  intentos=6;
-  actualizar();
-}
-function actualizar(){
-  palabraTexto.innerText=progreso.join(" ");
-  estadoA.innerText="Intentos: "+intentos;
-}
-function intentarLetra(){
-  let l=letra.value.toLowerCase(); letra.value="";
-  if(!l) return;
-  let ok=false;
-  for(let i=0;i<palabraSecreta.length;i++){
-    if(palabraSecreta[i]===l){ progreso[i]=l; ok=true; }
-  }
-  if(!ok) intentos--;
-  if(intentos<=0){ alert("Perdiste 😭 → "+palabraSecreta); modoAhorcado(); }
-  if(!progreso.includes("_")){ alert("Ganaste 🔥"); modoAhorcado(); }
-  actualizar();
-}
-
-// ====================== TRES EN RAYA ======================
-let board = Array(9).fill(null);
-let gameOver = false;
-
-function irTresEnRaya(){ cambiar("menu","tresEnRaya"); reiniciarTTT(); }
-function reiniciarTTT(){
-  board = Array(9).fill(null);
-  gameOver = false;
-  document.querySelectorAll(".ttt-cell").forEach(c => c.textContent = "");
-  tttResult.innerText = "Tu turno (❌)";
-}
-function hacerMovimiento(cell){
-  if(gameOver) return;
-  let idx = parseInt(cell.dataset.index);
-  if(board[idx]) return;
-  board[idx] = "❌"; cell.textContent = "❌";
-  if(checkWin("❌")){ tttResult.innerText = "¡GANASTE! 🎉"; gameOver = true; return; }
-  if(board.every(c => c)){ tttResult.innerText = "Empate 😐"; gameOver = true; return; }
-  tttResult.innerText = "Turno de CPU (⭕)";
-  setTimeout(cpuMove, 600);
-}
-function cpuMove(){
-  if(gameOver) return;
-  let empty = [];
-  for(let i=0;i<9;i++) if(!board[i]) empty.push(i);
-  if(empty.length===0) return;
-  let randomIdx = empty[Math.floor(Math.random()*empty.length)];
-  board[randomIdx] = "⭕";
-  document.querySelectorAll(".ttt-cell")[randomIdx].textContent = "⭕";
-  if(checkWin("⭕")){ tttResult.innerText = "CPU ganó 💀"; gameOver = true; return; }
-  if(board.every(c => c)){ tttResult.innerText = "Empate 😐"; gameOver = true; return; }
-  tttResult.innerText = "Tu turno (❌)";
-}
-function checkWin(player){
-  const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-  return wins.some(combo => combo.every(i => board[i] === player));
-}
-
-// ====================== SNAKE NUEVO ======================
-let snakeCanvas, ctx;
-let snake, dx, dy, food, scoreSnake, gameInterval, tileCount = 20, gridSize = 20;
-
-function irSnake(){
-  cambiar("menu","snake");
-  iniciarSnake();
-}
-
-function iniciarSnake(){
-  snakeCanvas = document.getElementById("snakeCanvas");
-  ctx = snakeCanvas.getContext("2d");
-  
-  snake = [{x:10, y:10}];
-  dx = 1; dy = 0;
-  scoreSnake = 0;
-  document.getElementById("snakeScore").textContent = "Puntaje: 0";
-  
-  placeFood();
-  
-  if(gameInterval) clearInterval(gameInterval);
-  gameInterval = setInterval(gameLoop, 110);
-}
-
-function gameLoop(){
-  if(!document.getElementById("snake").classList.contains("hidden")){
-    updateSnake();
-    drawSnake();
-  }
-}
-
-function updateSnake(){
-  const head = {x: snake[0].x + dx, y: snake[0].y + dy};
-  snake.unshift(head);
-
-  // Comió?
-  if(head.x === food.x && head.y === food.y){
-    scoreSnake++;
-    document.getElementById("snakeScore").textContent = "Puntaje: " + scoreSnake;
-    placeFood();
-  } else {
-    snake.pop();
-  }
-
-  // Colisión
-  if(head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount ||
-     snake.some((part, index) => index > 0 && part.x === head.x && part.y === head.y)){
-    clearInterval(gameInterval);
-    setTimeout(() => {
-      alert("💀 GAME OVER 💀\nPuntaje final: " + scoreSnake);
-      reiniciarSnake();
-    }, 100);
-  }
-}
-
-function drawSnake(){
-  // Fondo
-  ctx.fillStyle = "#111";
-  ctx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
-
-  // Snake (neón verde)
-  ctx.fillStyle = "#00ff88";
-  snake.forEach(part => {
-    ctx.fillRect(part.x * gridSize + 1, part.y * gridSize + 1, gridSize - 2, gridSize - 2);
-  });
-
-  // Comida (neón rosa)
-  ctx.fillStyle = "#ff00cc";
-  ctx.fillRect(food.x * gridSize + 1, food.y * gridSize + 1, gridSize - 2, gridSize - 2);
-}
-
-function placeFood(){
-  food = {
-    x: Math.floor(Math.random() * tileCount),
-    y: Math.floor(Math.random() * tileCount)
-  };
-  // No aparece en el snake
-  while(snake.some(part => part.x === food.x && part.y === food.y)){
-    food.x = Math.floor(Math.random() * tileCount);
-    food.y = Math.floor(Math.random() * tileCount);
-  }
-}
-
-function reiniciarSnake(){
-  if(gameInterval) clearInterval(gameInterval);
-  iniciarSnake();
-}
-
-// Controles con flechas del teclado
-document.addEventListener("keydown", e => {
-  if(document.getElementById("snake").classList.contains("hidden")) return;
-  
-  switch(e.key){
-    case "ArrowLeft":  if(dx !== 1) { dx = -1; dy = 0; } break;
-    case "ArrowRight": if(dx !== -1){ dx = 1;  dy = 0; } break;
-    case "ArrowUp":    if(dy !== 1) { dx = 0;  dy = -1;} break;
-    case "ArrowDown":  if(dy !== -1){ dx = 0;  dy = 1; } break;
-  }
-});
-
-// ====================== NAV ======================
-function volver(){
-  document.querySelectorAll(".screen").forEach(s => s.classList.add("hidden"));
-  document.getElementById("menu").classList.remove("hidden");
-  
-  // Detener Snake si estaba jugando
-  if(gameInterval) clearInterval(gameInterval);
-}
-
-function cambiar(a,b){
-  document.getElementById(a).classList.add("hidden");
-  document.getElementById(b).classList.remove("hidden");
-}
-</script>
-
+        function gameOver() { clearInterval(gameLoop); gameoverScreen.classList.remove('hidden'); exitBtn.classList.add('hidden'); }
+        function showMenu() { 
+            clearInterval(gameLoop);
+            menu.classList.remove('hidden'); 
+            gameoverScreen.classList.add('hidden'); 
+            exitBtn.classList.add('hidden');
+            document.getElementById('game-title').innerText = "Selecciona un título";
+            ctx.clearRect(0,0,300,380);
+        }
+        function updateScore() { scoreElement.innerText = score; }
+    </script>
 </body>
 </html>
+
+```
