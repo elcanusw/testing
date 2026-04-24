@@ -1,3 +1,4 @@
+/* --- CONFIGURACIÓN GLOBAL --- */
 :root {
     --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
     --accent-color: #a18cd1;
@@ -17,7 +18,7 @@ body {
     overflow-x: hidden;
 }
 
-/* --- MENÚ --- */
+/* --- NAVEGACIÓN --- */
 .glass-nav {
     margin: 20px 0;
     padding: 10px 30px;
@@ -28,7 +29,7 @@ body {
     z-index: 100;
 }
 .glass-nav ul { display: flex; list-style: none; gap: 20px; }
-.glass-nav a { color: white; text-decoration: none; opacity: 0.7; }
+.glass-nav a { color: var(--white); text-decoration: none; opacity: 0.7; font-size: 0.95rem; }
 .active { opacity: 1 !important; font-weight: bold; }
 
 /* --- CONTENEDORES --- */
@@ -40,8 +41,7 @@ body {
     align-items: center;
 }
 
-/* --- CONTROL DE IMÁGENES (INICIO Y SOBRE MÍ) --- */
-/* Esto asegura que tus fotos no se vean gigantes */
+/* --- CONTROL DE IMÁGENES (TAMAÑO FIJO) --- */
 .profile-img, .profile-img-inline {
     width: 180px !important;
     height: 180px !important;
@@ -51,6 +51,7 @@ body {
     margin: 20px auto;
     display: block;
     filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    animation: float 4s ease-in-out infinite;
 }
 
 .glass-sphere {
@@ -58,13 +59,12 @@ body {
     height: 250px !important;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     margin: 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* --- SECCIÓN SERVICIOS (PC) --- */
+/* --- SERVICIOS (IGUAL A IMAGEN 2) --- */
 .services-split-container {
     display: flex;
     flex-direction: row;
@@ -76,46 +76,49 @@ body {
 }
 
 .service-box {
-    width: 350px !important; /* Ancho fijo para PC */
+    flex: 0 1 350px; /* Ancho fijo en PC */
     min-height: 450px;
     text-decoration: none;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 30px;
+    padding: 45px 30px;
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(15px);
     border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-    transition: transform 0.4s ease;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s ease;
 }
+.service-box:hover { transform: translateY(-12px); background: rgba(255, 255, 255, 0.12); }
 
-/* --- FORMULARIO DE CONTACTO --- */
+/* --- FORMULARIO Y CONTACTO (ESTILO NEUMÓRFICO) --- */
 .contact-wrapper {
-    width: 100%;
-    max-width: 600px;
-    margin-top: 30px;
+    display: flex; gap: 40px; width: 90%; max-width: 1000px; margin-top: 20px;
 }
 
-.glass-card form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    text-align: left;
-}
-
-input, textarea {
+.neumorph-input {
     width: 100%;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.05);
     color: white;
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.4), inset -4px -4px 8px rgba(255,255,255,0.05);
     outline: none;
 }
 
-/* --- ESTILOS DE TEXTO --- */
+/* REDES SOCIALES */
+.social-grid { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+.social-item {
+    width: 60px; height: 60px; background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; color: white; text-decoration: none; transition: 0.3s;
+}
+.social-item:hover { transform: translateY(-5px); background: var(--accent-color); }
+
+/* --- TEXTOS Y BOTONES --- */
 .glow-text {
     font-size: 2.5rem;
     background: linear-gradient(to right, #fff, var(--accent-color));
@@ -128,27 +131,33 @@ input, textarea {
     font-size: 4rem;
     color: var(--accent-color);
     filter: drop-shadow(0 0 10px var(--accent-color));
+    margin-bottom: 20px;
 }
 
-/* --- BOTONES --- */
 .glass-btn {
     display: inline-block;
     padding: 12px 25px;
     border-radius: 50px;
     border: 1px solid var(--white);
-    background: transparent;
     color: var(--white);
     text-decoration: none;
     font-weight: bold;
     transition: 0.3s;
     cursor: pointer;
+    background: transparent;
 }
-
 .btn-highlight { background: var(--accent-color); border: none; }
+.glass-btn:hover { background: white; color: #0f0c29; }
+
+/* --- ANIMACIONES --- */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
 
 /* --- RESPONSIVO --- */
 @media (max-width: 768px) {
-    .services-split-container { flex-direction: column; align-items: center; }
+    .services-split-container, .contact-wrapper { flex-direction: column; align-items: center; }
     .service-box { width: 100% !important; max-width: 320px; }
     .profile-img, .profile-img-inline { width: 140px !important; height: 140px !important; }
 }
