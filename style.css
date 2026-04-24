@@ -222,4 +222,57 @@ body {
         font-size: 1.8rem;
     }
 }
+/* --- ESTILOS PARA DISEÑO GRÁFICO --- */
+
+.design-item {
+    text-align: center !important;
+    padding: 30px !important;
+    border-radius: 30px !important;
+    overflow: hidden;
+    position: relative;
+}
+
+.design-preview {
+    font-size: 3rem;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: inset 5px 5px 15px rgba(0,0,0,0.3);
+    color: var(--accent-color);
+}
+
+.design-item h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    text-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+
+.design-item p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.4;
+}
+
+/* Efecto hover específico para diseño */
+.design-item:hover {
+    transform: scale(1.03);
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.design-item:hover .design-preview {
+    background: rgba(161, 140, 209, 0.1);
+    color: white;
+    text-shadow: 0 0 15px var(--accent-color);
+}
+
+.action-bar p {
+    margin-top: 40px;
+    opacity: 0.8;
+}
+
 
