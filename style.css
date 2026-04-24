@@ -5,7 +5,11 @@
     --white: #ffffff;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
     font-family: 'Segoe UI', sans-serif;
@@ -28,11 +32,22 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
     z-index: 100;
 }
-.glass-nav ul { display: flex; list-style: none; gap: 20px; }
-.glass-nav a { color: var(--white); text-decoration: none; opacity: 0.7; font-size: 0.95rem; }
+
+.glass-nav ul { 
+    display: flex; 
+    list-style: none; 
+    gap: 20px; 
+}
+
+.glass-nav a { 
+    color: var(--white); 
+    text-decoration: none; 
+    opacity: 0.7; 
+    font-size: 0.95rem; 
+}
 .active { opacity: 1 !important; font-weight: bold; }
 
-/* --- CONTENEDORES --- */
+/* --- CONTENEDORES Y TARJETAS GENERALES --- */
 .container {
     padding: 50px 20px;
     width: 100%;
@@ -41,7 +56,17 @@ body {
     align-items: center;
 }
 
-/* --- CONTROL DE IMÁGENES (TAMAÑO FIJO) --- */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 30px;
+    width: 100%;
+    text-align: center;
+}
+
+/* --- CONTROL DE IMÁGENES (TAMAÑO FIJO 180px) --- */
 .profile-img, .profile-img-inline {
     width: 180px !important;
     height: 180px !important;
@@ -62,12 +87,14 @@ body {
     display: flex; align-items: center; justify-content: center;
     margin: 0 auto;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 10px 10px 20px rgba(255, 255, 255, 0.1), 
+                0 10px 30px rgba(0,0,0,0.5);
 }
 
-/* --- SERVICIOS (IGUAL A IMAGEN 2) --- */
+/* --- SECCIÓN SERVICIOS (IGUAL A IMAGEN 2) --- */
 .services-split-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: row; /* Fuerza tarjetas lado a lado en PC */
     justify-content: center;
     gap: 30px;
     margin-top: 40px;
@@ -76,8 +103,9 @@ body {
 }
 
 .service-box {
-    flex: 0 1 350px; /* Ancho fijo en PC */
-    min-height: 450px;
+    flex: 0 1 350px; /* Ancho fijo en PC para que no se estiren */
+    min-width: 300px;
+    height: auto;
     text-decoration: none;
     display: flex;
     flex-direction: column;
@@ -90,11 +118,63 @@ body {
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     transition: all 0.4s ease;
 }
-.service-box:hover { transform: translateY(-12px); background: rgba(255, 255, 255, 0.12); }
 
-/* --- FORMULARIO Y CONTACTO (ESTILO NEUMÓRFICO) --- */
+.service-box h2, .service-box p, .service-box span {
+    color: var(--white) !important; /* Fuerza color blanco */
+    text-align: center;
+}
+
+.service-box:hover {
+    transform: translateY(-12px);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* --- PUBLICIDAD Y DISEÑO (MODERNO E ICONOS MODERNOS) --- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1100px;
+    padding: 20px 0;
+}
+
+.service-item, .design-item {
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.4s ease;
+    text-align: center;
+}
+
+.service-item h3, .service-item p,
+.design-item h3, .design-item p {
+    color: var(--white) !important;
+}
+
+.service-item:hover, .design-item:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-color);
+}
+
+/* ICONOS MODERNOS (RESPLANDOR NEÓN) */
+.icon-modern {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 12px var(--accent-color));
+}
+
+/* --- FORMULARIO Y CONTACTO (ESTILO NEUMÓRFICO REGENERADO) --- */
 .contact-wrapper {
-    display: flex; gap: 40px; width: 90%; max-width: 1000px; margin-top: 20px;
+    display: flex; 
+    gap: 40px; 
+    width: 90%; 
+    max-width: 1000px; 
+    margin-top: 20px;
 }
 
 .neumorph-input {
@@ -105,18 +185,27 @@ body {
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.05);
     color: white;
-    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.4), inset -4px -4px 8px rgba(255,255,255,0.05);
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.4), 
+                inset -4px -4px 8px rgba(255,255,255,0.05);
     outline: none;
 }
 
-/* REDES SOCIALES */
+/* REDES SOCIALES (ICONOS Y COLORES DE MARCA) */
 .social-grid { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+
 .social-item {
     width: 60px; height: 60px; background: rgba(255, 255, 255, 0.1);
     border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem; color: white; text-decoration: none; transition: 0.3s;
+    font-size: 1.5rem; color: var(--white); text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s;
 }
-.social-item:hover { transform: translateY(-5px); background: var(--accent-color); }
+.social-item:hover { transform: translateY(-5px) scale(1.1); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+
+.gmail:hover { background: #EA4335; }
+.whatsapp:hover { background: #25D366; }
+.facebook:hover { background: #1877F2; }
+.instagram:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.tiktok:hover { background: #000000; border-color: #ff0050; }
 
 /* --- TEXTOS Y BOTONES --- */
 .glow-text {
@@ -125,13 +214,13 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-align: center;
+    margin-bottom: 20px;
 }
 
-.icon-modern {
-    font-size: 4rem;
-    color: var(--accent-color);
-    filter: drop-shadow(0 0 10px var(--accent-color));
-    margin-bottom: 20px;
+.cta-text {
+    color: var(--white) !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    margin-top: 30px;
 }
 
 .glass-btn {
@@ -139,15 +228,21 @@ body {
     padding: 12px 25px;
     border-radius: 50px;
     border: 1px solid var(--white);
+    background: transparent;
     color: var(--white);
     text-decoration: none;
     font-weight: bold;
     transition: 0.3s;
     cursor: pointer;
-    background: transparent;
 }
+
 .btn-highlight { background: var(--accent-color); border: none; }
-.glass-btn:hover { background: white; color: #0f0c29; }
+
+.glass-btn:hover {
+    background: white;
+    color: #0f0c29;
+    box-shadow: 0 0 20px var(--white);
+}
 
 /* --- ANIMACIONES --- */
 @keyframes float {
@@ -157,7 +252,20 @@ body {
 
 /* --- RESPONSIVO --- */
 @media (max-width: 768px) {
-    .services-split-container, .contact-wrapper { flex-direction: column; align-items: center; }
-    .service-box { width: 100% !important; max-width: 320px; }
+    .glass-nav { width: 95%; padding: 10px 15px; }
+    .glass-nav ul { gap: 10px; }
+    .glass-nav a { font-size: 0.8rem; }
+    .glow-text { font-size: 1.8rem; }
+    
     .profile-img, .profile-img-inline { width: 140px !important; height: 140px !important; }
+    
+    .services-split-container, .contact-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .service-box {
+        flex: 1 1 100%;
+        max-width: 320px;
+    }
 }
