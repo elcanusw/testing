@@ -185,3 +185,39 @@ body {
     font-weight: 300;
     color: #a18cd1;
 }
+/* --- AJUSTES SOBRE MÍ CON IMAGEN --- */
+
+/* Separación del menú y estructura flex */
+.main-about-container {
+    margin-top: 100px !important; /* Esto empuja el recuadro hacia abajo */
+}
+
+.about-flex {
+    display: flex;
+    align-items: center;
+    gap: 40px; /* Espacio entre imagen y texto */
+    text-align: left;
+}
+
+.about-image img {
+    width: 300px; /* Ajusta el tamaño a tu gusto */
+    height: auto;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    animation: float 5s ease-in-out infinite; /* Reutiliza la animación de flotar */
+}
+
+.about-content {
+    flex: 1;
+}
+
+/* Ajuste para celulares: que la imagen se ponga arriba del texto */
+@media (max-width: 768px) {
+    .about-flex {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .about-image img {
+        width: 200px;
+    }
+}
