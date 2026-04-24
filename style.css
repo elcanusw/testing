@@ -202,7 +202,7 @@ body {
     object-fit: cover; /* Recorta la imagen para que encaje sin estirarse */
     
     /* Le quitamos la transparencia y el desenfoque */
-    opacity: 1; /* ¡100% de opacidad! Nítida */
+    opacity: 50; /* ¡50% de opacidad! Nítida */
     
     /* Añadimos un drop-shadow fuerte para que "salte" y se separe del fondo */
     filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));
