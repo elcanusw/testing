@@ -61,25 +61,61 @@ body {
     text-align: center;
 }
 
-/* IMÁGENES */
-.image-row { margin: 20px 0; }
-.profile-img-inline, .profile-img {
-    width: 160px; height: 160px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid rgba(255,255,255,0.2);
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
-    animation: float 4s ease-in-out infinite;
+/* --- ARREGLO DE IMÁGENES (TAMAÑO CONTROLADO) --- */
+
+.image-row { 
+    margin: 25px 0; 
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
-/* ESFERA DEL INDEX */
+/* Imagen en Sobre Mí y Círculos */
+.profile-img-inline, .profile-img {
+    width: 180px !important;  /* Tamaño fijo para que no crezca */
+    height: 180px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    animation: float 4s ease-in-out infinite;
+    display: block;
+}
+
+/* Esfera del Index */
 .glass-sphere {
-    width: 220px; height: 220px;
+    width: 250px !important;  /* Tamaño fijo de la esfera */
+    height: 250px !important;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid rgba(255,255,255,0.2);
-    box-shadow: inset 10px 10px 20px rgba(255,255,255,0.1);
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 10px 10px 20px rgba(255, 255, 255, 0.1), 
+                0 10px 30px rgba(0,0,0,0.5);
+    margin: 0 auto;
+}
+
+/* Ajuste para que la foto dentro de la esfera no se salga */
+.glass-sphere img {
+    width: 85% !important;
+    height: 85% !important;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* --- RESPONSIVO PARA IMÁGENES (MÓVIL) --- */
+@media (max-width: 768px) {
+    .profile-img-inline, .profile-img {
+        width: 140px !important;
+        height: 140px !important;
+    }
+    
+    .glass-sphere {
+        width: 200px !important;
+        height: 200px !important;
+    }
 }
 
 /* TEXTOS */
