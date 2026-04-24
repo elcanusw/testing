@@ -1,17 +1,19 @@
+/* --- VARIABLES Y BASE --- */
 :root {
-    --bg: radial-gradient(circle at top right, #1e3a8a, #0f172a, #3b0764);
-    --glass: rgba(255, 255, 255, 0.1);
-    --border: rgba(255, 255, 255, 0.15);
+    --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --accent-color: #a18cd1;
 }
 
 body {
     margin: 0;
     padding: 0;
-    height: 100vh;
-    background: var(--bg);
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
     color: white;
-    overflow: hidden;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,195 +22,166 @@ body {
 /* --- NAVEGACIÓN --- */
 .glass-nav {
     margin-top: 20px;
-    background: var(--glass);
+    padding: 10px 30px;
+    background: var(--glass-bg);
     backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border-radius: 50px;
-    padding: 5px 30px;
-    border: 1px solid var(--border);
-}
-.glass-nav ul { display: flex; list-style: none; gap: 25px; font-size: 12px; font-weight: bold; }
-.glass-nav a { text-decoration: none; color: rgba(255,255,255,0.7); }
-.active { color: white !important; background: rgba(255,255,255,0.15); padding: 5px 15px; border-radius: 20px; }
-
-/* --- CONTENEDOR PRINCIPAL --- */
-.main-container {
-    display: flex;
-    width: 90%;
-    max-width: 1200px;
-    height: 70vh;
-    align-items: center;
-    justify-content: space-between;
-}
-
-/* --- TEXTO (IZQUIERDA) --- */
-.hero-text h1 {
-    font-size: 4rem;
-    line-height: 0.9;
-    letter-spacing: -2px;
-    margin-bottom: 10px;
-}
-.hero-text p { font-size: 1.2rem; opacity: 0.8; letter-spacing: 2px; }
-
-.floating-tags { position: relative; margin-top: 30px; }
-.tag {
-    position: absolute;
-    padding: 10px 20px;
-    border-radius: 30px;
-    background: var(--glass);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    font-size: 14px;
-}
-.tag:nth-child(1) { top: -50px; left: 150px; }
-.tag:nth-child(2) { top: 0px; left: 80px; }
-
-/* --- VISUAL (DERECHA) --- */
-.hero-visual { position: relative; width: 500px; height: 500px; display: flex; align-items: center; justify-content: center; }
-
-.glass-sphere {
-    width: 320px;
-    height: 320px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255,255,255,0.3);
-    box-shadow: 0 0 80px rgba(139, 92, 246, 0.3);
-    overflow: hidden;
-    z-index: 2;
-}
-.glass-sphere img { width: 100%; height: 100%; object-fit: cover; }
-
-.sphere-glow {
-    position: absolute;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 70%);
-    z-index: 1;
-}
-
-/* --- CARDS FLOTANTES --- */
-.glass-card {
-    position: absolute;
-    background: var(--glass);
-    backdrop-filter: blur(15px);
-    border: 1px solid var(--border);
-    padding: 15px 20px;
-    border-radius: 15px;
-    font-size: 11px;
-    font-weight: bold;
-    z-index: 3;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-.card-1 { top: 10%; right: 0; }
-.card-2 { top: 40%; right: -50px; }
-.card-3 { bottom: 10%; right: 0; }
-
-/* --- PANEL INFERIOR --- */
-.bottom-panel {
+    border: 1px solid var(--glass-border);
     position: fixed;
-    bottom: 30px;
-    width: 80%;
-    height: 120px;
-    border-radius: 30px;
+    z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.glass-nav ul {
     display: flex;
-    align-items: center;
-    padding: 0 40px;
-    gap: 20px;
-    background: rgba(255,255,255,0.03);
-    backdrop-filter: blur(25px);
-    border: 1px solid var(--border);
+    list-style: none;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
 }
 
-.neu-btn {
-    background: rgba(255,255,255,0.1);
-    border: none;
-    padding: 15px 30px;
-    border-radius: 20px;
+.glass-nav a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.glass-nav a:hover, .active {
     color: white;
-    font-weight: bold;
-    box-shadow: inset 2px 2px 5px rgba(255,255,255,0.1), 4px 4px 15px rgba(0,0,0,0.3);
-    cursor: pointer;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
-.stretch { flex-grow: 1; text-align: right; }
 
-/* --- ESTILOS EXTRA PARA PÁGINAS --- */
-/* (Mantén esto si ya lo tenías, es el estilo base) */
+/* --- CONTENEDORES --- */
 .container {
-    padding: 50px 20px;
-    text-align: center;
     width: 100%;
+    max-width: 1200px;
+    padding-top: 120px; /* Separación del menú fijo */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 50px;
 }
 
 .glass-card {
-    /* (Mantenemos el efecto de vidrio base para la tarjeta) */
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 25px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    padding: 40px;
+    transition: transform 0.3s ease;
+}
+
+/* --- TEXTOS --- */
+.glow-text {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    background: linear-gradient(to right, #fff, var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-align: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .bio-text {
     line-height: 1.8;
-    font-size: 1.1rem;
-    text-align: justify;
-    margin-bottom: 30px;
     color: rgba(255, 255, 255, 0.9);
+    text-align: center;
 }
 
-.glow-text {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    background: linear-gradient(to right, #fff, #a18cd1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 10px 20px rgba(161, 140, 209, 0.3);
+/* --- IMAGEN SOBRE MÍ (NÍTIDA) --- */
+.image-wrapper {
+    margin: 25px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-img-center {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--glass-border);
+    filter: drop-shadow(0 10px 25px rgba(0,0,0,0.6));
+    animation: float 5s ease-in-out infinite;
+    opacity: 1 !important;
+}
+
+/* --- ELEMENTOS NEUMORPHISM --- */
+.neumorph-inset {
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.4), 
+                inset -4px -4px 8px rgba(255,255,255,0.05);
+}
+
+.skill-tag {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    font-size: 0.9rem;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }
 
 .skills-container {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
-    margin-top: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
 }
 
-.skill-tag {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 8px 20px;
+/* --- FORMULARIOS Y BOTONES --- */
+.neumorph-input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.05);
+    outline: none;
+}
+
+.glass-btn {
+    padding: 12px 30px;
     border-radius: 50px;
-    font-size: 0.9rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2), 
-                inset 2px 2px 5px rgba(255, 255, 255, 0.1);
-}
-
-/* --- NUEVA POSICIÓN DE IMAGEN --- */
-
-.image-row {
-    margin: 20px 0 30px 0; /* Espaciado arriba y abajo de la imagen */
-    display: flex;
-    justify-content: center;
-}
-
-.profile-img-inline {
-    width: 180px; /* Tamaño ajustado para que no sature el texto */
-    height: 180px;
-    border-radius: 50%;
-    object-fit: cover;
-    
-    /* Imagen 100% nítida */
-    opacity: 1;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
-    
-    /* Borde fino para darle el toque Glass */
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    
-    /* Animación sutil de flotación */
-    animation: float 4s ease-in-out infinite;
-}
-
-/* Para que el texto de abajo no quede pegado */
-.bio-text {
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
     margin-top: 20px;
+}
+
+.glass-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+/* --- ANIMACIONES --- */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- GRID PARA SERVICIOS --- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    width: 90%;
+    margin-top: 40px;
 }
