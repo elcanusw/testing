@@ -130,7 +130,24 @@ body {
 }
 .stretch { flex-grow: 1; text-align: right; }
 
-/* --- ESTILOS ESPECÍFICOS SOBRE MÍ --- */
+/* --- ESTILOS EXTRA PARA PÁGINAS --- */
+/* (Mantén esto si ya lo tenías, es el estilo base) */
+.container {
+    padding: 50px 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.glass-card {
+    /* (Mantenemos el efecto de vidrio base para la tarjeta) */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
 .bio-text {
     line-height: 1.8;
     font-size: 1.1rem;
@@ -164,63 +181,40 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2), 
                 inset 2px 2px 5px rgba(255, 255, 255, 0.1);
-    transition: 0.3s;
 }
 
-.skill-tag:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+/* --- SOLUCIÓN PARA LA IMAGEN --- */
+
+/* 1. Contenedor de la imagen: lo posicionamos absolutamente para centrarlo */
+.image-container {
+    position: absolute;
+    top: 50%; /* Centrado vertical */
+    left: 50%; /* Centrado horizontal */
+    transform: translate(-50%, -50%); /* Ajuste perfecto del centro */
+    z-index: 2; /* Esto es CLAVE: pone la imagen POR DELANTE del vidrio */
 }
 
-.separator {
-    border: none;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
-    margin: 40px 0;
-}
-
-.quote {
-    font-style: italic;
-    font-weight: 300;
-    color: #a18cd1;
-}
-/* --- DISEÑO CON IMAGEN EXTERNA --- */
-
-.about-page {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 50px; /* Espacio entre la imagen y el bloque */
-    margin-top: 120px; /* Separación del menú */
-    padding: 0 5%;
-}
-
-.image-external-left img {
-    width: 350px; /* Tamaño de tu imagen */
-    height: auto;
-    filter: drop-shadow(10px 20px 30px rgba(0,0,0,0.5));
-    animation: float 6s ease-in-out infinite; /* Flotación suave */
-}
-
-.content-right {
-    max-width: 600px;
-    margin: 0 !important; /* Quitamos el margin auto para que respete el flex */
-    text-align: left;
-}
-
-/* Ajuste para que en móviles no se rompa */
-@media (max-width: 900px) {
-    .about-page {
-        flex-direction: column;
-        margin-top: 80px;
-    }
+/* 2. Estilo de la imagen corregido */
+.profile-img-new {
+    width: 200px; /* Ajusta el tamaño de tu imagen aquí */
+    height: 200px;
+    border-radius: 50%; /* La hace circular */
+    object-fit: cover; /* Recorta la imagen para que encaje sin estirarse */
     
-    .image-external-left img {
-        width: 250px;
-    }
+    /* Le quitamos la transparencia y el desenfoque */
+    opacity: 1; /* ¡100% de opacidad! Nítida */
     
-    .content-right {
-        text-align: center;
+    /* Añadimos un drop-shadow fuerte para que "salte" y se separe del fondo */
+    filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));
+    
+    /* Reutilizamos la animación de flotar para que se vea tecnológica */
+    animation: float 5s ease-in-out infinite;
+}
+
+/* Ajuste responsive para celulares */
+@media (max-width: 768px) {
+    .profile-img-new {
+        width: 150px;
+        height: 150px;
     }
 }
