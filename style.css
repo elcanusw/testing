@@ -1,0 +1,105 @@
+:root {
+    --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-color: #ffffff;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-gradient);
+    height: 100vh;
+    color: var(--text-color);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* --- NAVEGACIÓN GLASS --- */
+.glass-nav {
+    margin-top: 20px;
+    padding: 10px 30px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.glass-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.glass-nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.glass-nav a:hover, .active {
+    text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+/* --- HERO & ESFERA --- */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+}
+
+.sphere-container {
+    position: relative;
+    animation: float 4s ease-in-out infinite;
+}
+
+.glass-sphere {
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 10px 10px 20px rgba(255,255,255,0.1), 
+                20px 20px 40px rgba(0,0,0,0.5);
+}
+
+.profile-img {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* --- EFECTO NEUMORPHISM --- */
+.glass-card {
+    margin-top: 40px;
+    padding: 20px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    text-align: center;
+}
+
+.neumorph-inset {
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.4), 
+                inset -4px -4px 8px rgba(255,255,255,0.05);
+}
+
+/* --- ANIMACIONES --- */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
