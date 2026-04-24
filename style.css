@@ -159,4 +159,67 @@ body {
         padding: 40px 20px;
     }
 }
+/* --- ESTILOS PARA PUBLICIDAD DIGITAL --- */
+
+.header-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.subtitle {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    width: 90%;
+    max-width: 1100px;
+}
+
+.service-item {
+    padding: 30px !important;
+    text-align: left !important;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.service-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.service-item .icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.service-item h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.3rem;
+}
+
+.service-item p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.action-bar {
+    margin-top: 50px;
+    text-align: center;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+    .glow-text {
+        font-size: 1.8rem;
+    }
+}
 
