@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto - Mi Perfil</title>
+    <title>Contacto - 107d</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,16 +12,56 @@
     <nav class="glass-nav">
         <ul>
             <li><a href="index.html">Inicio</a></li>
+            <li><a href="sobremi.html">Sobre Mí</a></li>
             <li><a href="servicios.html">Servicios</a></li>
             <li><a href="contacto.html" class="active">Contacto</a></li>
         </ul>
     </nav>
 
-    <main class="hero">
-        <div class="glass-card neumorph-inset" style="width: 300px;">
-            <h2>Hablemos</h2>
-            <p>¿Tienes un proyecto en mente?</p>
-            <button class="glass-nav" style="cursor: pointer; border: none;">Enviar Mensaje</button>
+    <main class="container">
+        <div class="header-section fade-in">
+            <h1 class="glow-text">¿Hablamos?</h1>
+            <p class="subtitle">Estoy a un mensaje de distancia para hacer realidad tu proyecto.</p>
+        </div>
+
+        <div class="contact-wrapper">
+            
+            <div class="glass-card contact-card fade-in">
+                <form action="#">
+                    <div class="input-group">
+                        <input type="text" placeholder="Tu Nombre" class="neumorph-input" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" placeholder="Tu Email" class="neumorph-input" required>
+                    </div>
+                    <div class="input-group">
+                        <textarea placeholder="Cuéntame sobre tu idea..." class="neumorph-input" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="glass-btn btn-send">Enviar Mensaje</button>
+                </form>
+            </div>
+
+            <div class="social-side fade-in">
+                <h3>También puedes encontrarme en:</h3>
+                <div class="social-grid">
+                    <a href="mailto: soluciones107d@gmail.com" class="social-item gmail" title="Gmail">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://wa.me/56974598279" class="social-item whatsapp" title="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="https://facebook.com/tu-perfil" class="social-item facebook" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://instagram.com/tu-perfil" class="social-item instagram" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://tiktok.com/@tu-perfil" class="social-item tiktok" title="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+
         </div>
     </main>
 
