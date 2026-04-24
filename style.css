@@ -87,3 +87,76 @@ body {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
 }
+/* --- ESTILO DE SERVICIOS DIVIDIDOS --- */
+
+.services-split-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 50px;
+    perspective: 1000px; /* Le da profundidad 3D */
+    width: 90%;
+    max-width: 900px;
+}
+
+.service-box {
+    flex: 1;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto al pasar el mouse (Hover) */
+.service-box:hover {
+    transform: scale(1.05) translateY(-10px);
+    background: rgba(255, 255, 255, 0.15); /* Se aclara un poco el vidrio */
+    border-color: #a18cd1; /* Brillo púrpura en el borde */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Cuando uno recibe hover, el otro se opaca un poco (opcional) */
+.services-split-container:hover .service-box:not(:hover) {
+    filter: blur(2px);
+    opacity: 0.6;
+    transform: scale(0.95);
+}
+
+.service-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+}
+
+.view-more {
+    margin-top: 20px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0;
+    transition: 0.3s;
+    color: #a18cd1;
+}
+
+.service-box:hover .view-more {
+    opacity: 1;
+}
+
+/* AJUSTE PARA MÓVILES */
+@media (max-width: 768px) {
+    .services-split-container {
+        flex-direction: column; /* Se ponen uno debajo del otro */
+        gap: 30px;
+    }
+    
+    .service-box {
+        padding: 40px 20px;
+    }
+}
+
