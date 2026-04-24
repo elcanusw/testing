@@ -129,3 +129,59 @@ body {
     cursor: pointer;
 }
 .stretch { flex-grow: 1; text-align: right; }
+
+/* --- ESTILOS ESPECÍFICOS SOBRE MÍ --- */
+.bio-text {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    text-align: justify;
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.glow-text {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #fff, #a18cd1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 20px rgba(161, 140, 209, 0.3);
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.skill-tag {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2), 
+                inset 2px 2px 5px rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+.skill-tag:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.separator {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+    margin: 40px 0;
+}
+
+.quote {
+    font-style: italic;
+    font-weight: 300;
+    color: #a18cd1;
+}
