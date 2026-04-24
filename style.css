@@ -183,29 +183,32 @@ body {
                 inset 2px 2px 5px rgba(255, 255, 255, 0.1);
 }
 
-<main class="container">
-    <div class="glass-card fade-in" style="max-width: 800px; margin: 100px auto; padding: 40px;">
-        
-        <h1 class="glow-text">Más allá del código</h1>
-        
-        <div class="image-row">
-            <img src="https://elcanusw.github.io/testing/img107/canuia.png" alt="Perfil" class="profile-img-inline">
-        </div>
-        
-        <section class="bio-text">
-            <p>
-                ¡Hola! Soy un apasionado de la <strong>innovación digital</strong>. Mi enfoque no es solo construir sitios web, sino crear experiencias donde el diseño y la funcionalidad convergen.
-            </p>
-            <p>
-                Me especializo en estilos modernos como el <strong>Glassmorphism</strong>, buscando siempre que el futuro de la web sea fluido y tecnológico.
-            </p>
-        </section>
+/* --- NUEVA POSICIÓN DE IMAGEN --- */
 
-        <div class="skills-container">
-            <div class="skill-tag">💡 Creatividad</div>
-            <div class="skill-tag">💻 Code</div>
-            <div class="skill-tag">🎨 UI/UX</div>
-        </div>
+.image-row {
+    margin: 20px 0 30px 0; /* Espaciado arriba y abajo de la imagen */
+    display: flex;
+    justify-content: center;
+}
 
-    </div>
-</main>
+.profile-img-inline {
+    width: 180px; /* Tamaño ajustado para que no sature el texto */
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    
+    /* Imagen 100% nítida */
+    opacity: 1;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    
+    /* Borde fino para darle el toque Glass */
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    
+    /* Animación sutil de flotación */
+    animation: float 4s ease-in-out infinite;
+}
+
+/* Para que el texto de abajo no quede pegado */
+.bio-text {
+    margin-top: 20px;
+}
