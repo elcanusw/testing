@@ -2,214 +2,34 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Retro Arcade Pro</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        body { background-color: #0a0a0c; font-family: 'Press Start 2P', cursive; color: #fff; touch-action: none; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
-        canvas { image-rendering: pixelated; background-color: #000; border: 4px solid #222; max-width: 100%; height: auto; border-radius: 4px; }
-        .arcade-btn { background: #e63946; box-shadow: 0 4px 0 #9d1b24; transition: 0.1s; border-radius: 4px; border: none; cursor: pointer; }
-        .arcade-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #9d1b24; }
-        .d-pad-btn { background: #1a1a1a; box-shadow: 0 4px 0 #000; display: flex; align-items: center; justify-content: center; user-select: none; border: none; color: white; }
-        .d-pad-btn:active { background: #333; transform: translateY(2px); box-shadow: 0 0 0 #000; }
-        .screen-container { position: relative; background: #151515; padding: 6px; border-radius: 8px; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
-        .btn-exit { position: absolute; top: 15px; right: 15px; background: rgba(255,0,0,0.3); color: #ff4d4d; border: 1px solid #ff4d4d; font-size: 8px; padding: 5px 8px; border-radius: 4px; z-index: 30; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil Tech - 107d</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="mb-4 text-center">
-        <h1 class="text-sm text-cyan-400">ARCADE MULTIJUEGO</h1>
-        <div id="game-title" class="text-[7px] text-gray-500 mt-1 uppercase">Selecciona un título</div>
-    </div>
+    <nav class="glass-nav">
+        <ul>
+            <li><a href="index.html" class="active">Inicio</a></li>
+            <li><a href="servicios.html">Servicios</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+    </nav>
 
-    <div class="screen-container w-full max-w-[340px]">
-        <!-- Botón Volver (Visible solo durante el juego) -->
-        <button id="exit-btn" class="btn-exit hidden" onclick="showMenu()">SALIR</button>
-        
-        <canvas id="gameCanvas" width="300" height="380"></canvas>
-        
-        <!-- Menú de Selección -->
-        <div id="menu" class="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-95 p-6 z-10">
-            <h2 class="text-[9px] mb-6 text-yellow-500">BIBLIOTECA</h2>
-            <div class="menu-grid">
-                <button onclick="startGame('snake')" class="arcade-btn py-4 text-[8px]">SNAKE</button>
-                <button onclick="startGame('breakout')" class="arcade-btn py-4 text-[8px]">BRICK</button>
-                <button onclick="startGame('flappy')" class="arcade-btn py-4 text-[8px]">FLAPPY</button>
-                <button onclick="startGame('invaders')" class="arcade-btn py-4 text-[8px]">SPACE</button>
-                <button onclick="startGame('tetris')" class="arcade-btn py-4 text-[8px]">TETRIS</button>
-                <button onclick="startGame('racing')" class="arcade-btn py-4 text-[8px]">RACING</button>
-                <button onclick="startGame('pacman')" class="arcade-btn py-4 text-[8px]">PACMAN</button>
-                <button onclick="startGame('frogger')" class="arcade-btn py-4 text-[8px]">FROGGER</button>
-                <button onclick="startGame('asteroids')" class="arcade-btn py-4 text-[8px]">ASTEROID</button>
-                <button onclick="startGame('simon')" class="arcade-btn py-4 text-[8px]">SIMON</button>
+    <main class="hero">
+        <div class="sphere-container">
+            <div class="glass-sphere">
+                <img src="tu-foto.jpg" alt="Perfil" class="profile-img">
+            </div>
+            <div class="floating-text">
+                <h1>DISEÑO <br><span>& FUTURO</span></h1>
             </div>
         </div>
-
-        <!-- Pantalla de Muerte -->
-        <div id="gameover" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-red-900 bg-opacity-90 z-20">
-            <h2 class="text-xs mb-4">GAME OVER</h2>
-            <button onclick="showMenu()" class="arcade-btn px-4 py-3 text-[8px]">REINTENTAR</button>
-        </div>
-    </div>
-
-    <div class="mt-4 flex justify-between w-full max-w-[340px] px-4 text-[8px]">
-        <div>PUNTOS: <span id="score">0</span></div>
-        <div>MAX: <span id="high-score">0</span></div>
-    </div>
-
-    <!-- Controles Touch -->
-    <div class="mt-6 grid grid-cols-3 gap-2 w-full max-w-[260px]">
-        <div></div><button class="d-pad-btn p-5 rounded" id="btn-up">▲</button><div></div>
-        <button class="d-pad-btn p-5 rounded" id="btn-left">◀</button>
-        <button class="d-pad-btn p-5 rounded bg-red-600 border-2 border-red-400" id="btn-action">B</button>
-        <button class="d-pad-btn p-5 rounded" id="btn-right">▶</button>
-        <div></div><button class="d-pad-btn p-5 rounded" id="btn-down">▼</button><div></div>
-    </div>
-
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const menu = document.getElementById('menu');
-        const gameoverScreen = document.getElementById('gameover');
-        const scoreElement = document.getElementById('score');
-        const exitBtn = document.getElementById('exit-btn');
         
-        let currentGame = null;
-        let score = 0;
-        let gameLoop = null;
-        let activeKeys = {};
+        <div class="glass-card neumorph-inset">
+            <p>Explora el potencial digital con interfaces modernas.</p>
+        </div>
+    </main>
 
-        // Sistema de Controles
-        const bind = (id, k) => {
-            const el = document.getElementById(id);
-            const press = (e) => { e.preventDefault(); activeKeys[k] = true; if(currentGame && currentGame.input) currentGame.input(k); };
-            const release = () => activeKeys[k] = false;
-            el.ontouchstart = el.onmousedown = press;
-            el.ontouchend = el.onmouseup = el.onmouseleave = release;
-        };
-        bind('btn-up','up'); bind('btn-down','down'); bind('btn-left','left'); bind('btn-right','right'); bind('btn-action','action');
-
-        // --- Lógica de Juegos ---
-
-        const Snake = {
-            grid: 20, body: [], apple: {x: 5, y: 5}, dir: {x:1, y:0}, next: {x:1, y:0},
-            init() { this.body = [{x:10, y:10}, {x:9, y:10}]; this.dir = {x:1,y:0}; this.next = {x:1,y:0}; this.spawn(); },
-            spawn() { this.apple = {x: Math.floor(Math.random()*15), y: Math.floor(Math.random()*19)}; },
-            update() {
-                this.dir = this.next;
-                const head = {x: this.body[0].x + this.dir.x, y: this.body[0].y + this.dir.y};
-                if(head.x<0||head.x>=15||head.y<0||head.y>=19) return gameOver();
-                this.body.unshift(head);
-                if(head.x === this.apple.x && head.y === this.apple.y) { score+=10; updateScore(); this.spawn(); } else this.body.pop();
-            },
-            draw() {
-                ctx.fillStyle = '#0f0'; this.body.forEach(p => ctx.fillRect(p.x*20, p.y*20, 18, 18));
-                ctx.fillStyle = '#f00'; ctx.fillRect(this.apple.x*20, this.apple.y*20, 18, 18);
-            },
-            input(k) {
-                if(k==='up' && this.dir.y===0) this.next={x:0, y:-1};
-                if(k==='down' && this.dir.y===0) this.next={x:0, y:1};
-                if(k==='left' && this.dir.x===0) this.next={x:-1, y:0};
-                if(k==='right' && this.dir.x===0) this.next={x:1, y:0};
-            }
-        };
-
-        const Pacman = {
-            x: 150, y: 190, dir: 'right', dots: [],
-            init() { this.dots = []; this.x = 150; this.y = 190; for(let i=0; i<30; i++) this.dots.push({x: Math.random()*280+10, y: Math.random()*360+10}); },
-            update() {
-                if(activeKeys['up']) this.y -= 3; if(activeKeys['down']) this.y += 3;
-                if(activeKeys['left']) this.x -= 3; if(activeKeys['right']) this.x += 3;
-                this.dots = this.dots.filter(d => {
-                    if(Math.hypot(this.x-d.x, this.y-d.y) < 15) { score+=10; updateScore(); return false; }
-                    return true;
-                });
-                if(this.dots.length === 0) this.init();
-            },
-            draw() {
-                ctx.fillStyle = 'yellow'; ctx.beginPath(); ctx.arc(this.x, this.y, 12, 0.2*Math.PI, 1.8*Math.PI); ctx.lineTo(this.x, this.y); ctx.fill();
-                ctx.fillStyle = 'white'; this.dots.forEach(d => ctx.fillRect(d.x, d.y, 4, 4));
-            }
-        };
-
-        const Asteroids = {
-            p: {x: 150, y: 190, r: 0, v: 0}, ast: [], bullets: [],
-            init() { this.p = {x: 150, y: 190, r: 0, v: 0}; this.ast = []; for(let i=0; i<4; i++) this.ast.push({x: Math.random()*300, y: Math.random()*380, s: 1.5}); },
-            update() {
-                if(activeKeys['left']) this.p.r -= 0.1; if(activeKeys['right']) this.p.r += 0.1;
-                if(activeKeys['up']) this.p.v = Math.min(this.p.v + 0.15, 4); else this.p.v *= 0.97;
-                this.p.x += Math.cos(this.p.r)*this.p.v; this.p.y += Math.sin(this.p.r)*this.p.v;
-                if(this.p.x<0)this.p.x=300; if(this.p.x>300)this.p.x=0;
-                this.ast.forEach(a => { a.x += a.s; if(a.x>300) a.x=0; if(Math.hypot(this.p.x-a.x, this.p.y-a.y)<20) gameOver(); });
-            },
-            draw() {
-                ctx.save(); ctx.translate(this.p.x, this.p.y); ctx.rotate(this.p.r);
-                ctx.strokeStyle = 'cyan'; ctx.beginPath(); ctx.moveTo(12,0); ctx.lineTo(-10,8); ctx.lineTo(-10,-8); ctx.closePath(); ctx.stroke(); ctx.restore();
-                ctx.fillStyle = '#666'; this.ast.forEach(a => { ctx.beginPath(); ctx.arc(a.x, a.y, 18, 0, 7); ctx.fill(); });
-            },
-            input(k) {}
-        };
-
-        const Simon = {
-            seq: [], userSeq: [], flash: -1,
-            init() { this.seq = [Math.floor(Math.random()*4)]; this.userSeq = []; this.play(); },
-            play() { this.flash = -1; let i=0; let t = setInterval(() => { this.flash = this.seq[i]; i++; if(i>this.seq.length){ clearInterval(t); this.flash=-1; } }, 500); },
-            update() {},
-            draw() {
-                const c = ['#f00','#00f','#0f0','#ff0'];
-                c.forEach((color, i) => { ctx.fillStyle = (this.flash===i)?'#fff':color; ctx.fillRect((i%2)*150, Math.floor(i/2)*190, 150, 190); });
-            },
-            input(k) {
-                let m = {up:0, down:1, left:2, right:3}; if(m[k]===undefined) return;
-                this.userSeq.push(m[k]);
-                if(this.userSeq[this.userSeq.length-1] !== this.seq[this.userSeq.length-1]) return gameOver();
-                if(this.userSeq.length === this.seq.length) { score+=100; updateScore(); this.seq.push(Math.floor(Math.random()*4)); this.userSeq=[]; this.play(); }
-            }
-        };
-
-        const Frogger = {
-            y: 350, cars: [],
-            init() { this.y = 350; this.cars = []; for(let i=0; i<6; i++) this.cars.push({x: Math.random()*300, y: 40+i*50, s: (Math.random()+1.5)}); },
-            update() {
-                this.cars.forEach(c => {
-                    c.x += c.s; if(c.x > 300) c.x = -50;
-                    if(this.y < c.y + 20 && this.y + 20 > c.y && 140 < c.x + 40 && 160 > c.x) gameOver();
-                });
-            },
-            draw() {
-                ctx.fillStyle = '#0f0'; ctx.fillRect(140, this.y, 20, 20);
-                ctx.fillStyle = '#f0f'; this.cars.forEach(c => ctx.fillRect(c.x, c.y, 45, 20));
-            },
-            input(k) { if(k==='up') { this.y -= 25; score+=10; updateScore(); } if(this.y < 20) this.init(); }
-        };
-
-        // --- SISTEMA ---
-        function startGame(g) {
-            menu.classList.add('hidden'); gameoverScreen.classList.add('hidden'); exitBtn.classList.remove('hidden');
-            score = 0; updateScore();
-            const list = { snake:Snake, pacman:Pacman, asteroids:Asteroids, simon:Simon, frogger:Frogger };
-            currentGame = list[g] || Snake;
-            document.getElementById('game-title').innerText = g.toUpperCase();
-            currentGame.init();
-            if(gameLoop) clearInterval(gameLoop);
-            gameLoop = setInterval(() => { ctx.clearRect(0,0,300,380); currentGame.update(); currentGame.draw(); }, 1000/60);
-        }
-
-        function gameOver() { clearInterval(gameLoop); gameoverScreen.classList.remove('hidden'); exitBtn.classList.add('hidden'); }
-        function showMenu() { 
-            clearInterval(gameLoop);
-            menu.classList.remove('hidden'); 
-            gameoverScreen.classList.add('hidden'); 
-            exitBtn.classList.add('hidden');
-            document.getElementById('game-title').innerText = "Selecciona un título";
-            ctx.clearRect(0,0,300,380);
-        }
-        function updateScore() { scoreElement.innerText = score; }
-    </script>
 </body>
 </html>
-
-```
