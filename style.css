@@ -229,3 +229,102 @@ body {
     .profile-img-inline, .profile-img { width: 140px !important; height: 140px !important; }
     .contact-wrapper { flex-direction: column; align-items: center; }
 }
+/* --- ESTILOS UNIFICADOS PARA TARJETAS DE SERVICIO (TIPO IMAGE 1) --- */
+
+/* Definimos la variable para el color del resplandor neón */
+:root {
+    --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    --accent-color: #a18cd1; /* Color púrpura del resplandor */
+    --white: #ffffff;
+}
+
+/* Forzamos el color blanco puro para las clases específicas */
+.text-white {
+    color: var(--white) !important;
+}
+
+/* Contenedor principal de las tarjetas */
+.services-split-container {
+    display: flex;
+    gap: 30px; /* Un poco más de espacio entre tarjetas */
+    margin-top: 50px;
+    width: 100%;
+    max-width: 900px;
+    justify-content: center; /* Centrar las tarjetas */
+    flex-wrap: wrap; /* Para que en móvil se pongan una debajo de otra */
+}
+
+/* Estilo de la tarjeta (Service Box) */
+.service-box {
+    flex: 1;
+    min-width: 300px; /* Asegurar un ancho mínimo */
+    max-width: 400px; /* Ancho máximo para que no se estiren demasiado */
+    text-decoration: none;
+    color: var(--white); /* Texto blanco por defecto */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 30px;
+    transition: all 0.4s ease;
+    
+    /* Efecto de cristal (Glassmorphism) */
+    background: rgba(255, 255, 255, 0.08); /* Fondo semi-transparente */
+    backdrop-filter: blur(12px); /* Desenfoque de fondo */
+    border-radius: 25px; /* Bordes redondeados */
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Borde sutil */
+    
+    /* Neumorfismo suave (opcional, para dar profundidad) */
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4), 
+                inset 1px 1px 2px rgba(255, 255, 255, 0.05);
+}
+
+/* Efecto Hover (al pasar el ratón) */
+.service-box:hover {
+    transform: translateY(-10px) scale(1.03); /* Se levanta y agranda un poco */
+    background: rgba(255, 255, 255, 0.12); /* Se aclara un poco el cristal */
+    border-color: var(--accent-color); /* El borde se ilumina */
+}
+
+/* Títulos y párrafos dentro de la tarjeta */
+.service-box h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Sombra para mejor legibilidad */
+}
+
+.service-box p {
+    font-size: 1rem;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Iconos modernos con resplandor neón */
+.icon-modern {
+    font-size: 3rem;
+    color: var(--accent-color); /* El color del icono */
+    margin-bottom: 20px;
+    /* Efecto de resplandor neón (drop-shadow) */
+    filter: drop-shadow(0 0 10px var(--accent-color));
+}
+
+/* Enlace "Ver más" */
+.view-more {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+.service-box:hover .view-more {
+    letter-spacing: 3px; /* Pequeño efecto al pasar el ratón */
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+    .services-split-container {
+        flex-direction: column; /* Apilar tarjetas en vertical */
+        align-items: center;
+    }
+}
