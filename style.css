@@ -183,38 +183,29 @@ body {
                 inset 2px 2px 5px rgba(255, 255, 255, 0.1);
 }
 
-/* --- SOLUCIÓN PARA LA IMAGEN --- */
+<main class="container">
+    <div class="glass-card fade-in" style="max-width: 800px; margin: 100px auto; padding: 40px;">
+        
+        <h1 class="glow-text">Más allá del código</h1>
+        
+        <div class="image-row">
+            <img src="https://elcanusw.github.io/testing/img107/canuia.png" alt="Perfil" class="profile-img-inline">
+        </div>
+        
+        <section class="bio-text">
+            <p>
+                ¡Hola! Soy un apasionado de la <strong>innovación digital</strong>. Mi enfoque no es solo construir sitios web, sino crear experiencias donde el diseño y la funcionalidad convergen.
+            </p>
+            <p>
+                Me especializo en estilos modernos como el <strong>Glassmorphism</strong>, buscando siempre que el futuro de la web sea fluido y tecnológico.
+            </p>
+        </section>
 
-/* 1. Contenedor de la imagen: lo posicionamos absolutamente para centrarlo */
-.image-container {
-    position: absolute;
-    top: 50%; /* Centrado vertical */
-    left: 50%; /* Centrado horizontal */
-    transform: translate(-50%, -50%); /* Ajuste perfecto del centro */
-    z-index: 2; /* Esto es CLAVE: pone la imagen POR DELANTE del vidrio */
-}
+        <div class="skills-container">
+            <div class="skill-tag">💡 Creatividad</div>
+            <div class="skill-tag">💻 Code</div>
+            <div class="skill-tag">🎨 UI/UX</div>
+        </div>
 
-/* 2. Estilo de la imagen corregido */
-.profile-img-new {
-    width: 200px; /* Ajusta el tamaño de tu imagen aquí */
-    height: 200px;
-    border-radius: 50%; /* La hace circular */
-    object-fit: cover; /* Recorta la imagen para que encaje sin estirarse */
-    
-    /* Le quitamos la transparencia y el desenfoque */
-    opacity: 50; /* ¡50% de opacidad! Nítida */
-    
-    /* Añadimos un drop-shadow fuerte para que "salte" y se separe del fondo */
-    filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));
-    
-    /* Reutilizamos la animación de flotar para que se vea tecnológica */
-    animation: float 5s ease-in-out infinite;
-}
-
-/* Ajuste responsive para celulares */
-@media (max-width: 768px) {
-    .profile-img-new {
-        width: 150px;
-        height: 150px;
-    }
-}
+    </div>
+</main>
