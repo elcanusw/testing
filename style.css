@@ -31,7 +31,7 @@ body {
 .glass-nav a { color: white; text-decoration: none; opacity: 0.7; }
 .active { opacity: 1 !important; font-weight: bold; }
 
-/* --- CONTENEDOR DE SERVICIOS (PC) --- */
+/* --- CONTENEDORES --- */
 .container {
     padding: 50px 20px;
     width: 100%;
@@ -40,18 +40,43 @@ body {
     align-items: center;
 }
 
+/* --- CONTROL DE IMÁGENES (INICIO Y SOBRE MÍ) --- */
+/* Esto asegura que tus fotos no se vean gigantes */
+.profile-img, .profile-img-inline {
+    width: 180px !important;
+    height: 180px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    margin: 20px auto;
+    display: block;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+}
+
+.glass-sphere {
+    width: 250px !important;
+    height: 250px !important;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    margin: 0 auto;
+}
+
+/* --- SECCIÓN SERVICIOS (PC) --- */
 .services-split-container {
     display: flex;
-    flex-direction: row; /* Fuerza a que estén lado a lado en PC */
+    flex-direction: row;
     justify-content: center;
     gap: 30px;
     margin-top: 40px;
     width: 100%;
+    flex-wrap: wrap;
 }
 
-/* --- LAS TARJETAS (IGUAL A TU IMAGEN) --- */
 .service-box {
-    width: 350px !important; /* ANCHO FIJO PARA PC */
+    width: 350px !important; /* Ancho fijo para PC */
     min-height: 450px;
     text-decoration: none;
     display: flex;
@@ -60,47 +85,70 @@ body {
     padding: 40px 30px;
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
     border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
     transition: transform 0.4s ease;
 }
 
-.service-box:hover {
-    transform: translateY(-10px);
-    background: rgba(255, 255, 255, 0.12);
+/* --- FORMULARIO DE CONTACTO --- */
+.contact-wrapper {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 30px;
+}
+
+.glass-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    outline: none;
+}
+
+/* --- ESTILOS DE TEXTO --- */
+.glow-text {
+    font-size: 2.5rem;
+    background: linear-gradient(to right, #fff, var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
 }
 
 .icon-modern {
     font-size: 4rem;
     color: var(--accent-color);
     filter: drop-shadow(0 0 10px var(--accent-color));
-    margin-bottom: 20px;
 }
 
-.service-box h2, .service-box p, .service-box span {
-    color: white !important;
-    text-align: center;
-    margin-bottom: 15px;
+/* --- BOTONES --- */
+.glass-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 50px;
+    border: 1px solid var(--white);
+    background: transparent;
+    color: var(--white);
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
 }
 
-.glow-text {
-    font-size: 2.5rem;
-    background: linear-gradient(to right, #fff, var(--accent-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
+.btn-highlight { background: var(--accent-color); border: none; }
 
-/* --- RESPONSIVO (SOLO PARA CELULARES) --- */
+/* --- RESPONSIVO --- */
 @media (max-width: 768px) {
-    .services-split-container {
-        flex-direction: column; /* Se apilan en celular */
-        align-items: center;
-    }
-    
-    .service-box {
-        width: 100% !important; /* Ocupan todo el ancho en celular */
-        max-width: 320px;
-    }
+    .services-split-container { flex-direction: column; align-items: center; }
+    .service-box { width: 100% !important; max-width: 320px; }
+    .profile-img, .profile-img-inline { width: 140px !important; height: 140px !important; }
 }
