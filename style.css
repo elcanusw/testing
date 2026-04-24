@@ -185,39 +185,42 @@ body {
     font-weight: 300;
     color: #a18cd1;
 }
-/* --- AJUSTES SOBRE MÍ CON IMAGEN --- */
+/* --- DISEÑO CON IMAGEN EXTERNA --- */
 
-/* Separación del menú y estructura flex */
-.main-about-container {
-    margin-top: 100px !important; /* Esto empuja el recuadro hacia abajo */
-}
-
-.about-flex {
+.about-page {
     display: flex;
     align-items: center;
-    gap: 40px; /* Espacio entre imagen y texto */
+    justify-content: center;
+    gap: 50px; /* Espacio entre la imagen y el bloque */
+    margin-top: 120px; /* Separación del menú */
+    padding: 0 5%;
+}
+
+.image-external-left img {
+    width: 350px; /* Tamaño de tu imagen */
+    height: auto;
+    filter: drop-shadow(10px 20px 30px rgba(0,0,0,0.5));
+    animation: float 6s ease-in-out infinite; /* Flotación suave */
+}
+
+.content-right {
+    max-width: 600px;
+    margin: 0 !important; /* Quitamos el margin auto para que respete el flex */
     text-align: left;
 }
 
-.about-image img {
-    width: 300px; /* Ajusta el tamaño a tu gusto */
-    height: auto;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
-    animation: float 5s ease-in-out infinite; /* Reutiliza la animación de flotar */
-}
-
-.about-content {
-    flex: 1;
-}
-
-/* Ajuste para celulares: que la imagen se ponga arriba del texto */
-@media (max-width: 768px) {
-    .about-flex {
+/* Ajuste para que en móviles no se rompa */
+@media (max-width: 900px) {
+    .about-page {
         flex-direction: column;
-        text-align: center;
+        margin-top: 80px;
     }
     
-    .about-image img {
-        width: 200px;
+    .image-external-left img {
+        width: 250px;
+    }
+    
+    .content-right {
+        text-align: center;
     }
 }
