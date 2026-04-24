@@ -185,42 +185,38 @@ body {
     font-weight: 300;
     color: #a18cd1;
 }
-/* --- DISEÑO CON IMAGEN EXTERNA --- */
-
-.about-page {
+/* Layout para separar la imagen del bloque */
+.about-page-layout {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 50px; /* Espacio entre la imagen y el bloque */
-    margin-top: 120px; /* Separación del menú */
-    padding: 0 5%;
+    gap: 50px; /* Espacio entre la imagen y el recuadro */
+    min-height: 80vh;
+    padding-top: 100px; /* Baja todo el conjunto respecto al menú */
 }
 
-.image-external-left img {
-    width: 350px; /* Tamaño de tu imagen */
+.external-image img {
+    width: 350px; /* Tamaño de la imagen */
     height: auto;
-    filter: drop-shadow(10px 20px 30px rgba(0,0,0,0.5));
-    animation: float 6s ease-in-out infinite; /* Flotación suave */
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.6));
+    animation: float 6s ease-in-out infinite;
 }
 
-.content-right {
-    max-width: 600px;
-    margin: 0 !important; /* Quitamos el margin auto para que respete el flex */
+/* Ajuste para que el texto no se vea pegado a la izquierda dentro de su caja */
+.glass-card {
     text-align: left;
+    position: relative;
+    z-index: 2;
 }
 
-/* Ajuste para que en móviles no se rompa */
+/* Responsivo: En celulares la imagen se pone arriba */
 @media (max-width: 900px) {
-    .about-page {
+    .about-page-layout {
         flex-direction: column;
-        margin-top: 80px;
+        padding-top: 50px;
     }
     
-    .image-external-left img {
+    .external-image img {
         width: 250px;
-    }
-    
-    .content-right {
-        text-align: center;
     }
 }
