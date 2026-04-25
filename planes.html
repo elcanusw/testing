@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes 107D - Servicios Digitales</title>
+    <style>
+        :root {
+            --primary-107d: #00ff41; /* Verde matriz/técnico */
+            --bg-dark: #0a0a0a;
+            --card-surface: #141414;
+            --border-color: #222;
+            --text-main: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace; /* Toque de código/desarrollo */
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        .header-107d {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid var(--primary-107d);
+            padding-bottom: 10px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            max-width: 1200px;
+        }
+
+        .card {
+            background: var(--card-surface);
+            border: 1px solid var(--border-color);
+            width: 300px;
+            padding: 30px;
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card:hover {
+            border-color: var(--primary-107d);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            transform: scale(1.03);
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 0;
+            color: var(--primary-107d);
+        }
+
+        .price {
+            font-size: 2rem;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .price span {
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        ul li::before {
+            content: "> ";
+            color: var(--primary-107d);
+        }
+
+        .btn {
+            display: block;
+            text-align: center;
+            background: transparent;
+            color: var(--primary-107d);
+            border: 1px solid var(--primary-107d);
+            padding: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--primary-107d);
+            color: black;
+        }
+
+        .tag-dev {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.7rem;
+            background: #222;
+            padding: 2px 8px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-107d">
+        <h1>SERVICIOS // 107D</h1>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="tag-dev">v1.0</div>
+            <h2>Gestión RRSS</h2>
+            <div class="price">$100.000 <span>/mes</span></div>
+            <ul>
+                <li>1 Update semanal</li>
+                <li>Diseño de gráficas</li>
+                <li>Copywriting (Textos)</li>
+                <li>Moderación básica</li>
+            </ul>
+            <a href="#" class="btn">Iniciar Test</a>
+        </div>
+
+        <div class="card" style="border-color: #555;">
+            <div class="tag-dev">POPULAR</div>
+            <h2>RRSS + WEB</h2>
+            <div class="price">$180.000 <span>/mes</span></div>
+            <ul>
+                <li>Gestión RRSS Semanal</li>
+                <li>Update de Código/Contenido</li>
+                <li>Mantención de Hosting</li>
+                <li>Parches de Seguridad</li>
+            </ul>
+            <a href="#" class="btn" style="background: var(--primary-107d); color: black;">Seleccionar</a>
+        </div>
+
+        <div class="card">
+            <div class="tag-dev">ENTERPRISE</div>
+            <h2>A Medida</h2>
+            <div class="price">--.--</div>
+            <ul>
+                <li>Desarrollo de Apps</li>
+                <li>E-commerce Full</li>
+                <li>Campaña Ads Pro</li>
+                <li>Soporte 24/7</li>
+            </ul>
+            <a href="#" class="btn">Consultar</a>
+        </div>
+    </div>
+
+</body>
+</html>
