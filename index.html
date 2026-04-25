@@ -3,28 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio - 107d</title>
-    <link rel="stylesheet" href="style.css">
+    <title>107D - Tu Potencial Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- ESTILOS BASE Y FONDO --- */
+        :root {
+            --bg-gradient: radial-gradient(circle at 80% 20%, #4c1d95 0%, #0c0a09 100%); /* Degradado Morado a Negro */
+            --text-main: #ffffff;
+            --text-secondary: #d1d5db;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glow-purple: rgba(139, 92, 246, 0.5);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- MENÚ SUPERIOR (TOP NAV) --- */
+        .top-nav {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-items {
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 5px 15px;
+        }
+
+        .nav-items a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 15px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-items a:hover, .nav-items a.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- SECCIÓN HERO --- */
+        .hero {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 120px 10% 60px; /* Margen para top-nav y bottom-nav */
+            position: relative;
+        }
+
+        /* Texto Izquierdo */
+        .hero-text {
+            max-width: 45%;
+            z-index: 10;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* --- ÁREA DEL PERFIL 3D --- */
+        .profile-area {
+            position: relative;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Esfera de Cristal Central */
+        .glass-sphere {
+            width: 350px;
+            height: 350px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 
+                0 0 60px rgba(139, 92, 246, 0.2) inset,
+                0 0 100px rgba(139, 92, 246, 0.3);
+            animation: sphereGlow 4s infinite alternate;
+        }
+
+        .sphere-img {
+            width: 90%;
+            height: 90%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        @keyframes sphereGlow {
+            from { box-shadow: 0 0 100px rgba(139, 92, 246, 0.3); }
+            to { box-shadow: 0 0 130px rgba(139, 92, 246, 0.5); }
+        }
+
+        /* --- TARJETAS FLOTANTES DE DATOS --- */
+        .data-card {
+            position: absolute;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 15px 25px;
+            color: #fff;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .data-card:hover {
+            transform: scale(1.05) translateY(-5px);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        /* Posicionamiento exacto según la imagen */
+        .card-servicios { top: 20%; left: 10%; }
+        .card-portafolio { top: 40%; left: 0%; }
+        .card-innovacion-1 { top: 60%; left: 5%; }
+        .card-innovacion-2 { top: 15%; right: 10%; }
+        .card-rendimiento { top: 45%; right: 0%; padding: 10px 20px; }
+        .card-proyectos { top: 75%; right: 5%; }
+
+        /* Icono de Gráfico en Rendimiento */
+        .chart-icon {
+            display: block;
+            margin-top: 5px;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(90deg, transparent 0%, #fff 50%, transparent 100%);
+            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><path d="M0,15 L20,10 L40,18 L60,5 L80,12 L100,8" stroke="white" fill="none" stroke-width="2"/></svg>');
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><path d="M0,15 L20,10 L40,18 L60,5 L80,12 L100,8" stroke="white" fill="none" stroke-width="2"/></svg>');
+        }
+
+        /* --- MENÚ INFERIOR (BOTTOM NAV) --- */
+        .bottom-nav {
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            padding: 30px 0;
+            z-index: 100;
+        }
+
+        .bottom-glass-panel {
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+            box-shadow: 0 -10px 50px rgba(0,0,0,0.3);
+        }
+
+        .bottom-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60px; /* Altura fija para alinearlos */
+        }
+
+        .bottom-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s ease;
+        }
+
+        .bottom-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- DECORACIONES (ESTRELLAS) --- */
+        .star-decor {
+            position: absolute;
+            color: #fff;
+            opacity: 0.8;
+            font-size: 1.5rem;
+        }
+    </style>
 </head>
 <body>
 
-    <nav class="glass-nav">
-        <ul>
-            <li><a href="index.html" class="active">Inicio</a></li>
-            <li><a href="sobremi.html">Sobre Mí</a></li>
-            <li><a href="servicios.html">Servicios</a></li>
-            <li><a href="planes.html">Planes</a></li> <li><a href="contacto.html">Contacto</a></li>
-        </ul>
+    <nav class="top-nav">
+        <div class="nav-items">
+            <a href="#" class="active">Inicio</a>
+            <a href="#">Sobre Mí</a>
+            <a href="#">Blog</a>
+            <a href="#">Servicios</a>
+            <a href="#">Eventa</a>
+            <a href="#">Firiso</a>
+            <a href="#">Ofrag</a>
+        </div>
     </nav>
 
     <main class="hero">
-        <div class="sphere-container">
+        <div class="hero-text">
+            <h1>EXPLORE TU POTENCIAL DIGITAL</h1>
+            <p>PERFIL TECNOLÓGICO Y CREATIVO</p>
+        </div>
+
+        <div class="profile-area">
             <div class="glass-sphere">
-                <img src="https://elcanusw.github.io/testing/img107/canuia2.png" alt="Perfil" class="profile-img">
+                <img src="https://elcanusw.github.io/testing/img107/canuia2.png" alt="Perfil 107D" class="sphere-img">
+            </div>
+
+            <div class="data-card card-servicios">Servicios</div>
+            <div class="data-card card-portafolio">Portafolio</div>
+            <div class="data-card card-innovacion-1">Innovación Constante</div>
+            <div class="data-card card-innovacion-2">Innovación Constante</div>
+            <div class="data-card card-rendimiento">
+                Rendimiento
+                <div class="chart-icon"></div> </div>
+            <div class="data-card card-proyectos">Proyectos Recientes</div>
+        </div>
+
+        <div class="star-decor" style="bottom: 10%; right: 5%;">✦</div>
+    </main>
+
+    <footer class="bottom-nav">
+        <div class="bottom-glass-panel">
+            <div class="bottom-card">
+                <a href="#" class="bottom-btn">Contacto</a>
+            </div>
+            <div class="bottom-card">
+                <a href="#" class="bottom-btn">Ver Más</a>
+            </div>
+            <div class="bottom-card">
+                <a href="#" class="bottom-btn">Ver Más</a>
             </div>
         </div>
-        <h1 class="glow-text">DISEÑO & FUTURO</h1>
-    </main>
+    </footer>
 
 </body>
 </html>
