@@ -269,3 +269,64 @@ body {
         max-width: 320px;
     }
 }
+/* --- RESPONSIVIDAD (AJUSTES PARA CELULARES) --- */
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column; /* Texto arriba, imagen abajo */
+        justify-content: center;
+        text-align: center;
+        padding: 100px 5% 150px;
+        height: auto;
+    }
+
+    .hero-text {
+        max-width: 100%;
+        margin-bottom: 40px;
+    }
+
+    .hero-text h1 {
+        font-size: 2.2rem; /* Texto más chico en el celu */
+    }
+
+    .profile-wrapper {
+        width: 280px;
+        height: 280px;
+    }
+
+    .glass-sphere {
+        width: 220px;
+        height: 220px;
+    }
+
+    /* Ocultamos algunas tarjetas flotantes en móviles para que no tapen todo */
+    .float-card {
+        font-size: 0.6rem;
+        padding: 5px 10px;
+    }
+    
+    /* Reacomodamos las posiciones para que no se salgan de la pantalla */
+    .c1 { top: 0%; left: 0%; }
+    .c2 { top: 30%; left: -10%; }
+    .c3 { bottom: 0%; left: 0%; }
+    .c4 { top: 0%; right: 0%; }
+    .c5 { top: 40%; right: -10%; }
+    .c6 { bottom: 5%; right: 0%; }
+
+    .bottom-panel {
+        grid-template-columns: 1fr; /* Un botón sobre otro */
+        gap: 8px;
+        padding: 10px;
+        bottom: 15px;
+    }
+
+    .btn-bottom {
+        padding: 10px;
+        font-size: 0.7rem;
+    }
+
+    .nav-list a {
+        padding: 8px 10px;
+        font-size: 0.65rem;
+    }
+}
+
