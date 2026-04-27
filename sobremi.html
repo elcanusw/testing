@@ -4,13 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Mí - 107D</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        .profile-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 30px;
+            max-width: 800px;
+            width: 90%;
+            margin-bottom: 40px;
+        }
+
+        .image-row {
+            margin-bottom: 20px;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #a78bfa;
+            box-shadow: 0 0 20px rgba(167, 139, 250, 0.4);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .service-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            padding: 25px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .service-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+            border-color: #a78bfa;
+        }
+
+        .icon-modern {
+            font-size: 1.8rem;
+            color: #a78bfa;
+            margin-bottom: 15px;
+        }
+
+        .quote-card {
+            margin-top: 40px;
+            padding: 20px;
+            border-left: 4px solid #a78bfa;
+            background: rgba(167, 139, 250, 0.05);
+            border-radius: 0 20px 20px 0;
+            max-width: 800px;
+            font-style: italic;
+        }
+
+        .btn-highlight {
+            background: #a78bfa !important;
+            color: white !important;
+            margin-top: 30px;
+        }
+    </style>
 </head>
 <body>
 
-    <nav class="glass-nav">
-        <ul>
+    <nav class="glass-nav-top">
+        <ul class="nav-list">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="sobremi.html" class="active">Sobre Mí</a></li>
             <li><a href="servicios.html">Servicios</a></li>
@@ -19,59 +90,63 @@
         </ul>
     </nav>
 
-    <main class="container">
+    <main class="main-content">
         
-        <section class="glass-card fade-in" style="margin-bottom: 40px;">
+        <section class="profile-card">
             <div class="image-row">
                 <img src="https://elcanusw.github.io/testing/img107/canu.png" alt="Christian Núñez" class="profile-img">
             </div>
-            <h1 class="glow-text">Christian Núñez</h1>
-            <p class="subtitle">Creatividad Digital & Soluciones Técnicas</p>
-            <br>
-            <p style="line-height: 1.6; opacity: 0.9;">
+            <h1 style="font-size: 2.5rem; font-weight: 800; margin: 0;">Christian Núñez</h1>
+            <p style="color: #a78bfa; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; margin-top: 5px;">Creatividad Digital & Soluciones Técnicas</p>
+            
+            <p style="line-height: 1.8; color: #cbd5e1; margin-top: 25px; font-size: 0.95rem;">
                 Nacido en Noruega y criado en los cerros de Valparaíso, mi visión mezcla la precisión técnica con la esencia del barrio. Bajo las marcas <b>107D</b> y <b>NoWei</b>, transformo ideas en realidades visuales que impactan.
             </p>
         </section>
 
         <div class="services-grid">
             
-            <div class="service-item fade-in">
+            <div class="service-item">
                 <div class="icon-modern"><i class="fas fa-pen-nib"></i></div>
                 <h3>Diseño Gráfico</h3>
-                <p>Especialista en branding y logotipos. Mi enfoque es crear identidades que no solo se vean bien, sino que cuenten una historia propia.</p>
+                <p style="font-size: 0.85rem; color: #94a3b8;">Especialista en branding y logotipos. Creo identidades que cuentan una historia propia.</p>
             </div>
 
-            <div class="service-item fade-in">
+            <div class="service-item">
                 <div class="icon-modern"><i class="fas fa-bullhorn"></i></div>
                 <h3>Community Manager</h3>
-                <p>Gestión estratégica de redes sociales. Creo contenido que conecta con la audiencia y potencia el crecimiento de marcas y emprendedores.</p>
+                <p style="font-size: 0.85rem; color: #94a3b8;">Gestión estratégica de redes. Contenido que conecta y potencia el crecimiento real.</p>
             </div>
 
-            <div class="service-item fade-in">
+            <div class="service-item">
                 <div class="icon-modern"><i class="fas fa-code"></i></div>
-                <h3>Front-End Developer</h3>
-                <p>Manejo de HTML, CSS y JavaScript. Construyo interfaces modernas, rápidas y adaptables a cualquier dispositivo.</p>
+                <h3>Front-End Dev</h3>
+                <p style="font-size: 0.85rem; color: #94a3b8;">Construyo interfaces modernas con HTML, CSS y JS, rápidas y adaptables.</p>
             </div>
 
-            <div class="service-item fade-in">
+            <div class="service-item">
                 <div class="icon-modern"><i class="fas fa-bolt"></i></div>
                 <h3>Servicios Técnicos</h3>
-                <p>Mi faceta eléctrica me permite ser resolutivo y metódico. Si hay un problema técnico, encuentro la conexión perfecta para solucionarlo.</p>
+                <p style="font-size: 0.85rem; color: #94a3b8;">Mi faceta eléctrica me permite ser resolutivo. Encuentro la conexión perfecta a cada problema.</p>
             </div>
 
         </div>
 
-        <div class="glass-card fade-in" style="margin-top: 40px; border-left: 4px solid var(--accent-color);">
-            <p class="cta-text" style="font-style: italic; margin-top: 0;">
+        <div class="quote-card">
+            <p style="margin: 0; color: #fff;">
                 "Aplico la pasión del puerto a cada proyecto. Creo en el trabajo bien hecho y en el diseño como herramienta para mejorar negocios y barrios."
             </p>
         </div>
 
-        <div style="margin-top: 40px;">
-            <a href="contacto.html" class="glass-btn btn-highlight">¿Hablamos de tu proyecto?</a>
-        </div>
+        <a href="contacto.html" class="btn-bottom btn-highlight" style="position: static; transform: none; width: auto; padding: 15px 40px;">¿Hablamos de tu proyecto?</a>
 
     </main>
+
+    <footer class="bottom-panel">
+        <a href="contacto.html" class="btn-bottom">Contacto</a>
+        <a href="servicios.html" class="btn-bottom">Ver Servicios</a>
+        <a href="planes.html" class="btn-bottom">Ver Planes</a>
+    </footer>
 
 </body>
 </html>
