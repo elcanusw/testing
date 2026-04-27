@@ -7,12 +7,11 @@
     <!-- Google Fonts para Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* --- TU CSS INTEGRADO Y MEJORADO --- */
         :root {
             --primary-bg: #050505;
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --accent: #a78bfa; /* El púrpura de 107D */
+            --accent: #a78bfa; 
             --accent-blue: #4a90e2;
         }
 
@@ -24,21 +23,21 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            overflow: hidden; /* Mantiene el tablero fijo como en tu captura */
+            overflow: hidden;
         }
 
-        /* Capa de Partículas (Canvas) - Configuración solicitada */
+        /* Fondo de Partículas */
         #particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* Totalmente al fondo */
+            z-index: -1; 
             pointer-events: none;
         }
 
-        /* Arreglo del Menú (Glass Nav Top) */
+        /* Menú Superior */
         .glass-nav-top {
             position: fixed;
             top: 20px;
@@ -75,90 +74,135 @@
             color: var(--accent);
         }
 
-        /* Estructura del Tablero Central */
+        /* Layout Principal */
         .main-content {
-            padding-top: 100px;
+            padding-top: 60px;
             height: 100vh;
             display: grid;
-            grid-template-columns: 1.2fr 1fr;
+            grid-template-columns: 1fr 1.2fr;
             align-items: center;
-            padding-left: 8%;
+            padding-left: 5%;
             padding-right: 5%;
             z-index: 10;
             position: relative;
         }
 
         .text-side {
-            text-align: left;
+            padding-right: 20px;
         }
 
         .text-side h1 {
-            font-size: 3.8rem;
+            font-size: 3.5rem;
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 15px;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .text-side p {
             font-size: 1.1rem;
-            color: rgba(255,255,255,0.6);
-            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.7);
+            font-weight: 400;
         }
 
-        /* Personaje y Etiquetas (Visual Side) */
-        .visual-side {
+        /* Contenedor CanuIA (Basado en canuia.html) */
+        .canuia-container {
             position: relative;
+            width: 100%;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            z-index: 20;
         }
 
-        .character-wrapper {
+        .avatar-box {
             position: relative;
-            width: 340px;
-            height: 340px;
+            width: 220px;
+            height: 220px;
+            margin-bottom: 30px;
         }
 
-        .character-img {
+        .avatar-circle {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             border: 2px solid var(--accent-blue);
+            overflow: hidden;
             box-shadow: 0 0 40px rgba(74, 144, 226, 0.3);
-            object-fit: cover;
             animation: float 6s ease-in-out infinite;
+            background: #000;
         }
 
-        /* Etiquetas Flotantes */
-        .tag {
-            position: absolute;
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            background-image: url('https://elcanusw.github.io/testing/img107/canuia2.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .message-bubble {
             background: var(--glass);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
-            padding: 5px 15px;
-            border-radius: 8px;
-            font-size: 10px;
+            border-radius: 20px;
+            padding: 25px;
+            width: 100%;
+            max-width: 480px;
+            min-height: 100px;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .choices-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .choice-button {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
-            color: #fff;
-            z-index: 20;
-            transition: 0.3s;
-            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
         }
 
-        .tag:hover {
-            border-color: var(--accent);
-            background: rgba(167, 139, 250, 0.2);
+        .choice-button.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Posiciones exactas de tus etiquetas */
-        .servicios { top: 15%; left: -30px; }
-        .innovacion { top: 0; right: -20px; }
-        .portafolio { top: 45%; left: -50px; }
-        .rendimiento { top: 55%; right: -60px; }
-        .recientes { bottom: 0; right: 20px; }
+        .choice-button:hover {
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px var(--accent-blue);
+            transform: translateY(-3px);
+        }
 
-        /* Panel Inferior (Bottom Panel) */
+        /* Panel Inferior */
         .bottom-panel {
             position: fixed;
             bottom: 30px;
@@ -174,43 +218,35 @@
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             color: white;
-            padding: 15px 40px;
-            border-radius: 15px;
+            padding: 12px 30px;
+            border-radius: 12px;
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 2px;
             transition: 0.3s;
         }
 
         .btn-bottom:hover {
-            background: rgba(255,255,255,0.1);
             border-color: var(--accent);
-            transform: translateY(-5px);
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
         }
 
-        /* Ajustes para móviles */
-        @media (max-width: 1000px) {
-            .main-content { grid-template-columns: 1fr; text-align: center; padding-left: 5%; padding-top: 140px; }
-            .text-side h1 { font-size: 2.5rem; }
-            .character-wrapper { width: 260px; height: 260px; margin: 0 auto; }
+        @media (max-width: 900px) {
+            .main-content { grid-template-columns: 1fr; text-align: center; padding-top: 100px; height: auto; }
+            .text-side h1 { font-size: 2.2rem; }
+            .canuia-container { margin-top: 40px; margin-bottom: 120px; }
             .bottom-panel { width: 90%; flex-direction: column; bottom: 10px; }
-            .btn-bottom { padding: 10px; }
         }
     </style>
 </head>
 <body>
-
-    <!-- El Canvas al fondo con z-index: -1 -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- Menú Superior -->
     <nav class="glass-nav-top">
         <ul class="nav-list">
             <li><a href="index.html" class="active">Inicio</a></li>
@@ -221,28 +257,117 @@
         </ul>
     </nav>
 
-    <!-- Contenido Principal -->
     <main class="main-content">
         <div class="text-side">
-            <h1>Tu imaginación propone en 107D concretamos...</h1>
+            <h1>Tu imaginación propone, en 107D concretamos...</h1>
             <p>Entre lo pensado y lo real, somos el puente.</p>
         </div>
 
-        <div class="visual-side">
-            <div class="character-wrapper">
-                <img src="https://elcanusw.github.io/testing/img107/canuia2.png" alt="eLcAnu" class="character-img">
-                
-                <!-- Etiquetas Flotantes con tus textos reales -->
-                <div class="tag servicios">Servicios</div>
-                <div class="tag innovacion">Innovación Constante</div>
-                <div class="tag portafolio">Portafolio</div>
-                <div class="tag rendimiento">Rendimiento ✅</div>
-                <div class="tag recientes">Proyectos Recientes</div>
+        <div class="canuia-side">
+            <div class="canuia-container">
+                <div class="avatar-box">
+                    <div class="avatar-circle">
+                        <div class="avatar-img"></div>
+                    </div>
+                </div>
+
+                <div class="message-bubble">
+                    <p id="typewriter-text"></p>
+                </div>
+
+                <div class="choices-grid" id="choices-container"></div>
             </div>
         </div>
     </main>
+
+    <div class="bottom-panel">
+        <a href="contacto.html" class="btn-bottom">Contacto</a>
+        <a href="servicios.html" class="btn-bottom">Servicios</a>
+        <a href="planes.html" class="btn-bottom">Planes</a>
+    </div>
+
     <script>
-        // Sistema de Partículas para el fondo espacial de 107D
+        // Lógica de CanuIA integrada desde canuia.html
+        const textElement = document.getElementById('typewriter-text');
+        const choicesElement = document.getElementById('choices-container');
+
+        const chatLogic = {
+            inicio: {
+                texto: "¡Hola! Bienvenido al núcleo digital de 107D. Soy el asistente de eLcAnu. ¿Qué ideas tienes en mente hoy?",
+                opciones: [
+                    { label: "Proyectos Digitales", next: "servicios" },
+                    { label: "Sobre eLcAnu", next: "perfil" }
+                ]
+            },
+            servicios: {
+                texto: "En 107D somos el puente entre lo pensado y lo real. ¿Buscas potenciar tus redes o crear algo totalmente nuevo?",
+                opciones: [
+                    { label: "Publicidad & RRSS", next: "contacto" },
+                    { label: "Diseño Gráfico", next: "portfolio" },
+                    { label: "Atrás", next: "inicio" }
+                ]
+            },
+            perfil: {
+                texto: "eLcAnu es un creativo autodidacta especializado en convertir visiones en experiencias interactivas.",
+                opciones: [
+                    { label: "Ver Trayectoria", url: "sobremi.html" },
+                    { label: "Portafolio", next: "portfolio" },
+                    { label: "Atrás", next: "inicio" }
+                ]
+            },
+            contacto: {
+                texto: "¡Genial! Tu imaginación propone y nosotros concretamos. ¿Conversamos por WhatsApp?",
+                opciones: [
+                    { label: "WhatsApp", url: "https://wa.me/+56974598279" },
+                    { label: "Menu principal", next: "inicio" }
+                ]
+            },
+            portfolio: {
+                texto: "Estamos procesando los últimos trabajos para la galería. ¡La actualización llegará pronto!",
+                opciones: [
+                    { label: "Entendido", next: "inicio" }
+                ]
+            }
+        };
+
+        function runTypewriter(text, onComplete) {
+            textElement.textContent = "";
+            choicesElement.innerHTML = "";
+            let i = 0;
+            const typing = setInterval(() => {
+                textElement.textContent += text[i];
+                i++;
+                if (i >= text.length) {
+                    clearInterval(typing);
+                    if (onComplete) onComplete();
+                }
+            }, 30);
+        }
+
+        function displayChoices(options) {
+            options.forEach((opt, index) => {
+                const button = document.createElement('button');
+                button.className = 'choice-button';
+                button.textContent = opt.label;
+                button.onclick = () => {
+                    if (opt.url) {
+                        if (opt.url.startsWith('http')) window.open(opt.url, '_blank');
+                        else window.location.href = opt.url;
+                    } else {
+                        renderStep(opt.next);
+                    }
+                };
+                choicesElement.appendChild(button);
+                setTimeout(() => button.classList.add('visible'), 100 * index);
+            });
+        }
+
+        function renderStep(stepId) {
+            const step = chatLogic[stepId];
+            runTypewriter(step.texto, () => displayChoices(step.opciones));
+        }
+
+        // Partículas de fondo
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -250,47 +375,31 @@
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            init();
+            initParticles();
         }
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5 + 0.1;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.6;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = `rgba(167, 139, 250, ${this.opacity})`; // Color púrpura suave
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function init() {
+        function initParticles() {
             particles = [];
-            const count = (canvas.width * canvas.height) / 12000;
-            for (let i = 0; i < count; i++) {
-                particles.push(new Particle());
+            for (let i = 0; i < 70; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2,
+                    speedX: (Math.random() - 0.5) * 0.3,
+                    speedY: (Math.random() - 0.5) * 0.3,
+                    opacity: Math.random()
+                });
             }
         }
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => {
-                p.update();
-                p.draw();
+                ctx.fillStyle = `rgba(167, 139, 250, ${p.opacity})`;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+                p.x += p.speedX; p.y += p.speedY;
+                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
             });
             requestAnimationFrame(animate);
         }
@@ -298,6 +407,9 @@
         window.addEventListener('resize', resize);
         resize();
         animate();
+        
+        // Iniciar chat al cargar
+        setTimeout(() => renderStep('inicio'), 600);
     </script>
 </body>
 </html>
