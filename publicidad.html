@@ -3,14 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publicidad Digital - 107d</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Publicidad Digital - 107D</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos específicos para la cuadrícula de publicidad */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1100px;
+            margin-top: 40px;
+        }
+
+        .service-item {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 25px;
+            border-radius: 20px;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .service-item:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #a78bfa;
+        }
+
+        .icon-modern {
+            font-size: 2rem;
+            color: #a78bfa;
+            margin-bottom: 15px;
+        }
+
+        .service-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .service-item p {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .action-bar {
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .btn-highlight {
+            background: #a78bfa !important;
+            color: white !important;
+        }
+    </style>
 </head>
 <body>
 
-    <nav class="glass-nav">
-        <ul>
+    <nav class="glass-nav-top">
+        <ul class="nav-list">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="sobremi.html">Sobre Mí</a></li>
             <li><a href="servicios.html" class="active">Servicios</a></li>
@@ -19,58 +81,64 @@
         </ul>
     </nav>
 
-    <main class="container">
-        <div class="header-section fade-in">
-            <h1 class="glow-text">Publicidad & Community Manager</h1>
-            <p class="subtitle">Impulsamos tu marca en el ecosistema digital</p>
+    <main class="main-content">
+        <div class="header-section">
+            <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 10px;">Publicidad & Community Manager</h1>
+            <p style="color: #cbd5e1; letter-spacing: 1px;">Impulsamos tu marca en el ecosistema digital</p>
         </div>
 
         <div class="services-grid">
-            <div class="glass-card service-item neumorph-inset fade-in">
+            <div class="service-item">
                 <div class="icon-modern"><i class="fas fa-bullhorn"></i></div>
                 <h3>Gestión de Redes</h3>
                 <p>Publicación y adaptación de mensajes en Instagram, Facebook, TikTok y LinkedIn.</p>
             </div>
 
-            <div class="glass-card service-item neumorph-inset fade-in">
+            <div class="service-item">
                 <div class="icon-modern"><i class="fas fa-comments"></i></div>
                 <h3>Interacción</h3>
                 <p>Respuesta activa a comentarios y mensajes directos para fomentar la participación.</p>
             </div>
 
-            <div class="glass-card service-item neumorph-inset fade-in">
+            <div class="service-item">
                 <div class="icon-modern"><i class="fas fa-pen-nib"></i></div>
                 <h3>Creación de Contenido</h3>
-                <p>Planificación de copys y apoyo en edición visual para un impacto real en tu audiencia.</p>
+                <p>Planificación de copys y apoyo en edición visual para un impacto real.</p>
             </div>
 
-            <div class="glass-card service-item neumorph-inset fade-in">
+            <div class="service-item">
                 <div class="icon-modern"><i class="fas fa-ear-listen"></i></div>
                 <h3>Escucha Activa</h3>
-                <p>Monitoreo de lo que se dice sobre tu marca para detectar tendencias y oportunidades.</p>
+                <p>Monitoreo de tendencias y lo que se dice sobre tu marca en la red.</p>
             </div>
 
-            <div class="glass-card service-item neumorph-inset fade-in">
+            <div class="service-item">
                 <div class="icon-modern"><i class="fas fa-chart-line"></i></div>
                 <h3>Análisis y Reportes</h3>
-                <p>Medición de métricas y rendimiento para optimizar y mejorar la estrategia digital.</p>
+                <p>Medición de métricas para optimizar y mejorar la estrategia digital.</p>
             </div>
 
-            <div class="glass-card service-item neumorph-inset fade-in">
+            <div class="service-item">
                 <div class="icon-modern"><i class="fas fa-shield-halved"></i></div>
                 <h3>Gestión de Crisis</h3>
-                <p>Enlace directo y protección de tu reputación ante comentarios negativos o problemas.</p>
+                <p>Protección de tu reputación ante comentarios negativos o problemas imprevistos.</p>
             </div>
         </div>
 
-        <div class="action-bar fade-in">
-            <p class="cta-text">¿Listo para subir de nivel?</p>
-            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
-                <a href="planes.html" class="glass-btn">Ver Planes</a>
-                <a href="contacto.html" class="glass-btn btn-highlight">Contacto Directo</a>
+        <div class="action-bar">
+            <p style="font-weight: 600; margin-bottom: 20px;">¿Listo para subir de nivel?</p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a href="planes.html" class="btn-bottom" style="position: static; transform: none; width: auto;">Ver Planes</a>
+                <a href="contacto.html" class="btn-bottom btn-highlight" style="position: static; transform: none; width: auto;">Contacto Directo</a>
             </div>
         </div>
     </main>
+
+    <footer class="bottom-panel">
+        <a href="contacto.html" class="btn-bottom">Contacto</a>
+        <a href="servicios.html" class="btn-bottom">Ver Servicios</a>
+        <a href="planes.html" class="btn-bottom">Ver Planes</a>
+    </footer>
 
 </body>
 </html>
