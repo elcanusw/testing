@@ -7,14 +7,19 @@
     <style>
         :root {
             --primary-glow: #4a90e2;
-            --accent-glow: #8257e5;
             --terminal-green: #00ff41;
             --bg-dark: #0a0a1a;
+            --glass-bg: rgba(0, 0, 0, 0.85);
+        }
+
+        /* Reset y Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
             width: 100%;
             height: 100%;
             background-color: var(--bg-dark);
@@ -25,45 +30,55 @@
             overflow: hidden;
         }
 
-        .video-container {
+        /* Contenedor Principal */
+        .main-stage {
             position: relative;
-            width: 500px;
-            height: 600px; /* Un poco más alto para los botones */
+            width: 100%;
+            max-width: 500px;
+            height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
+        /* Efectos de Fondo */
         .aura-bg {
             position: absolute;
-            width: 350px;
-            height: 350px;
+            width: 300px;
+            height: 300px;
             background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
             border-radius: 50%;
-            filter: blur(40px);
-            opacity: 0.6;
+            filter: blur(50px);
+            opacity: 0.5;
             animation: pulseAura 4s ease-in-out infinite;
             z-index: 1;
         }
 
-        .character-wrapper {
+        /* Personaje */
+        .character-view {
             position: relative;
-            z-index: 2;
-            width: 280px;
-            height: 280px;
+            z-index: 10;
+            width: 220px;
+            height: 220px;
+            margin-bottom: 20px;
+        }
+
+        .character-circle {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
-            box-shadow: 0 0 50px rgba(74, 144, 226, 0.5);
-            animation: floatCharacter 6s ease-in-out infinite;
+            box-shadow: 0 0 40px rgba(74, 144, 226, 0.3);
+            animation: floatCharacter 5s ease-in-out infinite;
         }
 
         .character-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Usamos tu imagen personalizada */
             background-image: url('https://elcanusw.github.io/testing/img107/canuia2.png');
             background-size: cover;
             background-position: center;
@@ -71,80 +86,84 @@
 
         .hand-wave {
             position: absolute;
-            top: 150px;
-            right: 80px;
-            font-size: 50px;
-            z-index: 3;
+            top: 120px;
+            right: -10px;
+            font-size: 45px;
+            z-index: 20;
             animation: waveHand 2s ease-in-out infinite;
             transform-origin: bottom right;
+            pointer-events: none;
+        }
+
+        /* Interfaz de Chat (Subtítulos) */
+        .chat-interface {
+            position: relative;
+            z-index: 30;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .subtitle-box {
-            position: relative;
-            margin-top: 30px;
-            width: 90%;
-            background: rgba(0, 0, 0, 0.8);
+            width: 100%;
+            background: var(--glass-bg);
             border: 1px solid var(--terminal-green);
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: 12px;
+            padding: 18px;
             color: var(--terminal-green);
-            font-size: 1rem;
-            text-align: left;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
-            z-index: 4;
-            min-height: 60px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            min-height: 80px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
         }
 
-        .options-container {
-            margin-top: 15px;
+        /* Botones de Opciones */
+        .options-grid {
             display: flex;
-            gap: 10px;
             flex-wrap: wrap;
+            gap: 12px;
             justify-content: center;
-            z-index: 5;
+            width: 100%;
         }
 
         .option-btn {
             background: transparent;
             border: 1px solid var(--terminal-green);
             color: var(--terminal-green);
-            padding: 8px 15px;
-            border-radius: 4px;
+            padding: 10px 18px;
+            border-radius: 6px;
             cursor: pointer;
-            font-family: 'Courier New', Courier, monospace;
-            transition: 0.3s;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
             opacity: 0;
+            transform: translateY(10px);
             pointer-events: none;
         }
 
         .option-btn.visible {
             opacity: 1;
+            transform: translateY(0);
             pointer-events: auto;
         }
 
         .option-btn:hover {
             background: var(--terminal-green);
-            color: black;
-            box-shadow: 0 0 15px var(--terminal-green);
+            color: #000;
+            box-shadow: 0 0 20px var(--terminal-green);
         }
 
-        .cursor {
-            display: inline-block;
-            width: 8px;
-            height: 1rem;
-            background-color: var(--terminal-green);
-            margin-left: 5px;
-            animation: blink 0.8s step-end infinite;
-        }
-
+        /* Animaciones */
         @keyframes pulseAura {
             0%, 100% { transform: scale(1); opacity: 0.4; }
-            50% { transform: scale(1.1); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 0.6; }
         }
 
         @keyframes floatCharacter {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-15px); }
         }
 
         @keyframes waveHand {
@@ -153,46 +172,58 @@
             75% { transform: rotate(-10deg); }
         }
 
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1rem;
+            background-color: var(--terminal-green);
+            margin-left: 4px;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+        }
+
         @keyframes blink {
-            0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
 
-        .scan-line {
-            position: absolute;
+        /* Línea de Escaneo Estilo Retro */
+        .scanline {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 2px;
-            background: rgba(0, 255, 65, 0.2);
-            z-index: 5;
-            animation: scan 4s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { top: 0; }
-            100% { top: 100%; }
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 255, 65, 0.02) 50%);
+            background-size: 100% 4px;
+            z-index: 100;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="video-container">
-        <div class="scan-line"></div>
+    <div class="scanline"></div>
+
+    <div class="main-stage">
         <div class="aura-bg"></div>
         
-        <div class="character-wrapper">
-            <div class="character-img"></div>
+        <!-- Personaje -->
+        <div class="character-view">
+            <div class="character-circle">
+                <div class="character-img"></div>
+            </div>
+            <div class="hand-wave" id="hand">👋</div>
         </div>
 
-        <div class="hand-wave" id="hand">👋</div>
+        <!-- Interfaz de Conversación -->
+        <div class="chat-interface">
+            <div class="subtitle-box">
+                <span id="text"></span><span class="cursor"></span>
+            </div>
 
-        <div class="subtitle-box">
-            <span id="text"></span><span class="cursor"></span>
-        </div>
-
-        <div class="options-container" id="options">
-            <!-- Los botones se generarán dinámicamente -->
+            <div class="options-grid" id="options">
+                <!-- Botones inyectados por JS -->
+            </div>
         </div>
     </div>
 
@@ -205,52 +236,49 @@
             inicio: {
                 texto: "¡Hola! Soy eLcAnu!!! virtual. ¿En qué puedo ayudarte hoy?",
                 opciones: [
-                    { texto: "Saber mas de los servicios de 107D", proximo: "servicios" },
-                    { texto: "Saber mas de ti", proximo: "perfil" }
+                    { texto: "Servicios 107D", proximo: "servicios" },
+                    { texto: "Saber más de ti", proximo: "perfil" }
                 ]
             },
             servicios: {
-                texto: "Ofrezco servicios de Publicidad Digital tales como, Community Manager, Creaciones y campañas en Redes Sociales, etc.. y soluciones gráficas... Logos, flyers, tarjetas de presentación. ¿Cual se acerca mas a tu proyecto?",
+                texto: "Ofrezco Publicidad Digital (Community Manager, Redes Sociales) y Soluciones Gráficas (Logos, Flyers). ¿Qué necesitas?",
                 opciones: [
-                    { texto: "Publicidad Digital", proximo: "web" },
+                    { texto: "Publicidad", proximo: "web" },
                     { texto: "Diseño Gráfico", proximo: "diseno" },
                     { texto: "Volver", proximo: "inicio" }
                 ]
             },
             perfil: {
-                texto: "Soy una persona apasionada por la tecnología digital, siendo autodidacta en áreas como Diseño Gráfico y Programación de sitios web. ¿Quieres ver mi Portafolio o quieres saber más de mí?",
+                texto: "Soy apasionado por la tecnología, autodidacta en Diseño y Programación Web. ¿Vemos el Portafolio o te cuento más?",
                 opciones: [
-                    { texto: "¡Sí, muéstrame tu portafolio!", proximo: "portfolio" },
-                    { texto: "¡Sí, quiero saber más de ti!", link: "sobremi.html" },
-                    { texto: "Volver atrás", proximo: "inicio" }
+                    { texto: "Ver Portafolio", proximo: "portfolio" },
+                    { texto: "Saber más de ti", link: "sobremi.html" },
+                    { texto: "Volver", proximo: "inicio" }
                 ]
             },
             web: {
-                texto: "Excelente elección. Construyo sitios rápidos, seguros y escalables. ¿Hablamos por WhatsApp?",
+                texto: "¡Genial! Desarrollo sitios rápidos y escalables. ¿Hablamos por WhatsApp?",
                 opciones: [
-                    { texto: "Contactar ahora", link: "https://wa.me/+56974598279" },
-                    { texto: "Ver otros temas", proximo: "inicio" }
+                    { texto: "WhatsApp", link: "https://wa.me/+56974598279" },
+                    { texto: "Ver más", proximo: "inicio" }
                 ]
             },
             diseno: {
-                texto: "El diseño es la cara de tu negocio. Me enfoco en la experiencia del usuario. ¿Quieres ver ejemplos?",
+                texto: "El diseño es clave. Me enfoco en la experiencia del usuario. ¿Vemos ejemplos?",
                 opciones: [
-                    { texto: "Ver Behance/Portfolio", link: "#" },
+                    { texto: "Ir a Portfolio", link: "#" },
                     { texto: "Volver", proximo: "inicio" }
                 ]
             },
             portfolio: {
-                texto: "Estoy preparando mi nueva galería de proyectos. ¡Estará lista pronto!",
+                texto: "¡Casi listo! Mi nueva galería de proyectos está en el horno.",
                 opciones: [
                     { texto: "Entendido", proximo: "inicio" }
                 ]
             }
         };
 
-        let isTyping = false;
-
         function typeText(message, callback) {
-            isTyping = true;
             textElement.textContent = "";
             optionsElement.innerHTML = "";
             let i = 0;
@@ -259,23 +287,21 @@
                 if (i < message.length) {
                     textElement.textContent += message.charAt(i);
                     i++;
-                    setTimeout(nextChar, 40);
-                } else {
-                    isTyping = false;
-                    if (callback) callback();
+                    setTimeout(nextChar, 35);
+                } else if (callback) {
+                    callback();
                 }
             }
             nextChar();
         }
 
         function showOptions(options) {
-            options.forEach(opt => {
+            options.forEach((opt, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
                 btn.textContent = opt.texto;
                 btn.onclick = () => {
                     if (opt.link) {
-                        // Si el link empieza con http se abre en pestaña nueva, si no, es página interna
                         if (opt.link.startsWith('http')) {
                             window.open(opt.link, '_blank');
                         } else {
@@ -286,26 +312,18 @@
                     }
                 };
                 optionsElement.appendChild(btn);
-                setTimeout(() => btn.classList.add('visible'), 100);
+                // Cascada de aparición
+                setTimeout(() => btn.classList.add('visible'), 100 * (index + 1));
             });
         }
 
         function loadStep(stepId) {
             const step = chatData[stepId];
-            typeText(step.texto, () => {
-                showOptions(step.opciones);
-            });
-            
-            if(stepId === 'inicio') {
-                handElement.style.display = "block";
-            } else {
-                handElement.style.display = "none";
-            }
+            typeText(step.texto, () => showOptions(step.opciones));
+            handElement.style.display = (stepId === 'inicio') ? "block" : "none";
         }
 
-        window.onload = () => {
-            setTimeout(() => loadStep('inicio'), 1000);
-        };
+        window.onload = () => setTimeout(() => loadStep('inicio'), 800);
     </script>
 </body>
 </html>
