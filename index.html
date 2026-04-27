@@ -48,16 +48,24 @@
             margin: 40px 0;
         }
 
-        .main-avatar {
-            width: 280px;
-            height: 280px;
+        /* Contenedor para el iframe interactivo */
+        .iframe-wrapper {
+            width: 320px;
+            height: 320px;
             border-radius: 50%;
             border: 4px solid #3b82f6;
             box-shadow: 0 0 50px rgba(59, 130, 246, 0.5);
+            overflow: hidden; /* Para que el contenido del iframe no se salga del círculo */
             z-index: 1;
+            background: black;
         }
 
-        /* Etiquetas flotantes como en tu foto original */
+        .iframe-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         .floating-tag {
             position: absolute;
             background: rgba(255, 255, 255, 0.05);
@@ -126,7 +134,9 @@
             </div>
 
             <div class="avatar-section">
-                <img src="https://elcanusw.github.io/testing/img107/canuia2.png" alt="Canu" class="main-avatar">
+                <div class="iframe-wrapper">
+                    <iframe src="https://elcanusw.github.io/testing/canuia.html" scrolling="no"></iframe>
+                </div>
                 
                 <div class="floating-tag tag-1">Innovación Constante</div>
                 <div class="floating-tag tag-2">Rendimiento ☑️</div>
