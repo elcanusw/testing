@@ -3,45 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>107D - Creatividad & Soluciones</title>
+    <title>107D - Tu imaginación propone</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: radial-gradient(circle at center, #1a0b2e 0%, #050505 100%) !important;
+            overflow-x: hidden;
+        }
+
+        .hero-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            min-height: 70vh;
+            padding: 0 5%;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        .hero-text {
+            max-width: 500px;
+            z-index: 2;
+            text-align: left;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .hero-text span {
+            color: #a78bfa;
+        }
+
+        .avatar-section {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+        }
+
+        .main-avatar {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: 4px solid #3b82f6;
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.5);
+            z-index: 1;
+        }
+
+        /* Etiquetas flotantes como en tu foto original */
+        .floating-tag {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            white-space: nowrap;
+            color: #cbd5e1;
+            z-index: 2;
+        }
+
+        .tag-1 { top: -10px; right: -20px; }
+        .tag-2 { bottom: 40px; right: -60px; }
+        .tag-3 { bottom: -10px; left: -30px; }
+        .tag-4 { top: 30px; left: -70px; }
+
+        .bottom-nav-main {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 100px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .btn-main {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 30px;
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+            font-weight: 600;
+            min-width: 160px;
+            text-align: center;
+        }
+
+        .btn-main:hover {
+            background: #a78bfa;
+            color: white;
+            transform: translateY(-3px);
+        }
+    </style>
 </head>
 <body>
 
     <nav class="glass-nav-top">
         <ul class="nav-list">
-            <li><a href="index.html" class="active">Inicio</a></li>
-            <li><a href="sobremi.html">Sobre Mí</a></li>
-            <li><a href="servicios.html">Servicios</a></li>
-            <li><a href="planes.html">Planes</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="index.html" class="active">INICIO</a></li>
+            <li><a href="sobremi.html">SOBRE MÍ</a></li>
+            <li><a href="servicios.html">SERVICIOS</a></li>
+            <li><a href="planes.html">PLANES</a></li>
+            <li><a href="contacto.html">CONTACTO</a></li>
         </ul>
     </nav>
 
     <main class="main-content">
-        <div class="glass-card" style="max-width: 600px; margin-top: 20px;">
-            <img src="https://elcanusw.github.io/testing/img107/canuia2.png" alt="107D Logo" style="width: 150px; margin-bottom: 20px;">
-            <h1 style="font-size: 3rem; font-weight: 800; margin: 0; line-height: 1;">107D</h1>
-            <p style="color: #a78bfa; letter-spacing: 3px; text-transform: uppercase; font-weight: 600;">Creatividad & Soluciones</p>
-            
-            <p style="margin-top: 20px; color: #cbd5e1; line-height: 1.6;">
-                Diseño Gráfico Profesional, Gestión de Redes Sociales y Soluciones Técnicas Eléctricas. 
-                Unificando la precisión técnica con la identidad del puerto.
-            </p>
+        <div class="hero-container">
+            <div class="hero-text">
+                <h1>Tu imaginación propone en <span>107D</span> concretamos...</h1>
+                <p style="color: #94a3b8; font-size: 1.1rem;">Entre lo pensado y lo real, somos el puente.</p>
+            </div>
+
+            <div class="avatar-section">
+                <img src="https://elcanusw.github.io/testing/img107/canuia2.png" alt="Canu" class="main-avatar">
+                
+                <div class="floating-tag tag-1">Innovación Constante</div>
+                <div class="floating-tag tag-2">Rendimiento ☑️</div>
+                <div class="floating-tag tag-3">Proyectos Recientes</div>
+                <div class="floating-tag tag-4">Servicios</div>
+            </div>
         </div>
 
-        <div style="margin-top: 30px;">
-            <a href="servicios.html" class="btn-bottom" style="position: static; display: inline-block; background: #a78bfa; font-weight: 700;">Explorar Servicios</a>
+        <div class="bottom-nav-main">
+            <a href="contacto.html" class="btn-main">CONTACTO</a>
+            <a href="servicios.html" class="btn-main">SERVICIOS</a>
+            <a href="planes.html" class="btn-main">PLANES</a>
         </div>
     </main>
-
-    <footer class="bottom-panel">
-        <a href="contacto.html" class="btn-bottom">Contacto</a>
-        <a href="servicios.html" class="btn-bottom">Ver Servicios</a>
-        <a href="planes.html" class="btn-bottom">Ver Planes</a>
-    </footer>
 
 </body>
 </html>
