@@ -3,154 +3,309 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>107D - Tu imaginación propone</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+    <title>107D | Tu Imaginación Concretada</title>
+    <!-- Google Fonts para Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { <canvas id="particle-canvas"></canvas>
-            background: radial-gradient(circle at center, #1a0b2e 0%, #050505 100%) !important;
-            overflow-x: hidden;
+        /* --- TU CSS INTEGRADO Y MEJORADO --- */
+        :root {
+            --primary-bg: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent: #a78bfa; /* El púrpura de 107D */
+            --accent-blue: #4a90e2;
         }
 
-        .hero-container {
+        body {
+            background-color: var(--primary-bg);
+            background-image: radial-gradient(circle at top right, #1e1b4b, #050505);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow: hidden; /* Mantiene el tablero fijo como en tu captura */
+        }
+
+        /* Capa de Partículas (Canvas) - Configuración solicitada */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Totalmente al fondo */
+            pointer-events: none;
+        }
+
+        /* Arreglo del Menú (Glass Nav Top) */
+        .glass-nav-top {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 10px 30px;
+            border-radius: 50px;
+            z-index: 1000;
+        }
+
+        .nav-list {
             display: flex;
-            align-items: center;
-            justify-content: space-around;
-            min-height: 70vh;
-            padding: 0 5%;
-            flex-wrap: wrap;
-            margin-top: 50px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 20px;
         }
 
-        .hero-text {
-            max-width: 500px;
-            z-index: 2;
+        .nav-list a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .nav-list a:hover, .nav-list a.active {
+            color: var(--accent);
+        }
+
+        /* Estructura del Tablero Central */
+        .main-content {
+            padding-top: 100px;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
+            padding-left: 8%;
+            padding-right: 5%;
+            z-index: 10;
+            position: relative;
+        }
+
+        .text-side {
             text-align: left;
         }
 
-        .hero-text h1 {
-            font-size: 3rem;
+        .text-side h1 {
+            font-size: 3.8rem;
             font-weight: 800;
             line-height: 1.1;
-            margin-bottom: 20px;
-            color: white;
+            margin-bottom: 15px;
         }
 
-        .hero-text span {
-            color: #a78bfa;
+        .text-side p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 1.5px;
         }
 
-        .avatar-section {
+        /* Personaje y Etiquetas (Visual Side) */
+        .visual-side {
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 40px 0;
         }
 
-        /* Contenedor para el iframe interactivo */
-        .iframe-wrapper {
-            width: 320px;
-            height: 320px;
-            border-radius: 50%;
-            border: 4px solid #3b82f6;
-            box-shadow: 0 0 50px rgba(59, 130, 246, 0.5);
-            overflow: hidden; /* Para que el contenido del iframe no se salga del círculo */
-            z-index: 1;
-            background: black;
+        .character-wrapper {
+            position: relative;
+            width: 340px;
+            height: 340px;
         }
 
-        .iframe-wrapper iframe {
+        .character-img {
             width: 100%;
             height: 100%;
-            border: none;
+            border-radius: 50%;
+            border: 2px solid var(--accent-blue);
+            box-shadow: 0 0 40px rgba(74, 144, 226, 0.3);
+            object-fit: cover;
+            animation: float 6s ease-in-out infinite;
         }
 
-        .floating-tag {
+        /* Etiquetas Flotantes */
+        .tag {
             position: absolute;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--glass);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
             padding: 5px 15px;
-            border-radius: 10px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            white-space: nowrap;
-            color: #cbd5e1;
-            z-index: 2;
-        }
-
-        .tag-1 { top: -10px; right: -20px; }
-        .tag-2 { bottom: 40px; right: -60px; }
-        .tag-3 { bottom: -10px; left: -30px; }
-        .tag-4 { top: 30px; left: -70px; }
-
-        .bottom-nav-main {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 100px;
-            width: 100%;
-            flex-wrap: wrap;
-        }
-
-        .btn-main {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 30px;
-            border-radius: 12px;
-            color: white;
-            text-decoration: none;
-            transition: 0.3s;
+            border-radius: 8px;
+            font-size: 10px;
             font-weight: 600;
-            min-width: 160px;
-            text-align: center;
+            text-transform: uppercase;
+            color: #fff;
+            z-index: 20;
+            transition: 0.3s;
+            cursor: pointer;
         }
 
-        .btn-main:hover {
-            background: #a78bfa;
+        .tag:hover {
+            border-color: var(--accent);
+            background: rgba(167, 139, 250, 0.2);
+        }
+
+        /* Posiciones exactas de tus etiquetas */
+        .servicios { top: 15%; left: -30px; }
+        .innovacion { top: 0; right: -20px; }
+        .portafolio { top: 45%; left: -50px; }
+        .rendimiento { top: 55%; right: -60px; }
+        .recientes { bottom: 0; right: 20px; }
+
+        /* Panel Inferior (Bottom Panel) */
+        .bottom-panel {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .btn-bottom {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
             color: white;
-            transform: translateY(-3px);
+            padding: 15px 40px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .btn-bottom:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Ajustes para móviles */
+        @media (max-width: 1000px) {
+            .main-content { grid-template-columns: 1fr; text-align: center; padding-left: 5%; padding-top: 140px; }
+            .text-side h1 { font-size: 2.5rem; }
+            .character-wrapper { width: 260px; height: 260px; margin: 0 auto; }
+            .bottom-panel { width: 90%; flex-direction: column; bottom: 10px; }
+            .btn-bottom { padding: 10px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- El Canvas al fondo con z-index: -1 -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Menú Superior -->
     <nav class="glass-nav-top">
         <ul class="nav-list">
-            <li><a href="index.html" class="active">INICIO</a></li>
-            <li><a href="sobremi.html">SOBRE MÍ</a></li>
-            <li><a href="servicios.html">SERVICIOS</a></li>
-            <li><a href="planes.html">PLANES</a></li>
-            <li><a href="contacto.html">CONTACTO</a></li>
+            <li><a href="#" class="active">Inicio</a></li>
+            <li><a href="#">Sobre Mí</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="#">Planes</a></li>
+            <li><a href="#">Contacto</a></li>
         </ul>
     </nav>
 
+    <!-- Contenido Principal -->
     <main class="main-content">
-        <div class="hero-container">
-            <div class="hero-text">
-                <h1>Tu imaginación propone en <span>107D</span> concretamos...</h1>
-                <p style="color: #94a3b8; font-size: 1.1rem;">Entre lo pensado y lo real, somos el puente.</p>
-            </div>
-
-            <div class="avatar-section">
-                <div class="iframe-wrapper">
-                    <iframe src="https://elcanusw.github.io/testing/canuia.html" scrolling="no"></iframe>
-                </div>
-                
-                <div class="floating-tag tag-1">Innovación Constante</div>
-                <div class="floating-tag tag-2">Rendimiento ☑️</div>
-                <div class="floating-tag tag-3">Proyectos Recientes</div>
-                <div class="floating-tag tag-4">Servicios</div>
-            </div>
+        <div class="text-side">
+            <h1>Tu imaginación propone en 107D concretamos...</h1>
+            <p>Entre lo pensado y lo real, somos el puente.</p>
         </div>
 
-        <div class="bottom-nav-main">
-            <a href="contacto.html" class="btn-main">CONTACTO</a>
-            <a href="servicios.html" class="btn-main">SERVICIOS</a>
-            <a href="planes.html" class="btn-main">PLANES</a>
+        <div class="visual-side">
+            <div class="character-wrapper">
+                <img src="https://elcanusw.github.io/testing/img107/canuia2.png" alt="eLcAnu" class="character-img">
+                
+                <!-- Etiquetas Flotantes con tus textos reales -->
+                <div class="tag servicios">Servicios</div>
+                <div class="tag innovacion">Innovación Constante</div>
+                <div class="tag portafolio">Portafolio</div>
+                <div class="tag rendimiento">Rendimiento ✅</div>
+                <div class="tag recientes">Proyectos Recientes</div>
+            </div>
         </div>
     </main>
 
+    <!-- Panel Inferior -->
+    <div class="bottom-panel">
+        <a href="#" class="btn-bottom">Contacto</a>
+        <a href="#" class="btn-bottom">Ver Servicios</a>
+        <a href="#" class="btn-bottom">Ver Planes</a>
+    </div>
+
+    <script>
+        // Sistema de Partículas para el fondo espacial de 107D
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.6;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(167, 139, 250, ${this.opacity})`; // Color púrpura suave
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particles = [];
+            const count = (canvas.width * canvas.height) / 12000;
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        animate();
+    </script>
 </body>
 </html>
