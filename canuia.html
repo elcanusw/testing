@@ -57,13 +57,13 @@
             overflow: hidden;
             box-shadow: 0 0 50px rgba(74, 144, 226, 0.5);
             animation: floatCharacter 6s ease-in-out infinite;
-          }
+        }
 
         .character-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Usamos la imagen que subiste */
+            /* Usamos tu imagen personalizada */
             background-image: url('https://elcanusw.github.io/testing/img107/canuia2.png');
             background-size: cover;
             background-position: center;
@@ -113,7 +113,7 @@
             cursor: pointer;
             font-family: 'Courier New', Courier, monospace;
             transition: 0.3s;
-            opacity: 0; /* Aparecen después del texto */
+            opacity: 0;
             pointer-events: none;
         }
 
@@ -201,7 +201,6 @@
         const optionsElement = document.getElementById('options');
         const handElement = document.getElementById('hand');
 
-        // Estructura de la conversación (Flujo guiado)
         const chatData = {
             inicio: {
                 texto: "¡Hola! Soy eLcAnu!!! virtual. ¿En qué puedo ayudarte hoy?",
@@ -211,24 +210,25 @@
                 ]
             },
             servicios: {
-                texto: "Ofrezco servicios de Publicidad Digital talez como, Community Manager, Creaciones y campañas en Redes Sociales, etc.. y soluciones graficas... Logos, flyers, tarjetas de presentación . ¿Cual se acerca mas a tu proyecto?",
+                texto: "Ofrezco servicios de Publicidad Digital tales como, Community Manager, Creaciones y campañas en Redes Sociales, etc.. y soluciones gráficas... Logos, flyers, tarjetas de presentación. ¿Cual se acerca mas a tu proyecto?",
                 opciones: [
                     { texto: "Publicidad Digital", proximo: "web" },
-                    { texto: "Diseño Grafico", proximo: "diseno" },
+                    { texto: "Diseño Gráfico", proximo: "diseno" },
                     { texto: "Volver", proximo: "inicio" }
                 ]
             },
             perfil: {
-                texto: "Soy una persona apasionada por el desarrollo Web Siendo autodidacta en areas como Diseño Grafico y Programacion de sitios web´s. ¿Quieres saber mas de mi?",
+                texto: "Soy una persona apasionada por la tecnología digital, siendo autodidacta en áreas como Diseño Gráfico y Programación de sitios web. ¿Quieres ver mi Portafolio o quieres saber más de mí?",
                 opciones: [
-                    { texto: "¡Sí, muéstrame!", proximo: "portfolio" },
+                    { texto: "¡Sí, muéstrame tu portafolio!", proximo: "portfolio" },
+                    { texto: "¡Sí, quiero saber más de ti!", link: "sobremi.html" },
                     { texto: "Volver atrás", proximo: "inicio" }
                 ]
             },
             web: {
                 texto: "Excelente elección. Construyo sitios rápidos, seguros y escalables. ¿Hablamos por WhatsApp?",
                 opciones: [
-                    { texto: "Contactar ahora", link: "https://wa.me/tu-numero" },
+                    { texto: "Contactar ahora", link: "https://wa.me/+56974598279" },
                     { texto: "Ver otros temas", proximo: "inicio" }
                 ]
             },
@@ -275,14 +275,17 @@
                 btn.textContent = opt.texto;
                 btn.onclick = () => {
                     if (opt.link) {
-                        window.open(opt.link, '_blank');
+                        // Si el link empieza con http se abre en pestaña nueva, si no, es página interna
+                        if (opt.link.startsWith('http')) {
+                            window.open(opt.link, '_blank');
+                        } else {
+                            window.location.href = opt.link;
+                        }
                     } else {
                         loadStep(opt.proximo);
                     }
                 };
                 optionsElement.appendChild(btn);
-                
-                // Animación de aparición
                 setTimeout(() => btn.classList.add('visible'), 100);
             });
         }
@@ -293,7 +296,6 @@
                 showOptions(step.opciones);
             });
             
-            // Saludo solo al inicio o cuando vuelve
             if(stepId === 'inicio') {
                 handElement.style.display = "block";
             } else {
@@ -301,7 +303,6 @@
             }
         }
 
-        // Iniciar el chat
         window.onload = () => {
             setTimeout(() => loadStep('inicio'), 1000);
         };
