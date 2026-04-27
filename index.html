@@ -1,51 +1,45 @@
+    <style>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Potencial Digital | 107D</title>
-    <!-- Google Fonts -->
+    <title>107D | Tu Imaginación Concretada</title>
+    <!-- Google Fonts para Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
+        /* --- TU CSS INTEGRADO Y MEJORADO --- */
         :root {
             --primary-bg: #050505;
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --accent: #a78bfa;
+            --accent: #a78bfa; /* El púrpura de 107D */
             --accent-blue: #4a90e2;
-            --terminal-blue: #3b82f6;
-            /* DEGRADADO DE AZUL A BLANCO SOLICITADO */
-            --main-gradient: linear-gradient(to bottom, #0088ff 0%, #ffffff 100%);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body, html {
-            width: 100%;
-            height: 100%;
+        body {
             background-color: var(--primary-bg);
             background-image: radial-gradient(circle at top right, #1e1b4b, #050505);
             color: white;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow: hidden; /* Mantiene el tablero fijo como en tu captura */
         }
 
-        /* Fondo de Partículas */
+        /* Capa de Partículas (Canvas) - Configuración solicitada */
         #particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
+            z-index: -1; /* Totalmente al fondo */
             pointer-events: none;
         }
 
-        /* Menú Superior Glassmorphism */
+        /* Arreglo del Menú (Glass Nav Top) */
         .glass-nav-top {
             position: fixed;
             top: 20px;
@@ -78,170 +72,94 @@
             transition: 0.3s;
         }
 
-        .nav-list a.active, .nav-list a:hover { color: var(--accent); }
+        .nav-list a:hover, .nav-list a.active {
+            color: var(--accent);
+        }
 
-        /* Contenedor del Chatbot */
-        .main-stage {
-            position: relative;
-            z-index: 10;
-            width: 100%;
+        /* Estructura del Tablero Central */
+        .main-content {
+            padding-top: 100px;
             height: 100vh;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
+            padding-left: 8%;
+            padding-right: 5%;
+            z-index: 10;
+            position: relative;
+        }
+
+        .text-side {
+            text-align: left;
+        }
+
+        .text-side h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .text-side p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 1.5px;
+        }
+
+        /* Personaje y Etiquetas (Visual Side) */
+        .visual-side {
+            position: relative;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
         }
 
-        /* Aura de resplandor */
-        .aura-bg {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
-            border-radius: 50%;
-            filter: blur(60px);
-            opacity: 0.2;
-            animation: pulseAura 5s ease-in-out infinite;
-        }
-
-        /* Personaje */
-        .character-view {
+        .character-wrapper {
             position: relative;
-            width: 200px;
-            height: 200px;
-            margin-bottom: 30px;
-        }
-
-        .character-circle {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--accent-blue);
-            overflow: hidden;
-            box-shadow: 0 0 40px rgba(74, 144, 226, 0.3);
-            animation: floatCharacter 4s ease-in-out infinite;
-            background: #000;
+            width: 340px;
+            height: 340px;
         }
 
         .character-img {
             width: 100%;
             height: 100%;
-            background-image: url('https://elcanusw.github.io/testing/img107/canuia2.png');
-            background-size: cover;
-            background-position: center;
+            border-radius: 50%;
+            border: 2px solid var(--accent-blue);
+            box-shadow: 0 0 40px rgba(74, 144, 226, 0.3);
+            object-fit: cover;
+            animation: float 6s ease-in-out infinite;
         }
 
-        .hand-wave {
+        /* Etiquetas Flotantes */
+        .tag {
             position: absolute;
-            top: 110px;
-            right: -10px;
-            font-size: 40px;
-            animation: waveHand 2s ease-in-out infinite;
-            transform-origin: bottom right;
-        }
-
-        /* Caja de Diálogo */
-        .chat-interface {
-            width: 100%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .subtitle-box {
-            width: 100%;
             background: var(--glass);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(8px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 20px;
-            min-height: 90px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        #text {
-            font-size: 1rem;
-            line-height: 1.5;
+            padding: 5px 15px;
+            border-radius: 8px;
+            font-size: 10px;
             font-weight: 600;
-            /* EFECTO DEGRADADO EN TEXTO */
-            background: var(--main-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Botones de Opciones */
-        .options-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .option-btn {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            padding: 10px 22px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.8rem;
-            font-weight: 700;
             text-transform: uppercase;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(10px);
-            /* EFECTO DEGRADADO EN TEXTO BOTÓN */
-            background: var(--main-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #fff;
+            z-index: 20;
+            transition: 0.3s;
+            cursor: pointer;
         }
 
-        .option-btn.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .tag:hover {
+            border-color: var(--accent);
+            background: rgba(167, 139, 250, 0.2);
         }
 
-        .option-btn:hover {
-            border-color: var(--accent-blue);
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-3px);
-        }
+        /* Posiciones exactas de tus etiquetas */
+        .servicios { top: 15%; left: -30px; }
+        .innovacion { top: 0; right: -20px; }
+        .portafolio { top: 45%; left: -50px; }
+        .rendimiento { top: 55%; right: -60px; }
+        .recientes { bottom: 0; right: 20px; }
 
-        /* Animaciones */
-        @keyframes pulseAura {
-            0%, 100% { transform: scale(1); opacity: 0.2; }
-            50% { transform: scale(1.15); opacity: 0.3; }
-        }
-
-        @keyframes floatCharacter {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
-        }
-
-        @keyframes waveHand {
-            0%, 100% { transform: rotate(0deg); }
-            20% { transform: rotate(15deg); }
-            80% { transform: rotate(-10deg); }
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 2px;
-            height: 1.1rem;
-            background-color: var(--accent-blue);
-            margin-left: 5px;
-            animation: blink 0.8s infinite;
-            vertical-align: middle;
-        }
-
-        @keyframes blink { 50% { opacity: 0; } }
-
-        /* Panel Inferior */
+        /* Panel Inferior (Bottom Panel) */
         .bottom-panel {
             position: fixed;
             bottom: 30px;
@@ -257,23 +175,43 @@
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             color: white;
-            padding: 10px 25px;
+            padding: 15px 40px;
             border-radius: 15px;
             text-decoration: none;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
+            letter-spacing: 2px;
             transition: 0.3s;
         }
 
-        .btn-bottom:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); }
+        .btn-bottom:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
 
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Ajustes para móviles */
+        @media (max-width: 1000px) {
+            .main-content { grid-template-columns: 1fr; text-align: center; padding-left: 5%; padding-top: 140px; }
+            .text-side h1 { font-size: 2.5rem; }
+            .character-wrapper { width: 260px; height: 260px; margin: 0 auto; }
+            .bottom-panel { width: 90%; flex-direction: column; bottom: 10px; }
+            .btn-bottom { padding: 10px; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- El Canvas al fondo con z-index: -1 -->
     <canvas id="particle-canvas"></canvas>
 
+    <!-- Menú Superior -->
     <nav class="glass-nav-top">
         <ul class="nav-list">
             <li><a href="index.html" class="active">Inicio</a></li>
@@ -284,32 +222,28 @@
         </ul>
     </nav>
 
-    <div class="main-stage">
-        <div class="aura-bg"></div>
-        
-        <div class="character-view">
-            <div class="character-circle">
-                <div class="character-img"></div>
-            </div>
-            <div class="hand-wave" id="hand">👋</div>
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        <div class="text-side">
+            <h1>Tu imaginación propone en 107D concretamos...</h1>
+            <p>Entre lo pensado y lo real, somos el puente.</p>
         </div>
 
-        <div class="chat-interface">
-            <div class="subtitle-box">
-                <span id="text"></span><span class="cursor"></span>
+        <div class="visual-side">
+            <div class="character-wrapper">
+                <img src="https://elcanusw.github.io/testing/img107/canuia2.png" alt="eLcAnu" class="character-img">
+                
+                <!-- Etiquetas Flotantes con tus textos reales -->
+                <div class="tag servicios">Servicios</div>
+                <div class="tag innovacion">Innovación Constante</div>
+                <div class="tag portafolio">Portafolio</div>
+                <div class="tag rendimiento">Rendimiento ✅</div>
+                <div class="tag recientes">Proyectos Recientes</div>
             </div>
-
-            <div class="options-grid" id="options"></div>
         </div>
-    </div>
-
-    <div class="bottom-panel">
-        <a href="servicios.html" class="btn-bottom">Nuestros Servicios</a>
-        <a href="contacto.html" class="btn-bottom">Hablar con un Humano</a>
-    </div>
-
+    </main>
     <script>
-        // Partículas de fondo (Sistema 107D)
+        // Sistema de Partículas para el fondo espacial de 107D
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -317,7 +251,7 @@
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            initParticles();
+            init();
         }
 
         class Particle {
@@ -325,120 +259,49 @@
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 1.5 + 0.1;
-                this.speedX = (Math.random() - 0.5) * 0.3;
-                this.speedY = (Math.random() - 0.5) * 0.3;
-                this.opacity = Math.random() * 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.6;
             }
             update() {
-                this.x += this.speedX; this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0; if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0; if (this.y < 0) this.y = canvas.height;
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
             }
             draw() {
-                ctx.fillStyle = `rgba(167, 139, 250, ${this.opacity})`;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = `rgba(167, 139, 250, ${this.opacity})`; // Color púrpura suave
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
 
-        function initParticles() {
+        function init() {
             particles = [];
-            const count = (canvas.width * canvas.height) / 15000;
-            for (let i = 0; i < count; i++) particles.push(new Particle());
+            const count = (canvas.width * canvas.height) / 12000;
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
         }
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
             requestAnimationFrame(animate);
         }
 
-        // Lógica del Chatbot
-        const textElement = document.getElementById('text');
-        const optionsElement = document.getElementById('options');
-        const handElement = document.getElementById('hand');
-
-        const chatData = {
-            inicio: {
-                texto: "¡Hola! Soy el asistente virtual de 107D. ¿Qué proyecto tienes en mente hoy?",
-                opciones: [
-                    { texto: "Servicios Digitales", proximo: "servicios" },
-                    { texto: "Conocer a eLcAnu", proximo: "perfil" }
-                ]
-            },
-            servicios: {
-                texto: "Desarrollamos Web de alto impacto, Gestión de Redes y Diseño Gráfico. ¿Cuál te interesa?",
-                opciones: [
-                    { texto: "Web & Apps", proximo: "web" },
-                    { texto: "Diseño & RRSS", proximo: "diseno" },
-                    { texto: "Atrás", proximo: "inicio" }
-                ]
-            },
-            perfil: {
-                texto: "eLcAnu es el motor creativo de 107D. Experto en transformar ideas en realidades interactivas.",
-                opciones: [
-                    { texto: "Ver Bio", link: "sobremi.html" },
-                    { texto: "Atrás", proximo: "inicio" }
-                ]
-            },
-            web: {
-                texto: "Creamos sitios rápidos, seguros y con diseño de vanguardia. ¿Quieres un presupuesto?",
-                opciones: [
-                    { texto: "WhatsApp Directo", link: "https://wa.me/+56974598279" },
-                    { texto: "Volver", proximo: "inicio" }
-                ]
-            },
-            diseno: {
-                texto: "Desde logos hasta flyers y branding completo. Dale identidad a tu marca.",
-                opciones: [
-                    { texto: "Ver Servicios", link: "servicios.html" },
-                    { texto: "Atrás", proximo: "inicio" }
-                ]
-            }
-        };
-
-        function typeText(message, callback) {
-            textElement.textContent = "";
-            optionsElement.innerHTML = "";
-            let i = 0;
-            const timer = setInterval(() => {
-                textElement.textContent += message[i];
-                i++;
-                if (i >= message.length) {
-                    clearInterval(timer);
-                    if (callback) callback();
-                }
-            }, 30);
-        }
-
-        function showOptions(options) {
-            options.forEach((opt, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.textContent = opt.texto;
-                btn.onclick = () => {
-                    if (opt.link) {
-                        window.open(opt.link, opt.link.startsWith('http') ? '_blank' : '_self');
-                    } else {
-                        loadStep(opt.proximo);
-                    }
-                };
-                optionsElement.appendChild(btn);
-                setTimeout(() => btn.classList.add('visible'), 100 * index);
-            });
-        }
-
-        function loadStep(stepId) {
-            const step = chatData[stepId];
-            handElement.style.display = (stepId === 'inicio') ? "block" : "none";
-            typeText(step.texto, () => showOptions(step.opciones));
-        }
-
         window.addEventListener('resize', resize);
-        window.onload = () => {
-            resize();
-            animate();
-            setTimeout(() => loadStep('inicio'), 800);
-        };
+        resize();
+        animate();
     </script>
 </body>
 </html>
+
+
+5331870093291875 01/31 371
