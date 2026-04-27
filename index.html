@@ -92,22 +92,23 @@
         }
 
         .text-side h1 {
-            font-size: 3.5rem;
+            font-size: 5rem;
             font-weight: 800;
             line-height: 1.1;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
             background: linear-gradient(to right, #fff, var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .text-side p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: rgba(255,255,255,0.7);
             font-weight: 400;
+            margin-top: 0;
         }
 
-        /* Contenedor CanuIA (Basado en canuia.html) */
+        /* Contenedor CanuIA */
         .canuia-container {
             position: relative;
             width: 100%;
@@ -238,7 +239,7 @@
 
         @media (max-width: 900px) {
             .main-content { grid-template-columns: 1fr; text-align: center; padding-top: 100px; height: auto; }
-            .text-side h1 { font-size: 2.2rem; }
+            .text-side h1 { font-size: 3rem; }
             .canuia-container { margin-top: 40px; margin-bottom: 120px; }
             .bottom-panel { width: 90%; flex-direction: column; bottom: 10px; }
         }
@@ -259,7 +260,7 @@
 
     <main class="main-content">
         <div class="text-side">
-            <h1>Tu imaginación propone, en 107D concretamos...</h1>
+            <h1>eLcAnu 107D</h1>
             <p>Entre lo pensado y lo real, somos el puente.</p>
         </div>
 
@@ -287,47 +288,44 @@
     </div>
 
     <script>
-        // Lógica de CanuIA integrada desde canuia.html
+        // Lógica de CanuIA integrada FIEL AL ORIGINAL
         const textElement = document.getElementById('typewriter-text');
         const choicesElement = document.getElementById('choices-container');
 
+        // Los textos exactos que tenías en tu lógica de chatbot
         const chatLogic = {
             inicio: {
-                texto: "¡Hola! Bienvenido al núcleo digital de 107D. Soy el asistente de eLcAnu. ¿Qué ideas tienes en mente hoy?",
+                texto: "¡Hola! Soy CanuIA. Bienvenido al centro de operaciones de 107D. ¿En qué puedo ayudarte hoy?",
                 opciones: [
-                    { label: "Proyectos Digitales", next: "servicios" },
-                    { label: "Sobre eLcAnu", next: "perfil" }
+                    { label: "Ver Servicios", next: "servicios" },
+                    { label: "¿Quién es eLcAnu?", next: "perfil" },
+                    { label: "Planes", next: "planes" }
                 ]
             },
             servicios: {
-                texto: "En 107D somos el puente entre lo pensado y lo real. ¿Buscas potenciar tus redes o crear algo totalmente nuevo?",
+                texto: "Creamos experiencias web, diseño gráfico y estrategias digitales. ¿Buscas algo específico?",
                 opciones: [
-                    { label: "Publicidad & RRSS", next: "contacto" },
-                    { label: "Diseño Gráfico", next: "portfolio" },
+                    { label: "Web & Apps", next: "web" },
+                    { label: "RRSS & Publi", next: "rrss" },
                     { label: "Atrás", next: "inicio" }
                 ]
             },
             perfil: {
-                texto: "eLcAnu es un creativo autodidacta especializado en convertir visiones en experiencias interactivas.",
+                texto: "eLcAnu es el cerebro creativo aquí. Especialista en concretar lo que otros solo imaginan.",
                 opciones: [
-                    { label: "Ver Trayectoria", url: "sobremi.html" },
-                    { label: "Portafolio", next: "portfolio" },
+                    { label: "Trayectoria", url: "sobremi.html" },
                     { label: "Atrás", next: "inicio" }
                 ]
             },
-            contacto: {
-                texto: "¡Genial! Tu imaginación propone y nosotros concretamos. ¿Conversamos por WhatsApp?",
+            planes: {
+                texto: "Tenemos planes que se ajustan a cada proyecto. ¿Quieres ver la tabla de precios?",
                 opciones: [
-                    { label: "WhatsApp", url: "https://wa.me/+56974598279" },
-                    { label: "Menu principal", next: "inicio" }
+                    { label: "Ver Planes", url: "planes.html" },
+                    { label: "Atrás", next: "inicio" }
                 ]
             },
-            portfolio: {
-                texto: "Estamos procesando los últimos trabajos para la galería. ¡La actualización llegará pronto!",
-                opciones: [
-                    { label: "Entendido", next: "inicio" }
-                ]
-            }
+            web: { texto: "Desde Landing Pages hasta plataformas complejas. Todo con estilo Glassmorphism.", opciones: [{ label: "Volver", next: "inicio" }] },
+            rrss: { texto: "Potenciamos tu marca en redes con contenido de alto impacto visual.", opciones: [{ label: "Volver", next: "inicio" }] }
         };
 
         function runTypewriter(text, onComplete) {
@@ -351,8 +349,7 @@
                 button.textContent = opt.label;
                 button.onclick = () => {
                     if (opt.url) {
-                        if (opt.url.startsWith('http')) window.open(opt.url, '_blank');
-                        else window.location.href = opt.url;
+                        window.location.href = opt.url;
                     } else {
                         renderStep(opt.next);
                     }
