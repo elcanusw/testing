@@ -4,13 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto - 107d</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos específicos para el formulario de contacto */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            width: 90%;
+            max-width: 1000px;
+            margin-top: 40px;
+        }
+
+        .contact-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 20px;
+        }
+
+        .neumorph-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box; /* Importante para que no se salga del cuadro */
+        }
+
+        .btn-send {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-send:hover {
+            filter: brightness(1.2);
+            transform: scale(1.02);
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-item {
+            font-size: 1.5rem;
+            color: white;
+            background: var(--glass);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid var(--glass-border);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .social-item:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+    </style>
 </head>
 <body>
 
-    <nav class="glass-nav">
-        <ul>
+    <nav class="glass-nav-top">
+        <ul class="nav-list">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="sobremi.html">Sobre Mí</a></li>
             <li><a href="servicios.html">Servicios</a></li>
@@ -19,57 +97,43 @@
         </ul>
     </nav>
 
-    <main class="container">
-        <div class="header-section fade-in">
-            <h1 class="glow-text">¿Hablamos?</h1>
-            <p class="subtitle">Estoy a un mensaje de distancia para hacer realidad tu proyecto.</p>
+    <main class="main-content">
+        <div class="header-section">
+            <h1 style="font-weight: 800; font-size: 2.5rem; margin-bottom: 10px;">¿Hablamos?</h1>
+            <p style="color: #cbd5e1; letter-spacing: 1px;">Estoy a un mensaje de distancia para hacer realidad tu proyecto.</p>
         </div>
 
         <div class="contact-wrapper">
-            
-            <div class="glass-card contact-card fade-in">
+            <div class="contact-card">
                 <form action="https://formspree.io/f/mvzdlqzg" method="POST">
-                    <div class="input-group">
-                        <input type="text" name="nombre" placeholder="Tu Nombre" class="neumorph-input" required>
-                    </div>
-                    <div class="input-group">
-                        <input type="email" name="email" placeholder="Tu Email" class="neumorph-input" required>
-                    </div>
-                    <div class="input-group">
-                        <textarea name="mensaje" placeholder="Cuéntame sobre tu idea..." class="neumorph-input" rows="5" required></textarea>
-                    </div>
+                    <input type="text" name="nombre" placeholder="Tu Nombre" class="neumorph-input" required>
+                    <input type="email" name="email" placeholder="Tu Email" class="neumorph-input" required>
+                    <textarea name="mensaje" placeholder="Cuéntame sobre tu idea..." class="neumorph-input" rows="5" required></textarea>
                     
                     <input type="hidden" name="_subject" value="Nuevo mensaje desde 107d Web">
+                    <input type="hidden" name="_next" value="https://elcanusw.github.io/testing/index.html">
                     
-                    <button type="submit" class="glass-btn btn-send">Enviar Mensaje</button>
-<input type="hidden" name="_next" value="https://elcanusw.github.io/testing/index.html">
-
+                    <button type="submit" class="btn-send">Enviar Mensaje</button>
                 </form>
             </div>
 
-            <div class="social-side fade-in">
-                <h3>También puedes encontrarme en:</h3>
+            <div class="social-side" style="text-align: left;">
+                <h3 style="font-size: 1.1rem; margin-bottom: 20px;">También puedes encontrarme en:</h3>
                 <div class="social-grid">
-                    <a href="mailto:soluciones107d@gmail.com" class="social-item gmail" title="Gmail">
-                        <i class="fas fa-envelope"></i>
-                    </a>
-                    <a href="https://wa.me/56974598279" target="_blank" class="social-item whatsapp" title="WhatsApp">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
-                    <a href="https://www.facebook.com/share/1CRWgQrXHX/" target="_blank" class="social-item facebook" title="Facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://instagram.com/tu-perfil" target="_blank" class="social-item instagram" title="Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://tiktok.com/@tu-perfil" target="_blank" class="social-item tiktok" title="TikTok">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
+                    <a href="mailto:soluciones107d@gmail.com" class="social-item" title="Gmail"><i class="fas fa-envelope"></i></a>
+                    <a href="https://wa.me/56974598279" target="_blank" class="social-item" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.facebook.com/share/1CRWgQrXHX/" target="_blank" class="social-item" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com/tu-perfil" target="_blank" class="social-item" title="Instagram"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
-
         </div>
     </main>
+
+    <footer class="bottom-panel">
+        <a href="contacto.html" class="btn-bottom">Contacto</a>
+        <a href="servicios.html" class="btn-bottom">Ver Servicios</a>
+        <a href="planes.html" class="btn-bottom">Ver Planes</a>
+    </footer>
 
 </body>
 </html>
