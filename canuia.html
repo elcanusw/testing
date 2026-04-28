@@ -7,9 +7,10 @@
     <style>
         :root {
             --primary-glow: #4a90e2;
-            --terminal-green: #00ff41;
-            --bg-dark: #0a0a1a;
-            --glass-bg: rgba(0, 0, 0, 0.85);
+            --bg-dark: transparent; /* Fondo transparente */
+            --glass-bg: rgba(0, 0, 0, 0); /* Contenedor transparente */
+            /* Variable para el degradado solicitado */
+            --main-gradient: linear-gradient(to bottom, #0088ff 0%, #ffffff 100%);
         }
 
         /* Reset y Base */
@@ -22,7 +23,7 @@
         body, html {
             width: 100%;
             height: 100%;
-            background-color: var(--bg-dark);
+            background-color: transparent; /* Permite ver el fondo de la web principal */
             font-family: 'Courier New', Courier, monospace;
             display: flex;
             justify-content: center;
@@ -108,15 +109,22 @@
         .subtitle-box {
             width: 100%;
             background: var(--glass-bg);
-            border: 1px solid var(--terminal-green);
+            border: 1px solid #4a90e2; /* Borde azul para combinar */
             border-radius: 12px;
             padding: 18px;
-            color: var(--terminal-green);
             font-size: 0.95rem;
             line-height: 1.4;
             min-height: 80px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             margin-bottom: 20px;
+        }
+
+        /* TEXTO DEGRADADO AZUL A BLANCO */
+        #text {
+            background: var(--main-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
         }
 
         /* Botones de Opciones */
@@ -130,8 +138,7 @@
 
         .option-btn {
             background: transparent;
-            border: 1px solid var(--terminal-green);
-            color: var(--terminal-green);
+            border: 1px solid #ffffff;
             padding: 10px 18px;
             border-radius: 6px;
             cursor: pointer;
@@ -141,6 +148,11 @@
             opacity: 0;
             transform: translateY(10px);
             pointer-events: none;
+            /* TEXTO BOTÓN DEGRADADO */
+            background: var(--main-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
         }
 
         .option-btn.visible {
@@ -150,9 +162,8 @@
         }
 
         .option-btn:hover {
-            background: var(--terminal-green);
-            color: #000;
-            box-shadow: 0 0 20px var(--terminal-green);
+            border-color: #0088ff;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         /* Animaciones */
@@ -176,7 +187,7 @@
             display: inline-block;
             width: 8px;
             height: 1rem;
-            background-color: var(--terminal-green);
+            background-color: #ffffff; /* Cursor blanco para que se vea al final del degradado */
             margin-left: 4px;
             animation: blink 0.8s infinite;
             vertical-align: middle;
@@ -186,14 +197,14 @@
             50% { opacity: 0; }
         }
 
-        /* Línea de Escaneo Estilo Retro */
+        /* Línea de Escaneo Estilo Retro ajustada para visibilidad */
         .scanline {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, transparent 50%, rgba(0, 255, 65, 0.02) 50%);
+            background: linear-gradient(to bottom, transparent 50%, rgba(255, 255, 255, 0.01) 50%);
             background-size: 100% 4px;
             z-index: 100;
             pointer-events: none;
@@ -207,7 +218,6 @@
     <div class="main-stage">
         <div class="aura-bg"></div>
         
-        <!-- Personaje -->
         <div class="character-view">
             <div class="character-circle">
                 <div class="character-img"></div>
@@ -215,15 +225,12 @@
             <div class="hand-wave" id="hand">👋</div>
         </div>
 
-        <!-- Interfaz de Conversación -->
         <div class="chat-interface">
             <div class="subtitle-box">
                 <span id="text"></span><span class="cursor"></span>
             </div>
 
-            <div class="options-grid" id="options">
-                <!-- Botones inyectados por JS -->
-            </div>
+            <div class="options-grid" id="options"></div>
         </div>
     </div>
 
@@ -312,7 +319,6 @@
                     }
                 };
                 optionsElement.appendChild(btn);
-                // Cascada de aparición
                 setTimeout(() => btn.classList.add('visible'), 100 * (index + 1));
             });
         }
