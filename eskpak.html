@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Canu Adventure: 5 Levels</title>
+    <title>Canu Adventure: 107D Canvas</title>
     <style>
         body { background: #020205; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; touch-action: none; }
         .hud { background: rgba(0, 136, 255, 0.1); padding: 10px 20px; border-radius: 10px; border: 1px solid #4a90e2; margin-bottom: 5px; width: 90%; max-width: 400px; display: flex; justify-content: space-between; }
         canvas { border: 2px solid #1e1b4b; background: #000; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
         .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
-        .btn { width: 55px; height: 55px; background: #1e1b4b; border: 1px solid #4a90e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; user-select: none; }
+        .btn { width: 55px; height: 55px; background: #1e1b4b; border: 1px solid #4a90e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; user-select: none; -webkit-tap-highlight-color: transparent; }
         .btn:active { background: #4a90e2; }
         #lvl-tag { color: #a78bfa; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
     </style>
@@ -51,7 +51,6 @@
         let player = { x: 1, y: 1 };
         let chispas = [{ x: 5, y: 1, dx: 1, dy: 0 }];
 
-        // AQUÍ ESTÁN LOS 5 NIVELES PROMETIDOS
         const levels = {
             1: [[1,1,1,1,1,1,1,1,1,1],[1,0,0,2,0,0,0,0,0,1],[1,0,1,1,0,1,1,1,0,1],[1,2,1,0,0,0,0,1,0,1],[1,0,1,0,1,1,0,1,0,1],[1,0,0,0,2,1,0,0,0,1],[1,1,1,1,0,1,1,1,0,1],[1,0,0,0,0,0,0,1,0,1],[1,0,1,1,1,1,0,0,5,1],[1,1,1,1,1,1,1,1,1,1]],
             2: [[1,1,1,1,1,1,1,1,1,1],[1,0,2,0,0,0,0,2,0,1],[1,0,1,1,1,1,1,1,0,1],[1,0,1,0,0,0,0,0,0,1],[1,2,1,0,1,1,1,1,0,1],[1,0,0,0,2,0,0,1,0,1],[1,1,1,1,1,1,0,1,0,1],[1,0,0,0,0,0,0,0,0,1],[1,0,1,1,0,1,1,1,5,1],[1,1,1,1,1,1,1,1,1,1]],
@@ -76,7 +75,7 @@
 
         function nextLevel() {
             level++;
-            if(level > 5) { alert("¡MAESTRO 107D! Juego terminado."); location.reload(); }
+            if(level > 5) { alert("¡MISIÓN 107D CUMPLIDA!"); location.reload(); }
             else {
                 alert("Nivel " + (level-1) + " superado.");
                 maze = JSON.parse(JSON.stringify(levels[level]));
@@ -85,7 +84,6 @@
                 itemsNeeded = (level === 5) ? 6 : (level >= 3 ? 4 : 3);
                 moves = 55 - (level * 3);
                 document.getElementById('lvl-tag').innerText = "Nivel " + level;
-                // Añadir una chispa extra en niveles superiores
                 if(level === 3) chispas.push({x: 1, y: 5, dx: 0, dy: 1});
                 updateStats();
             }
@@ -94,7 +92,7 @@
         function updateStats() {
             document.getElementById('moves').innerText = moves;
             document.getElementById('items').innerText = `${itemsCollected}/${itemsNeeded}`;
-            if(moves <= 0) { gameActive = false; alert("Energía agotada."); location.reload(); }
+            if(moves <= 0) { gameActive = false; alert("Sin batería."); location.reload(); }
         }
 
         function updateEnemies() {
@@ -113,18 +111,30 @@
             for(let y=0; y<gridSize; y++) {
                 for(let x=0; x<gridSize; x++) {
                     let px = x * tileSize, py = y * tileSize;
-                    if(maze[y][x] === 1) { ctx.fillStyle = "#1e1b4b"; ctx.fillRect(px+1, py+1, tileSize-2, tileSize-2); }
-                    else if(maze[y][x] === 2) { ctx.font = tileSize/2+"px Arial"; ctx.fillText("📦", px+tileSize/4, py+tileSize/1.5); }
-                    else if(maze[y][x] === 5) { ctx.fillStyle = itemsCollected >= itemsNeeded ? "#0f0" : "#333"; ctx.fillRect(px, py, tileSize, tileSize); }
+                    if(maze[y][x] === 1) { 
+                        ctx.fillStyle = "#1e1b4b"; 
+                        ctx.fillRect(px+1, py+1, tileSize-2, tileSize-2); 
+                    } else if(maze[y][x] === 2) { 
+                        ctx.font = tileSize/2+"px Arial"; 
+                        ctx.fillText("📦", px+tileSize/4, py+tileSize/1.5); 
+                    } else if(maze[y][x] === 5) { 
+                        ctx.fillStyle = itemsCollected >= itemsNeeded ? "#0f0" : "#333"; 
+                        ctx.fillRect(px, py, tileSize, tileSize); 
+                    }
                 }
             }
-            chispas.forEach(c => { ctx.font = tileSize/1.5+"px Arial"; ctx.fillText("⚡", c.x * tileSize+5, c.y * tileSize+tileSize/1.2); });
+            chispas.forEach(c => { 
+                ctx.font = tileSize/1.5+"px Arial"; 
+                ctx.fillText("⚡", c.x * tileSize+5, c.y * tileSize+tileSize/1.2); 
+            });
             ctx.drawImage(canuImg, player.x * tileSize, player.y * tileSize, tileSize, tileSize);
         }
 
         setInterval(updateEnemies, 600);
         setInterval(() => { if(gameActive) { time++; document.getElementById('timer').innerText = time; } }, 1000);
-        window.addEventListener('keydown', e => { if(e.key.includes("Arrow")) move(e.key.replace("Arrow","").toLowerCase()); });
+        window.addEventListener('keydown', e => { 
+            if(e.key.includes("Arrow")) move(e.key.replace("Arrow","").toLowerCase()); 
+        });
         canuImg.onload = draw;
     </script>
 </body>
