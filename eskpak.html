@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Canu Adventure: 107D Canvas</title>
+    <title>107D: Neural Recovery</title>
     <style>
-        body { background: #020205; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; touch-action: none; }
-        .hud { background: rgba(0, 136, 255, 0.1); padding: 10px 20px; border-radius: 10px; border: 1px solid #4a90e2; margin-bottom: 5px; width: 90%; max-width: 400px; display: flex; justify-content: space-between; }
-        canvas { border: 2px solid #1e1b4b; background: #000; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
-        .btn { width: 55px; height: 55px; background: #1e1b4b; border: 1px solid #4a90e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; user-select: none; -webkit-tap-highlight-color: transparent; }
-        .btn:active { background: #4a90e2; }
-        #lvl-tag { color: #a78bfa; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
+        body { background: #020205; color: white; font-family: 'Orbitron', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; touch-action: none; }
+        .hud { background: rgba(0, 20, 40, 0.8); padding: 10px 20px; border-radius: 5px; border: 1px solid #00f2ff; margin-bottom: 10px; width: 90%; max-width: 400px; display: flex; justify-content: space-between; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+        canvas { border: 2px solid #00f2ff; background: #000; box-shadow: 0 0 30px rgba(0, 242, 255, 0.1); border-radius: 4px; }
+        .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+        .btn { width: 65px; height: 65px; background: rgba(0, 242, 255, 0.1); border: 1px solid #00f2ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #00f2ff; user-select: none; -webkit-tap-highlight-color: transparent; }
+        .btn:active { background: #00f2ff; color: #000; }
+        #lvl-tag { color: #00f2ff; font-weight: bold; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 8px; text-shadow: 0 0 10px #00f2ff; }
+        b { color: #fff; text-shadow: 0 0 5px #fff; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div id="lvl-tag">Nivel 1</div>
     <div class="hud">
-        <span>⚡ <b id="moves">50</b></span>
-        <span>📦 <b id="items">0/3</b></span>
-        <span>⏱️ <b id="timer">0</b>s</span>
+        <span>NRG: <b id="moves">50</b></span>
+        <span>DATA: <b id="items">0/3</b></span>
+        <span>TIME: <b id="timer">0</b>s</span>
     </div>
 
     <canvas id="gameCanvas"></canvas>
@@ -44,6 +46,10 @@
         let itemsNeeded = 3;
         let time = 0;
         let gameActive = true;
+        let frame = 0;
+
+        // Estrellas de fondo
+        let stars = Array.from({length: 50}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*2 }));
 
         const canuImg = new Image();
         canuImg.src = 'https://elcanusw.github.io/testing/img107/canuia2.png';
@@ -61,6 +67,58 @@
 
         let maze = JSON.parse(JSON.stringify(levels[1]));
 
+        function draw() {
+            frame++;
+            ctx.fillStyle = "#020205";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Estrellas de fondo animadas
+            stars.forEach(s => {
+                s.y += s.s * 0.2;
+                if(s.y > canvas.height) s.y = 0;
+                ctx.fillStyle = "rgba(255,255,255,0.5)";
+                ctx.fillRect(s.x, s.y, 1.5, 1.5);
+            });
+
+            for(let y=0; y<gridSize; y++) {
+                for(let x=0; x<gridSize; x++) {
+                    let px = x * tileSize, py = y * tileSize;
+                    
+                    if(maze[y][x] === 1) { // Paredes Cyberpunk
+                        ctx.strokeStyle = "#00f2ff";
+                        ctx.lineWidth = 1;
+                        ctx.strokeRect(px+4, py+4, tileSize-8, tileSize-8);
+                        ctx.fillStyle = "rgba(0, 242, 255, 0.05)";
+                        ctx.fillRect(px+6, py+6, tileSize-12, tileSize-12);
+                    } else if(maze[y][x] === 2) { // Items con brillo
+                        ctx.shadowBlur = 10; ctx.shadowColor = "#fff";
+                        ctx.fillText("📦", px+tileSize/4, py+tileSize/1.5);
+                        ctx.shadowBlur = 0;
+                    } else if(maze[y][x] === 5) { // Meta portal
+                        let pulse = Math.sin(frame * 0.1) * 5;
+                        ctx.fillStyle = itemsCollected >= itemsNeeded ? "#00ff00" : "#222";
+                        ctx.shadowBlur = itemsCollected >= itemsNeeded ? 15 : 0;
+                        ctx.shadowColor = "#0f0";
+                        ctx.fillRect(px+5-pulse/2, py+5-pulse/2, tileSize-10+pulse, tileSize-10+pulse);
+                        ctx.shadowBlur = 0;
+                    }
+                }
+            }
+
+            // Enemigos con resplandor
+            chispas.forEach(c => {
+                ctx.shadowBlur = 15; ctx.shadowColor = "#00f2ff";
+                ctx.font = tileSize/1.5+"px Arial";
+                ctx.fillText("⚡", c.x * tileSize+5, c.y * tileSize+tileSize/1.2);
+                ctx.shadowBlur = 0;
+            });
+
+            // Jugador
+            ctx.drawImage(canuImg, player.x * tileSize, player.y * tileSize, tileSize, tileSize);
+            
+            if(gameActive) requestAnimationFrame(draw);
+        }
+
         function move(dir) {
             if(!gameActive) return;
             let nx = player.x, ny = player.y;
@@ -69,22 +127,21 @@
                 player.x = nx; player.y = ny; moves--;
                 if(maze[ny][nx] === 2) { itemsCollected++; maze[ny][nx] = 0; }
                 if(maze[ny][nx] === 5 && itemsCollected >= itemsNeeded) nextLevel();
-                updateStats(); draw();
+                updateStats();
             }
         }
 
         function nextLevel() {
             level++;
-            if(level > 5) { alert("¡MISIÓN 107D CUMPLIDA!"); location.reload(); }
+            if(level > 5) { alert("SISTEMA RESTAURADO: 107D ONLINE"); location.reload(); }
             else {
-                alert("Nivel " + (level-1) + " superado.");
                 maze = JSON.parse(JSON.stringify(levels[level]));
                 player = { x: 1, y: 1 };
                 itemsCollected = 0;
                 itemsNeeded = (level === 5) ? 6 : (level >= 3 ? 4 : 3);
                 moves = 55 - (level * 3);
                 document.getElementById('lvl-tag').innerText = "Nivel " + level;
-                if(level === 3) chispas.push({x: 1, y: 5, dx: 0, dy: 1});
+                if(level % 2 === 0) chispas.push({x: 8, y: 8, dx: -1, dy: 0});
                 updateStats();
             }
         }
@@ -92,10 +149,10 @@
         function updateStats() {
             document.getElementById('moves').innerText = moves;
             document.getElementById('items').innerText = `${itemsCollected}/${itemsNeeded}`;
-            if(moves <= 0) { gameActive = false; alert("Sin batería."); location.reload(); }
+            if(moves <= 0) { gameActive = false; alert("ENERGY CRITICAL - REBOOTING"); location.reload(); }
         }
 
-        function updateEnemies() {
+        setInterval(() => {
             if(!gameActive) return;
             chispas.forEach(c => {
                 let nx = c.x + c.dx, ny = c.y + c.dy;
@@ -103,39 +160,11 @@
                 else { c.x = nx; c.y = ny; }
                 if(c.x === player.x && c.y === player.y) { moves -= 5; updateStats(); }
             });
-            draw();
-        }
+        }, 600);
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for(let y=0; y<gridSize; y++) {
-                for(let x=0; x<gridSize; x++) {
-                    let px = x * tileSize, py = y * tileSize;
-                    if(maze[y][x] === 1) { 
-                        ctx.fillStyle = "#1e1b4b"; 
-                        ctx.fillRect(px+1, py+1, tileSize-2, tileSize-2); 
-                    } else if(maze[y][x] === 2) { 
-                        ctx.font = tileSize/2+"px Arial"; 
-                        ctx.fillText("📦", px+tileSize/4, py+tileSize/1.5); 
-                    } else if(maze[y][x] === 5) { 
-                        ctx.fillStyle = itemsCollected >= itemsNeeded ? "#0f0" : "#333"; 
-                        ctx.fillRect(px, py, tileSize, tileSize); 
-                    }
-                }
-            }
-            chispas.forEach(c => { 
-                ctx.font = tileSize/1.5+"px Arial"; 
-                ctx.fillText("⚡", c.x * tileSize+5, c.y * tileSize+tileSize/1.2); 
-            });
-            ctx.drawImage(canuImg, player.x * tileSize, player.y * tileSize, tileSize, tileSize);
-        }
-
-        setInterval(updateEnemies, 600);
         setInterval(() => { if(gameActive) { time++; document.getElementById('timer').innerText = time; } }, 1000);
-        window.addEventListener('keydown', e => { 
-            if(e.key.includes("Arrow")) move(e.key.replace("Arrow","").toLowerCase()); 
-        });
-        canuImg.onload = draw;
+        window.addEventListener('keydown', e => { if(e.key.includes("Arrow")) move(e.key.replace("Arrow","").toLowerCase()); });
+        canuImg.onload = () => requestAnimationFrame(draw);
     </script>
 </body>
 </html>
