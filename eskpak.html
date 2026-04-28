@@ -35,7 +35,7 @@
         const tileSize = 40;
 
         let level = 1;
-        let moves = 55 - (level * 5);
+        let moves = 50;
         let itemsNeeded = 3;
         let itemsCollected = 0;
         let time = 0;
@@ -45,64 +45,98 @@
         canuImg.src = 'https://elcanusw.github.io/testing/img107/canuia2.png';
 
         let player = { x: 1, y: 1 };
-        let enemies = [{ x: 8, y: 5, dir: 1 }];
-
-        // Mapa Dinámico (El 5 es la meta, solo se activa si tienes los items)
-        let maze = [
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,0,0,0,1,0,0,0,0,2,0,0,0,0,1],
-            [1,0,1,0,1,0,1,1,1,1,1,0,1,0,1],
-            [1,2,1,0,0,0,0,0,0,0,1,0,1,0,1],
-            [1,0,1,1,1,1,1,0,1,0,1,0,1,0,1],
-            [1,0,0,0,0,0,0,0,1,0,0,0,0,0,1],
-            [1,1,1,0,1,1,1,0,1,1,1,1,1,0,1],
-            [1,0,0,0,1,0,0,0,0,0,0,0,0,2,1],
-            [1,0,1,1,1,0,1,1,1,0,1,1,1,1,1],
-            [1,0,0,0,0,0,0,3,1,0,0,0,0,5,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        
+        // Enemigos con dirección para que se muevan
+        let enemies = [
+            { x: 8, y: 1, dx: 1, dy: 0 },
+            { x: 5, y: 5, dx: 0, dy: 1 }
         ];
 
-        function draw() {
-            if(!gameActive) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Definición de niveles (Tableros diferentes)
+        const levels = {
+            1: [
+                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                [1,0,0,0,1,0,0,0,0,2,0,0,0,0,1],
+                [1,0,1,0,1,0,1,1,1,1,1,0,1,0,1],
+                [1,2,1,0,0,0,0,0,0,0,1,0,1,0,1],
+                [1,0,1,1,1,1,1,0,1,0,1,0,1,0,1],
+                [1,0,0,0,0,0,0,0,1,0,0,0,0,0,1],
+                [1,1,1,0,1,1,1,0,1,1,1,1,1,0,1],
+                [1,0,0,0,1,0,0,0,0,0,0,0,0,2,1],
+                [1,0,1,1,1,0,1,1,1,0,1,1,1,1,1],
+                [1,0,0,0,0,0,0,0,1,0,0,0,0,5,1],
+                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            ],
+            2: [
+                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                [1,0,2,0,0,0,1,0,2,0,0,0,2,0,1],
+                [1,0,1,1,1,0,1,0,1,1,1,1,1,0,1],
+                [1,0,0,0,1,0,0,0,1,0,0,0,0,0,1],
+                [1,1,1,0,1,1,1,0,1,0,1,1,1,1,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,1,1,1,1,1,1,1,1,1,1,1,0,1],
+                [1,0,1,0,0,0,2,0,0,0,2,0,1,0,1],
+                [1,0,0,0,1,1,1,1,1,1,1,0,0,0,1],
+                [1,5,1,0,0,0,0,0,0,0,0,0,1,2,1],
+                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            ]
+        };
 
+        let maze = JSON.parse(JSON.stringify(levels[1]));
+
+        function moveEnemies() {
+            if(!gameActive) return;
+            enemies.forEach(en => {
+                let nextX = en.x + en.dx;
+                let nextY = en.y + en.dy;
+
+                // Si choca con pared, rebota
+                if(maze[nextY][nextX] === 1) {
+                    en.dx *= -1;
+                    en.dy *= -1;
+                } else {
+                    en.x = nextX;
+                    en.y = nextY;
+                }
+
+                // Si toca al jugador
+                if(en.x === player.x && en.y === player.y) {
+                    endGame("CORTOCIRCUITO", "Una chispa te alcanzó. -10 energía");
+                    moves -= 10;
+                    if(moves < 0) moves = 0;
+                    document.getElementById('moves').innerText = moves;
+                }
+            });
+            draw();
+        }
+
+        // Mover chispas cada 500ms automáticamente
+        setInterval(moveEnemies, 500);
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             for(let y=0; y<maze.length; y++) {
                 for(let x=0; x<maze[y].length; x++) {
                     let px = x * tileSize, py = y * tileSize;
                     if(maze[y][x] === 1) {
-                        ctx.fillStyle = "#0a0a20";
-                        ctx.fillRect(px, py, tileSize, tileSize);
-                        ctx.strokeStyle = "#1e1b4b"; ctx.strokeRect(px, py, tileSize, tileSize);
+                        ctx.fillStyle = "#0a0a20"; ctx.fillRect(px, py, tileSize, tileSize);
                     } else if(maze[y][x] === 2) {
                         ctx.font = "20px Arial"; ctx.fillText("📦", px+10, py+28);
                     } else if(maze[y][x] === 5) {
                         ctx.fillStyle = itemsCollected >= itemsNeeded ? "#00ff00" : "#333";
                         ctx.fillRect(px+5, py+5, tileSize-10, tileSize-10);
-                        ctx.font = "10px Arial"; ctx.fillStyle="white"; ctx.fillText("META", px+8, py+25);
                     }
                 }
             }
 
-            // Dibujar Enemigos (Chispas)
             enemies.forEach(en => {
                 ctx.font = "24px Arial"; ctx.fillText("⚡", en.x * tileSize + 8, en.y * tileSize + 30);
             });
 
-            // Dibujar al Canu
             ctx.save();
             ctx.beginPath(); ctx.arc(player.x * tileSize + 20, player.y * tileSize + 20, 18, 0, Math.PI*2); ctx.clip();
             ctx.drawImage(canuImg, player.x * tileSize, player.y * tileSize, tileSize, tileSize);
             ctx.restore();
-            ctx.strokeStyle = "#0088ff"; ctx.lineWidth = 2; ctx.stroke();
-
-            if(moves <= 0) endGame("SISTEMA AGOTADO", "Te quedaste sin energía para seguir.");
-        }
-
-        function endGame(title, reason) {
-            gameActive = false;
-            document.getElementById('game-over').style.display = "block";
-            document.getElementById('status').innerText = title;
-            document.getElementById('reason').innerText = reason;
         }
 
         window.addEventListener('keydown', e => {
@@ -126,31 +160,38 @@
 
                 if(maze[ny][nx] === 5 && itemsCollected >= itemsNeeded) {
                     level++;
-                    if(level > 5) alert("¡ERES EL MASTER DE 107D!");
-                    else {
-                        alert("¡Nivel " + (level-1) + " superado!");
-                        resetLevel();
+                    if(level > 2) {
+                        alert("¡FIN DE LA DEMO!");
+                        gameActive = false;
+                    } else {
+                        alert("¡Nivel superado! Entrando al Nivel 2...");
+                        startLevel(level);
                     }
                 }
-                
-                // Movimiento básico de enemigos cada vez que tú te mueves
-                enemies.forEach(en => {
-                    if(player.x === en.x && player.y === en.y) endGame("CORTOCIRCUITO", "Una chispa quemó tus sistemas.");
-                });
-
                 draw();
             }
+            if(moves <= 0) endGame("SISTEMA AGOTADO", "Te quedaste sin energía.");
         });
 
-        function resetLevel() {
-            moves = 55 - (level * 5);
-            itemsCollected = 0;
+        function startLevel(lvl) {
+            maze = JSON.parse(JSON.stringify(levels[lvl]));
             player = { x: 1, y: 1 };
-            document.getElementById('lvl-txt').innerText = "Nivel: " + level;
+            itemsCollected = 0;
+            itemsNeeded = (lvl === 2) ? 6 : 3; // Nivel 2 pide más cajas
+            moves = 60;
+            document.getElementById('lvl-txt').innerText = "Nivel: " + lvl;
+            document.getElementById('items').innerText = `0/${itemsNeeded}`;
             document.getElementById('moves').innerText = moves;
-            document.getElementById('items').innerText = "0/3";
-            // Aquí podrías cambiar el mapa 'maze' para hacerlo más difícil
             draw();
+        }
+
+        function endGame(title, reason) {
+            if(moves <= 0) {
+                gameActive = false;
+                document.getElementById('game-over').style.display = "block";
+                document.getElementById('status').innerText = title;
+                document.getElementById('reason').innerText = reason;
+            }
         }
 
         setInterval(() => { if(gameActive) { time++; document.getElementById('timer').innerText = time; } }, 1000);
