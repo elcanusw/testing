@@ -2,42 +2,42 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Canu Mission: 107D Recovery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>107D Maze Mission</title>
     <style>
-        body { background: #020205; color: white; font-family: 'Poppins', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
-        .hud { display: flex; gap: 20px; background: rgba(0, 136, 255, 0.1); padding: 15px 30px; border-radius: 15px; border: 1px solid #4a90e2; margin-bottom: 10px; min-width: 500px; justify-content: space-between; }
-        .hud b { color: #0088ff; font-size: 1.4rem; }
-        canvas { border: 3px solid #1e1b4b; border-radius: 8px; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
-        .game-over { position: absolute; background: rgba(0,0,0,0.9); padding: 40px; border-radius: 20px; text-align: center; border: 2px solid red; display: none; z-index: 100; }
-        .lvl-up { color: #a78bfa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+        body { background: #050505; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; touch-action: none; }
+        .hud { background: rgba(0, 136, 255, 0.1); padding: 10px 20px; border-radius: 10px; border: 1px solid #4a90e2; margin-bottom: 5px; width: 90%; max-width: 400px; display: flex; justify-content: space-between; font-size: 0.9rem; }
+        canvas { border: 2px solid #1e1b4b; background: #000; max-width: 95vw; max-height: 70vh; }
+        .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+        .btn { background: #1e1b4b; border: 1px solid #4a90e2; color: white; padding: 15px; border-radius: 10px; text-align: center; user-select: none; }
+        .btn:active { background: #4a90e2; }
     </style>
 </head>
 <body>
 
-    <div class="lvl-up" id="lvl-txt">Nivel: 1</div>
+    <div id="lvl-tag" style="color: #a78bfa; font-weight: bold;">NIVEL 1</div>
     <div class="hud">
-        <span>⚡ Energía: <b id="moves">50</b></span>
-        <span>📦 Items: <b id="items">0/3</b></span>
-        <span>⏱️ Tiempo: <b id="timer">0</b></span>
+        <span>⚡ <b id="moves">50</b></span>
+        <span>📦 <b id="items">0/3</b></span>
+        <span>⏱️ <b id="timer">0</b>s</span>
     </div>
 
-    <div class="game-over" id="game-over">
-        <h1 id="status">SISTEMA FALLIDO</h1>
-        <p id="reason">Te quedaste sin energía</p>
-        <button onclick="location.reload()" style="padding: 10px 20px; cursor:pointer;">REINTENTAR</button>
-    </div>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
 
-    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <div class="controls">
+        <div></div><div class="btn" onclick="move('up')">▲</div><div></div>
+        <div class="btn" onclick="move('left')">◀</div><div class="btn" onclick="move('down')">▼</div><div class="btn" onclick="move('right')">▶</div>
+    </div>
 
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const tileSize = 40;
-
+        
         let level = 1;
         let moves = 50;
-        let itemsNeeded = 3;
         let itemsCollected = 0;
+        let itemsNeeded = 3;
         let time = 0;
         let gameActive = true;
 
@@ -45,156 +45,80 @@
         canuImg.src = 'https://elcanusw.github.io/testing/img107/canuia2.png';
 
         let player = { x: 1, y: 1 };
-        
-        // Enemigos con dirección para que se muevan
-        let enemies = [
-            { x: 8, y: 1, dx: 1, dy: 0 },
-            { x: 5, y: 5, dx: 0, dy: 1 }
-        ];
+        let enemies = [{ x: 5, y: 5, dx: 1, dy: 0 }];
 
-        // Definición de niveles (Tableros diferentes)
-        const levels = {
-            1: [
-                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                [1,0,0,0,1,0,0,0,0,2,0,0,0,0,1],
-                [1,0,1,0,1,0,1,1,1,1,1,0,1,0,1],
-                [1,2,1,0,0,0,0,0,0,0,1,0,1,0,1],
-                [1,0,1,1,1,1,1,0,1,0,1,0,1,0,1],
-                [1,0,0,0,0,0,0,0,1,0,0,0,0,0,1],
-                [1,1,1,0,1,1,1,0,1,1,1,1,1,0,1],
-                [1,0,0,0,1,0,0,0,0,0,0,0,0,2,1],
-                [1,0,1,1,1,0,1,1,1,0,1,1,1,1,1],
-                [1,0,0,0,0,0,0,0,1,0,0,0,0,5,1],
-                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-            ],
-            2: [
-                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                [1,0,2,0,0,0,1,0,2,0,0,0,2,0,1],
-                [1,0,1,1,1,0,1,0,1,1,1,1,1,0,1],
-                [1,0,0,0,1,0,0,0,1,0,0,0,0,0,1],
-                [1,1,1,0,1,1,1,0,1,0,1,1,1,1,1],
-                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                [1,0,1,1,1,1,1,1,1,1,1,1,1,0,1],
-                [1,0,1,0,0,0,2,0,0,0,2,0,1,0,1],
-                [1,0,0,0,1,1,1,1,1,1,1,0,0,0,1],
-                [1,5,1,0,0,0,0,0,0,0,0,0,1,2,1],
-                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-            ]
+        const maps = {
+            1: [[1,1,1,1,1,1,1,1,1,1],[1,0,0,2,0,0,0,0,0,1],[1,0,1,1,0,1,1,1,0,1],[1,2,1,0,0,0,0,1,0,1],[1,0,1,0,1,1,0,1,0,1],[1,0,0,0,2,1,0,0,0,1],[1,1,1,1,0,1,1,1,0,1],[1,0,0,0,0,0,0,1,0,1],[1,0,1,1,1,1,0,0,5,1],[1,1,1,1,1,1,1,1,1,1]],
+            2: [[1,1,1,1,1,1,1,1,1,1],[1,0,0,0,0,2,0,0,2,1],[1,0,1,1,1,1,1,1,0,1],[1,2,1,0,0,0,0,0,0,1],[1,0,1,0,1,1,1,1,0,1],[1,0,0,0,2,0,0,1,0,1],[1,0,1,1,1,1,0,1,0,1],[1,2,0,0,0,1,0,0,0,1],[1,0,1,1,0,0,0,1,5,1],[1,1,1,1,1,1,1,1,1,1]],
+            3: [[1,1,1,1,1,1,1,1,1,1],[1,0,2,1,0,0,0,0,0,1],[1,1,0,1,0,1,1,1,0,1],[1,0,0,0,0,2,0,1,0,1],[1,0,1,1,1,1,0,1,0,1],[1,2,1,0,0,0,0,0,2,1],[1,0,1,0,1,1,1,1,1,1],[1,0,0,0,2,0,0,0,0,1],[1,1,1,1,1,1,0,1,5,1],[1,1,1,1,1,1,1,1,1,1]],
+            4: [[1,1,1,1,1,1,1,1,1,1],[1,0,2,0,2,0,2,0,2,1],[1,0,1,1,1,1,1,1,0,1],[1,0,0,0,0,0,0,0,0,1],[1,0,1,1,1,1,1,1,0,1],[1,0,2,0,2,0,2,0,2,1],[1,1,1,1,1,1,1,1,0,1],[1,0,0,0,0,0,0,0,0,1],[1,0,1,1,1,1,1,1,5,1],[1,1,1,1,1,1,1,1,1,1]],
+            5: [[1,1,1,1,1,1,1,1,1,1],[1,0,0,0,0,0,0,0,0,1],[1,0,1,1,1,2,1,1,0,1],[1,0,1,5,1,0,1,0,0,1],[1,0,1,0,1,0,1,0,1,1],[1,0,2,0,0,0,2,0,2,1],[1,0,1,0,1,0,1,1,1,1],[1,0,1,2,1,0,0,0,0,1],[1,0,0,0,0,0,0,2,0,1],[1,1,1,1,1,1,1,1,1,1]]
         };
 
-        let maze = JSON.parse(JSON.stringify(levels[1]));
+        let maze = JSON.parse(JSON.stringify(maps[1]));
+
+        function move(dir) {
+            if(!gameActive) return;
+            let nx = player.x, ny = player.y;
+            if(dir === 'up') ny--; if(dir === 'down') ny++; if(dir === 'left') nx--; if(dir === 'right') nx++;
+            if(maze[ny][nx] !== 1) {
+                player.x = nx; player.y = ny; moves--;
+                if(maze[ny][nx] === 2) { itemsCollected++; maze[ny][nx] = 0; }
+                if(maze[ny][nx] === 5 && itemsCollected >= itemsNeeded) nextLevel();
+                updateHUD(); draw();
+            }
+        }
+
+        function nextLevel() {
+            level++;
+            if(level > 5) { alert("¡MAESTRO 107D! Completaste todo."); location.reload(); }
+            else {
+                alert("Nivel " + (level-1) + " superado.");
+                maze = JSON.parse(JSON.stringify(maps[level]));
+                player = { x: 1, y: 1 };
+                itemsCollected = 0; itemsNeeded = (level === 5) ? 5 : 3;
+                moves = 50 - (level * 2);
+                document.getElementById('lvl-tag').innerText = "NIVEL " + level;
+                updateHUD();
+            }
+        }
+
+        function updateHUD() {
+            document.getElementById('moves').innerText = moves;
+            document.getElementById('items').innerText = `${itemsCollected}/${itemsNeeded}`;
+            if(moves <= 0) { alert("Sin energía."); location.reload(); }
+        }
 
         function moveEnemies() {
             if(!gameActive) return;
             enemies.forEach(en => {
-                let nextX = en.x + en.dx;
-                let nextY = en.y + en.dy;
-
-                // Si choca con pared, rebota
-                if(maze[nextY][nextX] === 1) {
-                    en.dx *= -1;
-                    en.dy *= -1;
-                } else {
-                    en.x = nextX;
-                    en.y = nextY;
-                }
-
-                // Si toca al jugador
-                if(en.x === player.x && en.y === player.y) {
-                    endGame("CORTOCIRCUITO", "Una chispa te alcanzó. -10 energía");
-                    moves -= 10;
-                    if(moves < 0) moves = 0;
-                    document.getElementById('moves').innerText = moves;
-                }
+                let nx = en.x + en.dx, ny = en.y + en.dy;
+                if(maze[ny][nx] === 1) { en.dx *= -1; en.dy *= -1; }
+                else { en.x = nx; en.y = ny; }
+                if(en.x === player.x && en.y === player.y) { moves -= 5; updateHUD(); }
             });
             draw();
         }
-
-        // Mover chispas cada 500ms automáticamente
-        setInterval(moveEnemies, 500);
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for(let y=0; y<maze.length; y++) {
-                for(let x=0; x<maze[y].length; x++) {
+            for(let y=0; y<10; y++) {
+                for(let x=0; x<10; x++) {
                     let px = x * tileSize, py = y * tileSize;
-                    if(maze[y][x] === 1) {
-                        ctx.fillStyle = "#0a0a20"; ctx.fillRect(px, py, tileSize, tileSize);
-                    } else if(maze[y][x] === 2) {
-                        ctx.font = "20px Arial"; ctx.fillText("📦", px+10, py+28);
-                    } else if(maze[y][x] === 5) {
-                        ctx.fillStyle = itemsCollected >= itemsNeeded ? "#00ff00" : "#333";
-                        ctx.fillRect(px+5, py+5, tileSize-10, tileSize-10);
-                    }
+                    if(maze[y][x] === 1) { ctx.fillStyle = "#1e1b4b"; ctx.fillRect(px, py, tileSize, tileSize); }
+                    else if(maze[y][x] === 2) { ctx.fillText("📦", px+10, py+28); }
+                    else if(maze[y][x] === 5) { ctx.fillStyle = itemsCollected >= itemsNeeded ? "#0f0" : "#333"; ctx.fillRect(px, py, tileSize, tileSize); }
                 }
             }
-
-            enemies.forEach(en => {
-                ctx.font = "24px Arial"; ctx.fillText("⚡", en.x * tileSize + 8, en.y * tileSize + 30);
-            });
-
-            ctx.save();
-            ctx.beginPath(); ctx.arc(player.x * tileSize + 20, player.y * tileSize + 20, 18, 0, Math.PI*2); ctx.clip();
+            enemies.forEach(en => ctx.fillText("⚡", en.x * tileSize + 10, en.y * tileSize + 28));
             ctx.drawImage(canuImg, player.x * tileSize, player.y * tileSize, tileSize, tileSize);
-            ctx.restore();
         }
 
+        setInterval(moveEnemies, 600);
+        setInterval(() => { if(gameActive) time++; document.getElementById('timer').innerText = time; }, 1000);
         window.addEventListener('keydown', e => {
-            if(!gameActive) return;
-            let nx = player.x, ny = player.y;
-            if(e.key === "ArrowUp") ny--;
-            if(e.key === "ArrowDown") ny++;
-            if(e.key === "ArrowLeft") nx--;
-            if(e.key === "ArrowRight") nx++;
-
-            if(maze[ny][nx] !== 1) {
-                player.x = nx; player.y = ny;
-                moves--;
-                document.getElementById('moves').innerText = moves;
-
-                if(maze[ny][nx] === 2) {
-                    itemsCollected++;
-                    maze[ny][nx] = 0;
-                    document.getElementById('items').innerText = `${itemsCollected}/${itemsNeeded}`;
-                }
-
-                if(maze[ny][nx] === 5 && itemsCollected >= itemsNeeded) {
-                    level++;
-                    if(level > 2) {
-                        alert("¡FIN DE LA DEMO!");
-                        gameActive = false;
-                    } else {
-                        alert("¡Nivel superado! Entrando al Nivel 2...");
-                        startLevel(level);
-                    }
-                }
-                draw();
-            }
-            if(moves <= 0) endGame("SISTEMA AGOTADO", "Te quedaste sin energía.");
+            if(e.key.includes("Arrow")) move(e.key.replace("Arrow", "").toLowerCase());
         });
-
-        function startLevel(lvl) {
-            maze = JSON.parse(JSON.stringify(levels[lvl]));
-            player = { x: 1, y: 1 };
-            itemsCollected = 0;
-            itemsNeeded = (lvl === 2) ? 6 : 3; // Nivel 2 pide más cajas
-            moves = 60;
-            document.getElementById('lvl-txt').innerText = "Nivel: " + lvl;
-            document.getElementById('items').innerText = `0/${itemsNeeded}`;
-            document.getElementById('moves').innerText = moves;
-            draw();
-        }
-
-        function endGame(title, reason) {
-            if(moves <= 0) {
-                gameActive = false;
-                document.getElementById('game-over').style.display = "block";
-                document.getElementById('status').innerText = title;
-                document.getElementById('reason').innerText = reason;
-            }
-        }
-
-        setInterval(() => { if(gameActive) { time++; document.getElementById('timer').innerText = time; } }, 1000);
         canuImg.onload = draw;
     </script>
 </body>
