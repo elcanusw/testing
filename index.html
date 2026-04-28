@@ -87,37 +87,51 @@
         }
 
         /* Estructura del Tablero Central */
-        .main-content {
-            padding-top: 100px;
-            height: 100vh;
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            align-items: center;
-            padding-left: 8%;
-            padding-right: 5%;
-            z-index: 10;
-            position: relative;
-        }
+       /* Esto hace que el logo tenga su propia fila arriba de las dos columnas */
+.main-content {
+    padding-top: 120px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    grid-template-areas: 
+        "logo logo"
+        "texto visual";
+    align-items: center;
+    padding-left: 8%;
+    padding-right: 5%;
+    z-index: 10;
+    position: relative;
+}
 
-        .text-side {
-            text-align: left;
-        }
+.logo-header {
+    grid-area: logo;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
 
-        .text-side h1 {
-            font-size: 3.8rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 15px;
-            background: var(--main-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+.logo-central {
+    width: 450px; /* Un poco más grande para que destaque */
+    max-width: 90%;
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(0, 150, 255, 0.6));
+}
 
-        .text-side p {
-            font-size: 1.1rem;
-            color: rgba(255,255,255,0.6);
-            letter-spacing: 1.5px;
-        }
+.text-side { grid-area: texto; }
+.visual-side { grid-area: visual; }
+
+/* Ajuste para móviles para que no se amontone */
+@media (max-width: 1000px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "logo"
+            "texto"
+            "visual";
+        text-align: center;
+        padding-top: 140px;
+    }
+}
 
         /* Personaje y Etiquetas */
         .visual-side {
@@ -237,9 +251,10 @@
     </nav>
 
     <main class="main-content">
-        <div class="text-side">
+        <div class="logo-header">
             <img src="https://elcanusw.github.io/testing/img107/logo107D.png" class="logo-central" alt="Logo 107D">
-            
+        </div>
+        <div class="text-side">
             <h1>Tu imaginación propone, en 107D lo concretamos...</h1>
             <p>Entre lo pensado y lo real, somos el puente.</p>
         </div>
@@ -247,7 +262,6 @@
         <div class="visual-side">
             <div class="character-wrapper">
                 <img src="https://elcanusw.github.io/testing/img107/canuia2.png" alt="eLcAnu" class="character-img">
-                
                 <div class="tag servicios" onclick="location.href='servicios.html'">Servicios</div>
                 <div class="tag innovacion">Innovación Constante</div>
                 <div class="tag portafolio">Portafolio</div>
