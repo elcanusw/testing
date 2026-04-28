@@ -6,10 +6,9 @@
     <title>Chatbot Asistente Virtual</title>
     <style>
         :root {
-            --primary-glow: #4a90e2;
-            --bg-dark: transparent; /* Fondo transparente */
-            --glass-bg: rgba(0, 0, 0, 0); /* Contenedor transparente */
-            /* Variable para el degradado solicitado */
+            --primary-glow: #0088ff;
+            --bg-dark: transparent; 
+            --glass-bg: rgba(0, 0, 0, 0); 
             --main-gradient: linear-gradient(to bottom, #0088ff 0%, #ffffff 100%);
         }
 
@@ -23,7 +22,7 @@
         body, html {
             width: 100%;
             height: 100%;
-            background-color: transparent; /* Permite ver el fondo de la web principal */
+            background-color: transparent; 
             font-family: 'Courier New', Courier, monospace;
             display: flex;
             justify-content: center;
@@ -70,9 +69,9 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.2);
             overflow: hidden;
-            box-shadow: 0 0 40px rgba(74, 144, 226, 0.3);
+            box-shadow: 0 0 40px rgba(0, 136, 255, 0.4);
             animation: floatCharacter 5s ease-in-out infinite;
         }
 
@@ -109,7 +108,7 @@
         .subtitle-box {
             width: 100%;
             background: var(--glass-bg);
-            border: 1px solid #4a90e2; /* Borde azul para combinar */
+            border: 1px solid #0088ff; 
             border-radius: 12px;
             padding: 18px;
             font-size: 0.95rem;
@@ -117,6 +116,7 @@
             min-height: 80px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             margin-bottom: 20px;
+            text-align: center;
         }
 
         /* TEXTO DEGRADADO AZUL A BLANCO */
@@ -125,6 +125,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: bold;
+            display: inline;
         }
 
         /* Botones de Opciones */
@@ -137,7 +138,7 @@
         }
 
         .option-btn {
-            background: transparent;
+            background: rgba(0, 0, 0, 0.3);
             border: 1px solid #ffffff;
             padding: 10px 18px;
             border-radius: 6px;
@@ -164,6 +165,7 @@
         .option-btn:hover {
             border-color: #0088ff;
             background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
         }
 
         /* Animaciones */
@@ -187,7 +189,7 @@
             display: inline-block;
             width: 8px;
             height: 1rem;
-            background-color: #ffffff; /* Cursor blanco para que se vea al final del degradado */
+            background-color: #ffffff; 
             margin-left: 4px;
             animation: blink 0.8s infinite;
             vertical-align: middle;
@@ -197,14 +199,14 @@
             50% { opacity: 0; }
         }
 
-        /* Línea de Escaneo Estilo Retro ajustada para visibilidad */
+        /* Línea de Escaneo Estilo Retro */
         .scanline {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, transparent 50%, rgba(255, 255, 255, 0.01) 50%);
+            background: linear-gradient(to bottom, transparent 50%, rgba(255, 255, 255, 0.02) 50%);
             background-size: 100% 4px;
             z-index: 100;
             pointer-events: none;
